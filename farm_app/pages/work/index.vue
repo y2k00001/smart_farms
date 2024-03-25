@@ -1,133 +1,183 @@
 <template>
-	<view>
-    <Navbar title="工作台" bgColor="#fff" :hideBtn="true" :h5Show="false"></Navbar>
-    <view class="mobile-item-container">
-      <view style="font-size: 40rpx; font-weight: bold; padding: 0 0 40rpx 0;">待处理</view>
-      <u-grid col="3">
-        <u-grid-item @click="navigateTo('/pages/work/notice/list')">
-          <view style="position: relative;">
-            <u-icon name="chat" color="#2979ff" size="60rpx"></u-icon>
-            <u-badge style="position: absolute; top: -5rpx; right: -10rpx;" type="error" numberType="overflow" max="99" v-model="todo.notice"></u-badge>
+  <view class="work-container">
+    <!-- 轮播图 -->
+    <uni-swiper-dot class="uni-swiper-dot-box" :info="data" :current="current" field="content">
+      <swiper class="swiper-box" :current="swiperDotIndex" @change="changeSwiper">
+        <swiper-item v-for="(item, index) in data" :key="index">
+          <view class="swiper-item" @click="clickBannerItem(item)">
+            <image :src="item.image" mode="aspectFill" :draggable="false" />
           </view>
-          <text class="btn-text">通知公告</text>
-        </u-grid-item>
-        <u-grid-item>
-          <view style="position: relative;">
-            <u-icon name="list-dot" color="#2979ff" size="60rpx"></u-icon>
-            <u-badge style="position: absolute; top: -5rpx; right: -10rpx;" type="error" numberType="overflow" max="99" v-model="todo.task"></u-badge>
+        </swiper-item>
+      </swiper>
+    </uni-swiper-dot>
+
+    <!-- 宫格组件 -->
+    <uni-section title="系统管理" type="line"></uni-section>
+    <view class="grid-body">
+      <uni-grid :column="4" :showBorder="false" @change="changeGrid">
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="person-filled" size="30"></uni-icons>
+            <text class="text">用户管理</text>
           </view>
-          <text class="btn-text">待办任务</text>
-        </u-grid-item>
-        <u-grid-item>
-          <view style="position: relative;">
-            <u-icon name="warning" color="#2979ff" size="60rpx"></u-icon>
-            <u-badge style="position: absolute; top: -5rpx; right: -10rpx;" type="error" numberType="overflow" max="99" v-model="todo.error"></u-badge>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="staff-filled" size="30"></uni-icons>
+            <text class="text">角色管理</text>
           </view>
-          <text class="btn-text">异常信息</text>
-        </u-grid-item>
-      </u-grid>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="color" size="30"></uni-icons>
+            <text class="text">菜单管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="settings-filled" size="30"></uni-icons>
+            <text class="text">部门管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="heart-filled" size="30"></uni-icons>
+            <text class="text">岗位管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="bars" size="30"></uni-icons>
+            <text class="text">字典管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="gear-filled" size="30"></uni-icons>
+            <text class="text">参数设置</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="chat-filled" size="30"></uni-icons>
+            <text class="text">通知公告</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="wallet-filled" size="30"></uni-icons>
+            <text class="text">日志管理</text>
+          </view>
+        </uni-grid-item>
+      </uni-grid>
     </view>
-    <Gap />
-    <view class="mobile-item-container">
-      <view style="font-size: 40rpx; font-weight: bold; padding: 0 0 40rpx 0;">统计报表</view>
-      <u-grid col="3">
-        <u-grid-item>
-          <u-icon name="star" color="#2979ff" size="60rpx"></u-icon>
-          <text class="btn-text">访问量统计</text>
-        </u-grid-item>
-        <u-grid-item>
-          <u-icon name="share-square" color="#2979ff" size="60rpx"></u-icon>
-          <text class="btn-text">分享统计</text>
-        </u-grid-item>
-      </u-grid>
-    </view>
-    <Gap />
-    <view style="padding: 40rpx; background-color: #fff; margin-top: 40rpx; min-height: 600rpx;">
-      <u-tabs
-        :activeStyle="{
-          color: '#303133',
-          fontSize: '40rpx',
-          fontWeight: 'bold',
-          transform: 'scale(1.05)'
-        }"
-        :inactiveStyle="{
-          color: '#606266',
-          fontSize: '36rpx',
-          transform: 'scale(1)'
-        }"
-        :list="tabs"
-        @change="tabChange">
-      </u-tabs>
-      <view v-if="activeKey == 'work'" style="padding: 40rpx 0;">
-        <u-grid col="3">
-          <u-grid-item @click="navigateTo('/pages/work/notice/manage')">
-            <u-icon name="edit-pen" color="#2979ff" size="60rpx"></u-icon>
-            <text class="btn-text">公告管理</text>
-          </u-grid-item>
-          <u-grid-item @click="navigateTo('/pages/work/user/list')">
-            <u-icon name="plus-people-fill" color="#2979ff" size="60rpx"></u-icon>
-            <text class="btn-text">用户管理</text>
-          </u-grid-item>
-          <u-grid-item>
-            <u-icon name="tags" color="#2979ff" size="60rpx"></u-icon>
-            <text class="btn-text">部门管理</text>
-          </u-grid-item>
-        </u-grid>
-        <u-grid col="3" style="margin-top: 40rpx;">
-          <u-grid-item>
-            <u-icon name="bookmark" color="#2979ff" size="60rpx"></u-icon>
-            <text class="btn-text">岗位管理</text>
-          </u-grid-item>
-        </u-grid>
-      </view>
-      <view v-if="activeKey == 'plugin'" style="padding: 40rpx 0;">
-        <u-grid col="3">
-          <u-grid-item>
-            <u-icon name="order" color="#2979ff" size="60rpx"></u-icon>
-            <text class="btn-text">表单样例</text>
-          </u-grid-item>
-        </u-grid>
-      </view>
-    </view>
-	</view>
+  </view>
 </template>
 
 <script>
-import Navbar from '@/components/navbar/Navbar'
-import Gap from '@/components/gap/Gap'
-
-export default {
-  components: {
-    Gap,
-    Navbar,
-  },
-  data () {
-    return {
-      activeKey: 'work',
-      tabs: [{
-        name: '日常工作',
-        key: 'work'
-      }, {
-        name: '插件',
-        key: 'plugin'
-      }],
-      todo: {
-        notice: 2,
-        task: 5,
-        error: 1
+  export default {
+    data() {
+      return {
+        current: 0,
+        swiperDotIndex: 0,
+        data: [{
+            image: '/static/images/banner/banner01.jpg'
+          },
+          {
+            image: '/static/images/banner/banner02.jpg'
+          },
+          {
+            image: '/static/images/banner/banner03.jpg'
+          }
+        ]
+      }
+    },
+    methods: {
+      clickBannerItem(item) {
+        console.info(item)
+      },
+      changeSwiper(e) {
+        this.current = e.detail.current
+      },
+      changeGrid(e) {
+        this.$modal.showToast('模块建设中~')
       }
     }
-  },
-  methods: {
-    tabChange (item) {
-      this.activeKey = item.key;
-    },
-    navigateTo (url) {
-      uni.navigateTo({ url: url })
-    }
   }
-}
 </script>
 
 <style lang="scss">
+  /* #ifndef APP-NVUE */
+  page {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: #fff;
+    min-height: 100%;
+    height: auto;
+  }
+
+  view {
+    font-size: 14px;
+    line-height: inherit;
+  }
+
+  /* #endif */
+
+  .text {
+    text-align: center;
+    font-size: 26rpx;
+    margin-top: 10rpx;
+  }
+
+  .grid-item-box {
+    flex: 1;
+    /* #ifndef APP-NVUE */
+    display: flex;
+    /* #endif */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0;
+  }
+
+  .uni-margin-wrap {
+    width: 690rpx;
+    width: 100%;
+    ;
+  }
+
+  .swiper {
+    height: 300rpx;
+  }
+
+  .swiper-box {
+    height: 150px;
+  }
+
+  .swiper-item {
+    /* #ifndef APP-NVUE */
+    display: flex;
+    /* #endif */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    height: 300rpx;
+    line-height: 300rpx;
+  }
+
+  @media screen and (min-width: 500px) {
+    .uni-swiper-dot-box {
+      width: 400px;
+      /* #ifndef APP-NVUE */
+      margin: 0 auto;
+      /* #endif */
+      margin-top: 8px;
+    }
+
+    .image {
+      width: 100%;
+    }
+  }
 </style>

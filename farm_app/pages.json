@@ -1,122 +1,102 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/login/index",
-			"style": {
-				"navigationBarTitleText": "登录",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/work/index",
-			"style": {
-				"navigationBarTitleText": "工作台",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/work/user/list",
-			"style": {
-				"navigationBarTitleText": "用户管理",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/work/user/edit",
-			"style": {
-				"navigationBarTitleText": "用户详情",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/work/notice/list",
-			"style": {
-				"navigationBarTitleText": "通知公告",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/work/notice/manage",
-			"style": {
-				"navigationBarTitleText": "公告管理",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/work/notice/detail",
-			"style": {
-				"navigationBarTitleText": "公告详情",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/work/notice/edit",
-			"style": {
-				"navigationBarTitleText": "公告详情",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/center/index",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/center/profile",
-			"style": {
-				"navigationBarTitleText": "个人资料",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/center/log",
-			"style": {
-				"navigationBarTitleText": "操作日志",
-				"navigationStyle": "custom"
-			}
-		}
-	],
-	"tabBar": {
-		"color": "#909399",
-		"selectedColor": "#000000",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [{
-			"pagePath": "pages/index/index",
-			"iconPath": "static/img/tabbar/home.png",
-			"selectedIconPath": "static/img/tabbar/home_art.png",
-			"text": "首页"
-		}, {
-			"pagePath": "pages/work/index",
-			"iconPath": "static/img/tabbar/center.png",
-			"selectedIconPath": "static/img/tabbar/center_art.png",
-			"text": "工作台"
-		}, {
-			"pagePath": "pages/center/index",
-			"iconPath": "static/img/tabbar/user.png",
-			"selectedIconPath": "static/img/tabbar/user_art.png",
-			"text": "我的"
-		}]
-	},
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
-    "app-plus": {
-      "softinputMode": "adjustResize"
+  "pages": [{
+    "path": "pages/login",
+    "style": {
+      "navigationBarTitleText": "登录"
     }
-	},
-	"easycom": {
-		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
-	}
+  }, {
+    "path": "pages/register",
+    "style": {
+      "navigationBarTitleText": "注册"
+    }
+  }, {
+    "path": "pages/index",
+    "style": {
+      "navigationBarTitleText": "若依移动端框架",
+      "navigationStyle": "custom"
+    }
+  }, {
+    "path": "pages/work/index",
+    "style": {
+      "navigationBarTitleText": "工作台"
+    }
+  }, {
+    "path": "pages/mine/index",
+    "style": {
+      "navigationBarTitleText": "我的"
+    }
+  }, {
+    "path": "pages/mine/avatar/index",
+    "style": {
+      "navigationBarTitleText": "修改头像"
+    }
+  }, {
+    "path": "pages/mine/info/index",
+    "style": {
+      "navigationBarTitleText": "个人信息"
+    }
+  }, {
+    "path": "pages/mine/info/edit",
+    "style": {
+      "navigationBarTitleText": "编辑资料"
+    }
+  }, {
+    "path": "pages/mine/pwd/index",
+    "style": {
+      "navigationBarTitleText": "修改密码"
+    }
+  }, {
+    "path": "pages/mine/setting/index",
+    "style": {
+      "navigationBarTitleText": "应用设置"
+    }
+  }, {
+    "path": "pages/mine/help/index",
+    "style": {
+      "navigationBarTitleText": "常见问题"
+    }
+  }, {
+    "path": "pages/mine/about/index",
+    "style": {
+      "navigationBarTitleText": "关于我们"
+    }
+  }, {
+    "path": "pages/common/webview/index",
+    "style": {
+      "navigationBarTitleText": "浏览网页"
+    }
+  }, {
+    "path": "pages/common/textview/index",
+    "style": {
+      "navigationBarTitleText": "浏览文本"
+    }
+  }],
+  "tabBar": {
+    "color": "#000000",
+    "selectedColor": "#000000",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [{
+        "pagePath": "pages/index",
+        "iconPath": "static/images/tabbar/home.png",
+        "selectedIconPath": "static/images/tabbar/home_.png",
+        "text": "首页"
+      }, {
+        "pagePath": "pages/work/index",
+        "iconPath": "static/images/tabbar/work.png",
+        "selectedIconPath": "static/images/tabbar/work_.png",
+        "text": "工作台"
+      }, {
+        "pagePath": "pages/mine/index",
+        "iconPath": "static/images/tabbar/mine.png",
+        "selectedIconPath": "static/images/tabbar/mine_.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "RuoYi",
+    "navigationBarBackgroundColor": "#FFFFFF"
+  }
 }
