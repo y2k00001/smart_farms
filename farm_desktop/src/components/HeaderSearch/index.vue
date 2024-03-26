@@ -115,7 +115,7 @@ export default {
         if (router.hidden) { continue }
 
         const data = {
-          path: !this.ishttp(router.path) ? path.resolve(basePath, router.path) : router.path,
+          path: !this.ishttp(router.path) ? path.posix.resolve(basePath, router.path) : router.path,
           title: [...prefixTitle]
         }
 

@@ -27,6 +27,49 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   // 如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建。
   productionSourceMap: false,
+  pluginOptions: {
+    electronBuilder: {
+      // preload: 'src/preload.js',
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+      publish: [{
+        "provider": "xxxx有限公司",
+        "url": "http://xxxxx/"
+      }],
+      "copyright": "Copyright © 2022",
+      builderOptions:{
+        appId: 'com.ruoyi',
+        productName: 'ruoyi',
+        nsis:{
+          "oneClick": false,
+          "guid": "idea",
+          "perMachine": true,
+          "allowElevation": true,
+          "allowToChangeInstallationDirectory": true,
+          "installerIcon": "build/app.ico",
+          "uninstallerIcon": "build/app.ico",
+          "installerHeaderIcon": "build/app.ico",
+          "createDesktopShortcut": true,
+          "createStartMenuShortcut": true,
+          "shortcutName": "若依管理系統"
+        },
+        win: {
+          "icon": "build/app.ico",
+          "target": [
+            {
+              "target": "nsis",			//使用nsis打成安装包，"portable"打包成免安装版
+              "arch": [
+                "ia32",				//32位
+                "x64" 				//64位
+              ]
+            }
+          ]
+        },
+      },
+      // preload: path.join(__dirname, "/dist_electron/preload.js"),
+    },
+  },
   // webpack-dev-server 相关配置
   devServer: {
     host: '0.0.0.0',
@@ -35,7 +78,7 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://localhost:8080`,
+        target: `http://localhost:8881`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
@@ -69,6 +112,8 @@ module.exports = {
         deleteOriginalAssets: false                    // 压缩后删除原文件
       })
     ],
+
+
   },
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
