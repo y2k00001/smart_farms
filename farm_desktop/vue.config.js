@@ -47,15 +47,15 @@ module.exports = {
           "perMachine": true,
           "allowElevation": true,
           "allowToChangeInstallationDirectory": true,
-          "installerIcon": "build/app.ico",
-          "uninstallerIcon": "build/app.ico",
-          "installerHeaderIcon": "build/app.ico",
+          "installerIcon": "build/1app.ico",
+          "uninstallerIcon": "build/1app.ico",
+          "installerHeaderIcon": "build/1app.ico",
           "createDesktopShortcut": true,
           "createStartMenuShortcut": true,
           "shortcutName": "若依管理系統"
         },
         win: {
-          "icon": "build/app.ico",
+          "icon": "build/1app.ico",
           "target": [
             {
               "target": "nsis",			//使用nsis打成安装包，"portable"打包成免安装版
