@@ -1,6 +1,6 @@
 {
     "name" : "若依移动端",
-    "appid" : "__UNI__25A9D80",
+    "appid" : "__UNI__9217F0E",
     "description" : "",
     "versionName" : "1.1.0",
     "versionCode" : "100",
@@ -35,8 +35,12 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
-            "ios" : {},
-            "sdkConfigs" : {}
+            "ios" : {
+                "dSYMs" : false
+            },
+            "sdkConfigs" : {
+                "ad" : {}
+            }
         }
     },
     "quickapp" : {},
