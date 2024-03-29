@@ -29,7 +29,7 @@
       <view class="mine-actions grid col-4 text-center">
         <view class="action-item" @click="handleJiaoLiuQun">
           <view class="iconfont icon-friendfill text-pink icon"></view>
-          <text class="text">交流群</text>
+          <text class="text">通讯录</text>
         </view>
         <view class="action-item" @click="handleBuilding">
           <view class="iconfont icon-service text-blue icon"></view>
@@ -78,7 +78,7 @@
 
 <script>
   import storage from '@/utils/storage'
-  
+
   export default {
     data() {
       return {
@@ -124,7 +124,7 @@
         this.$tab.navigateTo('/pages/mine/about/index')
       },
       handleJiaoLiuQun() {
-        this.$modal.showToast('QQ群：①133713780、②146013835')
+        this.$modal.showToast('模块建设中~')
       },
       handleBuilding() {
         this.$modal.showToast('模块建设中~')

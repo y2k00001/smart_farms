@@ -3,7 +3,7 @@
     <view class="logo-content align-center justify-center flex">
       <image style="width: 100rpx;height: 100rpx;" :src="globalConfig.appInfo.logo" mode="widthFix">
       </image>
-      <text class="title">若依移动端登录</text>
+      <text class="title">智慧农园移动端登录</text>
     </view>
     <view class="login-form-content">
       <view class="input-item flex align-center">
@@ -17,7 +17,7 @@
       <view class="input-item flex align-center" style="width: 60%;margin: 0px;" v-if="captchaEnabled">
         <view class="iconfont icon-code icon"></view>
         <input v-model="loginForm.code" type="number" class="input" placeholder="请输入验证码" maxlength="4" />
-        <view class="login-code"> 
+        <view class="login-code">
           <image :src="codeUrl" @click="getCode" class="login-code-img"></image>
         </view>
       </view>
@@ -34,7 +34,7 @@
         <text @click="handlePrivacy" class="text-blue">《隐私协议》</text>
       </view>
     </view>
-     
+
   </view>
 </template>
 
@@ -175,20 +175,20 @@
         margin-top: 40px;
         height: 45px;
       }
-      
+
       .reg {
         margin-top: 15px;
       }
-      
+
       .xieyi {
         color: #333;
         margin-top: 20px;
       }
-      
+
       .login-code {
         height: 38px;
         float: right;
-      
+
         .login-code-img {
           height: 38px;
           position: absolute;

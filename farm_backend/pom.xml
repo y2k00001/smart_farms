@@ -3,15 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
-    <groupId>com.ruoyi</groupId>
-    <artifactId>ruoyi</artifactId>
+
+    <groupId>com.neo</groupId>
+    <artifactId>farms</artifactId>
     <version>3.8.7</version>
 
-    <name>ruoyi</name>
-    <url>http://www.ruoyi.vip</url>
-    <description>若依管理系统</description>
-    
+    <name>neo</name>
+    <url>http://www.neo-cloud.cn</url>
+    <description>智慧农园管理系统</description>
+
     <properties>
         <ruoyi.version>3.8.7</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -129,36 +129,36 @@
 
             <!-- 定时任务-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-quartz</artifactId>
+                <groupId>com.neo</groupId>
+                <artifactId>farms-quartz</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
             <!-- 代码生成-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-generator</artifactId>
+                <groupId>com.neo</groupId>
+                <artifactId>farms-generator</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
             <!-- 核心模块-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-framework</artifactId>
+                <groupId>com.neo</groupId>
+                <artifactId>farms-framework</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
             <!-- 系统模块-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-system</artifactId>
+                <groupId>com.neo</groupId>
+                <artifactId>farms-system</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
             <!-- 通用工具-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common</artifactId>
+                <groupId>com.neo</groupId>
+                <artifactId>farms-common</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
@@ -166,12 +166,13 @@
     </dependencyManagement>
 
     <modules>
-        <module>ruoyi-admin</module>
-        <module>ruoyi-framework</module>
-        <module>ruoyi-system</module>
-        <module>ruoyi-quartz</module>
-        <module>ruoyi-generator</module>
-        <module>ruoyi-common</module>
+        <module>farms-admin</module>
+        <module>farms-framework</module>
+        <module>farms-system</module>
+        <module>farms-quartz</module>
+        <module>farms-generator</module>
+        <module>farms-common</module>
+        <module>farms-main</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -21,19 +21,13 @@
       return {
         list: [{
             icon: 'iconfont icon-github',
-            title: '若依问题',
+            title: '常见问题',
             childList: [{
-              title: '若依开源吗？',
-              content: '开源'
+              title: '智慧农园是什么？',
+              content: '基于5G智慧农业技术的综合性农业服务平台，旨在为城市居民提供便捷、高效的“云种菜”体验',
             }, {
-              title: '若依可以商用吗？',
-              content: '可以'
-            }, {
-              title: '若依官网地址多少？',
-              content: 'http://ruoyi.vip'
-            }, {
-              title: '若依文档地址多少？',
-              content: 'http://doc.ruoyi.vip'
+              title: '智慧农园可以干什么？',
+              content: '系统通过线上租赁农田、选择种子、代理施肥浇水管理等功能，结合实时在线观看农作物情况、线下互动体验以及收获采摘或邮寄服务，打造了一个集娱乐、休闲、农业体验于一体的智慧农业生态系统',
             }]
           },
           {
