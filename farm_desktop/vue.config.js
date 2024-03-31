@@ -7,7 +7,7 @@ function resolve(dir) {
 
 const CompressionPlugin = require('compression-webpack-plugin')
 
-const name = process.env.VUE_APP_TITLE || '若依管理系统' // 网页标题
+const name = process.env.VUE_APP_TITLE || '智慧农园管理系统' // 网页标题
 
 const port = process.env.port || process.env.npm_config_port || 80 // 端口
 
@@ -52,7 +52,7 @@ module.exports = {
           "installerHeaderIcon": "build/1app.ico",
           "createDesktopShortcut": true,
           "createStartMenuShortcut": true,
-          "shortcutName": "若依管理系統"
+          "shortcutName": "智慧农园管理系統"
         },
         win: {
           "icon": "build/1app.ico",
