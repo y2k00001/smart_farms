@@ -29,7 +29,8 @@ import com.neo.common.utils.StringUtils;
  *
  * @author ruoyi
  */
-@Configuration
+// @Configuration
+@Deprecated
 public class MyBatisConfig
 {
     @Autowired
