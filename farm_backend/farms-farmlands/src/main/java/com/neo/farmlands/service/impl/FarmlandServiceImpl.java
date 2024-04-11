@@ -2,6 +2,8 @@ package com.neo.farmlands.service.impl;
 
 import java.util.List;
 import com.neo.common.utils.DateUtils;
+import com.neo.common.utils.SecurityUtils;
+import com.neo.common.utils.uuid.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.FarmlandMapper;
@@ -53,7 +55,10 @@ public class FarmlandServiceImpl implements IFarmlandService
     @Override
     public int insertFarmland(Farmland farmland)
     {
+        farmland.setId(IdUtils.fastSimpleUUID());
         farmland.setCreateTime(DateUtils.getNowDate());
+        farmland.setCreateBy(SecurityUtils.getUserId().toString());
+        farmland.setCreateByName(SecurityUtils.getUsername());
         return farmlandMapper.insertFarmland(farmland);
     }
 

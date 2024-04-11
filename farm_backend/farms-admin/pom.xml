@@ -61,6 +61,11 @@
             <artifactId>farms-generator</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.neo</groupId>
+            <artifactId>farms-farmlands</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

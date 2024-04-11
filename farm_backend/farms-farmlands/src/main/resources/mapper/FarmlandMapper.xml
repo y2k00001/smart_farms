@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="farmlandId"    column="farmland_id"    />
         <result property="area"    column="area"    />
         <result property="lat"    column="lat"    />
-        <result property="lon"    column="long"    />
+        <result property="lon"    column="lon"    />
         <result property="location"    column="location"    />
         <result property="status"    column="status"    />
         <result property="leasePrice"    column="lease_price"    />
@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFarmlandVo">
-        select id, farmland_id, area, lat, long, location, status, lease_price, description, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland
+        select id, farmland_id, area, lat, lon, location, status, lease_price, description, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland
     </sql>
 
     <select id="selectFarmlandList" parameterType="Farmland" resultMap="FarmlandResult">
@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="farmlandId != null  and farmlandId != ''"> and farmland_id = #{farmlandId}</if>
             <if test="area != null  and area != ''"> and area = #{area}</if>
             <if test="lat != null  and lat != ''"> and lat = #{lat}</if>
-            <if test="long != null  and long != ''"> and long = #{long}</if>
+            <if test="lon != null  and lon != ''"> and lon = #{lon}</if>
             <if test="location != null  and location != ''"> and location = #{location}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="leasePrice != null "> and lease_price = #{leasePrice}</if>
@@ -55,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="farmlandId != null">farmland_id,</if>
             <if test="area != null">area,</if>
             <if test="lat != null">lat,</if>
-            <if test="long != null">long,</if>
+            <if test="lon != null">lon,</if>
             <if test="location != null">location,</if>
             <if test="status != null">status,</if>
             <if test="leasePrice != null">lease_price,</if>
@@ -72,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="farmlandId != null">#{farmlandId},</if>
             <if test="area != null">#{area},</if>
             <if test="lat != null">#{lat},</if>
-            <if test="long != null">#{long},</if>
+            <if test="lon != null">#{lon},</if>
             <if test="location != null">#{location},</if>
             <if test="status != null">#{status},</if>
             <if test="leasePrice != null">#{leasePrice},</if>
@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="farmlandId != null">farmland_id = #{farmlandId},</if>
             <if test="area != null">area = #{area},</if>
             <if test="lat != null">lat = #{lat},</if>
-            <if test="long != null">long = #{long},</if>
+            <if test="lon != null">lon = #{lon},</if>
             <if test="location != null">location = #{location},</if>
             <if test="status != null">status = #{status},</if>
             <if test="leasePrice != null">lease_price = #{leasePrice},</if>

@@ -31,6 +31,7 @@
         <jwt.version>0.9.1</jwt.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <lombok.version>1.18.22</lombok.version>
+        <knife4j.version>3.0.3</knife4j.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -164,6 +165,12 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.neo</groupId>
+                <artifactId>farms-farmlands</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
             <!-- 通用工具-->
             <dependency>
                 <groupId>com.neo</groupId>
@@ -174,6 +181,12 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>${lombok.version}</artifactId>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
 
         </dependencies>
