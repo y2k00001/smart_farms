@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.FarmlandLesseeMapper">
+    
+    <resultMap type="FarmlandLessee" id="FarmlandLesseeResult">
+        <result property="id"    column="id"    />
+        <result property="farmlandLesseeId"    column="farmland_lessee_id"    />
+        <result property="farmlandId"    column="farmland_id"    />
+        <result property="lesseeId"    column="lessee_id"    />
+        <result property="lesseePrice"    column="lessee_price"    />
+        <result property="lesseeAmount"    column="lessee_amount"    />
+        <result property="lesseeDay"    column="lessee_day"    />
+        <result property="lesseeStartDate"    column="lessee_start_date"    />
+        <result property="lesseeEndDate"    column="lessee_end_date"    />
+        <result property="status"    column="status"    />
+        <result property="lesseeFiles"    column="lessee_files"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectFarmlandLesseeVo">
+        select id, farmland_lessee_id, farmland_id, lessee_id, lessee_price, lessee_amount, lessee_day, lessee_start_date, lessee_end_date, status, lessee_files, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland_lessee
+    </sql>
+
+    <select id="selectFarmlandLesseeList" parameterType="FarmlandLessee" resultMap="FarmlandLesseeResult">
+        <include refid="selectFarmlandLesseeVo"/>
+        <where>  
+            <if test="farmlandLesseeId != null  and farmlandLesseeId != ''"> and farmland_lessee_id = #{farmlandLesseeId}</if>
+            <if test="farmlandId != null  and farmlandId != ''"> and farmland_id = #{farmlandId}</if>
+            <if test="lesseeId != null  and lesseeId != ''"> and lessee_id = #{lesseeId}</if>
+            <if test="lesseePrice != null "> and lessee_price = #{lesseePrice}</if>
+            <if test="lesseeAmount != null "> and lessee_amount = #{lesseeAmount}</if>
+            <if test="lesseeDay != null "> and lessee_day = #{lesseeDay}</if>
+            <if test="lesseeStartDate != null "> and lessee_start_date = #{lesseeStartDate}</if>
+            <if test="lesseeEndDate != null "> and lessee_end_date = #{lesseeEndDate}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="lesseeFiles != null  and lesseeFiles != ''"> and lessee_files = #{lesseeFiles}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectFarmlandLesseeById" parameterType="String" resultMap="FarmlandLesseeResult">
+        <include refid="selectFarmlandLesseeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFarmlandLessee" parameterType="FarmlandLessee">
+        insert into t_farmland_lessee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="farmlandLesseeId != null">farmland_lessee_id,</if>
+            <if test="farmlandId != null">farmland_id,</if>
+            <if test="lesseeId != null">lessee_id,</if>
+            <if test="lesseePrice != null">lessee_price,</if>
+            <if test="lesseeAmount != null">lessee_amount,</if>
+            <if test="lesseeDay != null">lessee_day,</if>
+            <if test="lesseeStartDate != null">lessee_start_date,</if>
+            <if test="lesseeEndDate != null">lessee_end_date,</if>
+            <if test="status != null">status,</if>
+            <if test="lesseeFiles != null">lessee_files,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="farmlandLesseeId != null">#{farmlandLesseeId},</if>
+            <if test="farmlandId != null">#{farmlandId},</if>
+            <if test="lesseeId != null">#{lesseeId},</if>
+            <if test="lesseePrice != null">#{lesseePrice},</if>
+            <if test="lesseeAmount != null">#{lesseeAmount},</if>
+            <if test="lesseeDay != null">#{lesseeDay},</if>
+            <if test="lesseeStartDate != null">#{lesseeStartDate},</if>
+            <if test="lesseeEndDate != null">#{lesseeEndDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="lesseeFiles != null">#{lesseeFiles},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFarmlandLessee" parameterType="FarmlandLessee">
+        update t_farmland_lessee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="farmlandLesseeId != null">farmland_lessee_id = #{farmlandLesseeId},</if>
+            <if test="farmlandId != null">farmland_id = #{farmlandId},</if>
+            <if test="lesseeId != null">lessee_id = #{lesseeId},</if>
+            <if test="lesseePrice != null">lessee_price = #{lesseePrice},</if>
+            <if test="lesseeAmount != null">lessee_amount = #{lesseeAmount},</if>
+            <if test="lesseeDay != null">lessee_day = #{lesseeDay},</if>
+            <if test="lesseeStartDate != null">lessee_start_date = #{lesseeStartDate},</if>
+            <if test="lesseeEndDate != null">lessee_end_date = #{lesseeEndDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="lesseeFiles != null">lessee_files = #{lesseeFiles},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFarmlandLesseeById" parameterType="String">
+        delete from t_farmland_lessee where id = #{id}
+    </delete>
+
+    <delete id="deleteFarmlandLesseeByIds" parameterType="String">
+        delete from t_farmland_lessee where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
