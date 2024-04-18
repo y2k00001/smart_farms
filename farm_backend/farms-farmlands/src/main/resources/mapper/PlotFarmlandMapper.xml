@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.PlotFarmlandMapper">
+    
+    <resultMap type="PlotFarmland" id="PlotFarmlandResult">
+        <result property="id"    column="id"    />
+        <result property="plotId"    column="plot_id"    />
+        <result property="farmlandId"    column="farmland_id"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectPlotFarmlandVo">
+        select id, plot_id, farmland_id, create_by_name, create_by, create_time, update_time, is_deleted from t_plot_farmland
+    </sql>
+
+    <select id="selectPlotFarmlandList" parameterType="PlotFarmland" resultMap="PlotFarmlandResult">
+        <include refid="selectPlotFarmlandVo"/>
+        <where>  
+            <if test="plotId != null  and plotId != ''"> and plot_id = #{plotId}</if>
+            <if test="farmlandId != null  and farmlandId != ''"> and farmland_id = #{farmlandId}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectPlotFarmlandById" parameterType="String" resultMap="PlotFarmlandResult">
+        <include refid="selectPlotFarmlandVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPlotFarmland" parameterType="PlotFarmland">
+        insert into t_plot_farmland
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="plotId != null">plot_id,</if>
+            <if test="farmlandId != null">farmland_id,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="plotId != null">#{plotId},</if>
+            <if test="farmlandId != null">#{farmlandId},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlotFarmland" parameterType="PlotFarmland">
+        update t_plot_farmland
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="plotId != null">plot_id = #{plotId},</if>
+            <if test="farmlandId != null">farmland_id = #{farmlandId},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlotFarmlandById" parameterType="String">
+        delete from t_plot_farmland where id = #{id}
+    </delete>
+
+    <delete id="deletePlotFarmlandByIds" parameterType="String">
+        delete from t_plot_farmland where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

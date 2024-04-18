@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.SeedMapper">
+    
+    <resultMap type="Seed" id="SeedResult">
+        <result property="id"    column="id"    />
+        <result property="seedId"    column="seed_id"    />
+        <result property="seedName"    column="seed_name"    />
+        <result property="seedType"    column="seed_type"    />
+        <result property="origin"    column="origin"    />
+        <result property="growthCycle"    column="growth_cycle"    />
+        <result property="yield"    column="yield"    />
+        <result property="climate"    column="climate"    />
+        <result property="plantingTechnique"    column="planting_technique"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="stockTotal"    column="stock_total"    />
+        <result property="status"    column="status"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectSeedVo">
+        select id, seed_id, seed_name, seed_type, origin, growth_cycle, yield, climate, planting_technique, remarks, unit_price, stock_total, status, create_by_name, create_by, create_time, update_time, is_deleted from t_seed
+    </sql>
+
+    <select id="selectSeedList" parameterType="Seed" resultMap="SeedResult">
+        <include refid="selectSeedVo"/>
+        <where>  
+            <if test="seedId != null  and seedId != ''"> and seed_id = #{seedId}</if>
+            <if test="seedName != null  and seedName != ''"> and seed_name like concat('%', #{seedName}, '%')</if>
+            <if test="seedType != null "> and seed_type = #{seedType}</if>
+            <if test="origin != null  and origin != ''"> and origin = #{origin}</if>
+            <if test="growthCycle != null "> and growth_cycle = #{growthCycle}</if>
+            <if test="yield != null "> and yield = #{yield}</if>
+            <if test="climate != null  and climate != ''"> and climate = #{climate}</if>
+            <if test="plantingTechnique != null  and plantingTechnique != ''"> and planting_technique = #{plantingTechnique}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="unitPrice != null "> and unit_price = #{unitPrice}</if>
+            <if test="stockTotal != null  and stockTotal != ''"> and stock_total = #{stockTotal}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectSeedById" parameterType="String" resultMap="SeedResult">
+        <include refid="selectSeedVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSeed" parameterType="Seed">
+        insert into t_seed
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="seedId != null">seed_id,</if>
+            <if test="seedName != null">seed_name,</if>
+            <if test="seedType != null">seed_type,</if>
+            <if test="origin != null">origin,</if>
+            <if test="growthCycle != null">growth_cycle,</if>
+            <if test="yield != null">yield,</if>
+            <if test="climate != null">climate,</if>
+            <if test="plantingTechnique != null">planting_technique,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="unitPrice != null">unit_price,</if>
+            <if test="stockTotal != null">stock_total,</if>
+            <if test="status != null">status,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="seedId != null">#{seedId},</if>
+            <if test="seedName != null">#{seedName},</if>
+            <if test="seedType != null">#{seedType},</if>
+            <if test="origin != null">#{origin},</if>
+            <if test="growthCycle != null">#{growthCycle},</if>
+            <if test="yield != null">#{yield},</if>
+            <if test="climate != null">#{climate},</if>
+            <if test="plantingTechnique != null">#{plantingTechnique},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="unitPrice != null">#{unitPrice},</if>
+            <if test="stockTotal != null">#{stockTotal},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSeed" parameterType="Seed">
+        update t_seed
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="seedId != null">seed_id = #{seedId},</if>
+            <if test="seedName != null">seed_name = #{seedName},</if>
+            <if test="seedType != null">seed_type = #{seedType},</if>
+            <if test="origin != null">origin = #{origin},</if>
+            <if test="growthCycle != null">growth_cycle = #{growthCycle},</if>
+            <if test="yield != null">yield = #{yield},</if>
+            <if test="climate != null">climate = #{climate},</if>
+            <if test="plantingTechnique != null">planting_technique = #{plantingTechnique},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="stockTotal != null">stock_total = #{stockTotal},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSeedById" parameterType="String">
+        delete from t_seed where id = #{id}
+    </delete>
+
+    <delete id="deleteSeedByIds" parameterType="String">
+        delete from t_seed where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

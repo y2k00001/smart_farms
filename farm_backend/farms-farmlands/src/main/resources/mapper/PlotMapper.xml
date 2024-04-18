@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.PlotMapper">
+    
+    <resultMap type="Plot" id="PlotResult">
+        <result property="id"    column="id"    />
+        <result property="plotId"    column="plot_id"    />
+        <result property="plotName"    column="plot_name"    />
+        <result property="area"    column="area"    />
+        <result property="lat"    column="lat"    />
+        <result property="lon"    column="lon"    />
+        <result property="ownerName"    column="owner_name"    />
+        <result property="ownerPhone"    column="owner_phone"    />
+        <result property="location"    column="location"    />
+        <result property="status"    column="status"    />
+        <result property="description"    column="description"    />
+        <result property="fileIds"    column="file_ids"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectPlotVo">
+        select id, plot_id, plot_name, area, lat, lon, owner_name, owner_phone, location, status, description, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_plot
+    </sql>
+
+    <select id="selectPlotList" parameterType="Plot" resultMap="PlotResult">
+        <include refid="selectPlotVo"/>
+        <where>  
+            <if test="plotId != null  and plotId != ''"> and plot_id = #{plotId}</if>
+            <if test="plotName != null  and plotName != ''"> and plot_name like concat('%', #{plotName}, '%')</if>
+            <if test="area != null  and area != ''"> and area = #{area}</if>
+            <if test="lat != null  and lat != ''"> and lat = #{lat}</if>
+            <if test="lon != null  and lon != ''"> and lon = #{lon}</if>
+            <if test="ownerName != null  and ownerName != ''"> and owner_name like concat('%', #{ownerName}, '%')</if>
+            <if test="ownerPhone != null "> and owner_phone = #{ownerPhone}</if>
+            <if test="location != null  and location != ''"> and location = #{location}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="fileIds != null  and fileIds != ''"> and file_ids = #{fileIds}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectPlotById" parameterType="String" resultMap="PlotResult">
+        <include refid="selectPlotVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPlot" parameterType="Plot">
+        insert into t_plot
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="plotId != null">plot_id,</if>
+            <if test="plotName != null">plot_name,</if>
+            <if test="area != null">area,</if>
+            <if test="lat != null">lat,</if>
+            <if test="lon != null">lon,</if>
+            <if test="ownerName != null">owner_name,</if>
+            <if test="ownerPhone != null">owner_phone,</if>
+            <if test="location != null">location,</if>
+            <if test="status != null">status,</if>
+            <if test="description != null">description,</if>
+            <if test="fileIds != null">file_ids,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="plotId != null">#{plotId},</if>
+            <if test="plotName != null">#{plotName},</if>
+            <if test="area != null">#{area},</if>
+            <if test="lat != null">#{lat},</if>
+            <if test="lon != null">#{lon},</if>
+            <if test="ownerName != null">#{ownerName},</if>
+            <if test="ownerPhone != null">#{ownerPhone},</if>
+            <if test="location != null">#{location},</if>
+            <if test="status != null">#{status},</if>
+            <if test="description != null">#{description},</if>
+            <if test="fileIds != null">#{fileIds},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlot" parameterType="Plot">
+        update t_plot
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="plotId != null">plot_id = #{plotId},</if>
+            <if test="plotName != null">plot_name = #{plotName},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="lon != null">lon = #{lon},</if>
+            <if test="ownerName != null">owner_name = #{ownerName},</if>
+            <if test="ownerPhone != null">owner_phone = #{ownerPhone},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="fileIds != null">file_ids = #{fileIds},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlotById" parameterType="String">
+        delete from t_plot where id = #{id}
+    </delete>
+
+    <delete id="deletePlotByIds" parameterType="String">
+        delete from t_plot where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
