@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.FarmlandServiceMapper">
+    
+    <resultMap type="FarmlandService" id="FarmlandServiceResult">
+        <result property="id"    column="id"    />
+        <result property="farmlandId"    column="farmland_id"    />
+        <result property="serviceId"    column="service_id"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectFarmlandServiceVo">
+        select id, farmland_id, service_id, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland_service
+    </sql>
+
+    <select id="selectFarmlandServiceList" parameterType="FarmlandService" resultMap="FarmlandServiceResult">
+        <include refid="selectFarmlandServiceVo"/>
+        <where>  
+            <if test="farmlandId != null  and farmlandId != ''"> and farmland_id = #{farmlandId}</if>
+            <if test="serviceId != null  and serviceId != ''"> and service_id = #{serviceId}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectFarmlandServiceById" parameterType="String" resultMap="FarmlandServiceResult">
+        <include refid="selectFarmlandServiceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFarmlandService" parameterType="FarmlandService">
+        insert into t_farmland_service
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="farmlandId != null">farmland_id,</if>
+            <if test="serviceId != null">service_id,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="farmlandId != null">#{farmlandId},</if>
+            <if test="serviceId != null">#{serviceId},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFarmlandService" parameterType="FarmlandService">
+        update t_farmland_service
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="farmlandId != null">farmland_id = #{farmlandId},</if>
+            <if test="serviceId != null">service_id = #{serviceId},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFarmlandServiceById" parameterType="String">
+        delete from t_farmland_service where id = #{id}
+    </delete>
+
+    <delete id="deleteFarmlandServiceByIds" parameterType="String">
+        delete from t_farmland_service where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

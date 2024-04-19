@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.LandAreaMapper">
+    
+    <resultMap type="LandArea" id="LandAreaResult">
+        <result property="id"    column="id"    />
+        <result property="landAreaId"    column="land_area_id"    />
+        <result property="landAreaName"    column="land_area_name"    />
+        <result property="area"    column="area"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="sort"    column="sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectLandAreaVo">
+        select id, land_area_id, land_area_name, area, unit_price, sort, remark, create_by_name, create_by, create_time, update_time, is_deleted from t_land_area
+    </sql>
+
+    <select id="selectLandAreaList" parameterType="LandArea" resultMap="LandAreaResult">
+        <include refid="selectLandAreaVo"/>
+        <where>  
+            <if test="landAreaId != null  and landAreaId != ''"> and land_area_id = #{landAreaId}</if>
+            <if test="landAreaName != null  and landAreaName != ''"> and land_area_name like concat('%', #{landAreaName}, '%')</if>
+            <if test="area != null "> and area = #{area}</if>
+            <if test="unitPrice != null "> and unit_price = #{unitPrice}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectLandAreaById" parameterType="String" resultMap="LandAreaResult">
+        <include refid="selectLandAreaVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLandArea" parameterType="LandArea">
+        insert into t_land_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="landAreaId != null">land_area_id,</if>
+            <if test="landAreaName != null">land_area_name,</if>
+            <if test="area != null">area,</if>
+            <if test="unitPrice != null">unit_price,</if>
+            <if test="sort != null">sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="landAreaId != null">#{landAreaId},</if>
+            <if test="landAreaName != null">#{landAreaName},</if>
+            <if test="area != null">#{area},</if>
+            <if test="unitPrice != null">#{unitPrice},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLandArea" parameterType="LandArea">
+        update t_land_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="landAreaId != null">land_area_id = #{landAreaId},</if>
+            <if test="landAreaName != null">land_area_name = #{landAreaName},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLandAreaById" parameterType="String">
+        delete from t_land_area where id = #{id}
+    </delete>
+
+    <delete id="deleteLandAreaByIds" parameterType="String">
+        delete from t_land_area where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

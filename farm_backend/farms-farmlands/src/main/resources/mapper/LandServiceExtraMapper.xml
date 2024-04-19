@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.LandServiceExtraMapper">
+    
+    <resultMap type="LandServiceExtra" id="LandServiceExtraResult">
+        <result property="id"    column="id"    />
+        <result property="serviceId"    column="service_id"    />
+        <result property="extraId"    column="extra_id"    />
+        <result property="extraName"    column="extra_name"    />
+        <result property="extraFiles"    column="extra_files"    />
+        <result property="summary"    column="summary"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectLandServiceExtraVo">
+        select id, service_id, extra_id, extra_name, extra_files, summary, create_by_name, create_by, create_time, update_time, is_deleted from t_land_service_extra
+    </sql>
+
+    <select id="selectLandServiceExtraList" parameterType="LandServiceExtra" resultMap="LandServiceExtraResult">
+        <include refid="selectLandServiceExtraVo"/>
+        <where>  
+            <if test="serviceId != null  and serviceId != ''"> and service_id = #{serviceId}</if>
+            <if test="extraId != null  and extraId != ''"> and extra_id = #{extraId}</if>
+            <if test="extraName != null  and extraName != ''"> and extra_name like concat('%', #{extraName}, '%')</if>
+            <if test="extraFiles != null  and extraFiles != ''"> and extra_files = #{extraFiles}</if>
+            <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectLandServiceExtraById" parameterType="String" resultMap="LandServiceExtraResult">
+        <include refid="selectLandServiceExtraVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLandServiceExtra" parameterType="LandServiceExtra">
+        insert into t_land_service_extra
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="serviceId != null">service_id,</if>
+            <if test="extraId != null">extra_id,</if>
+            <if test="extraName != null">extra_name,</if>
+            <if test="extraFiles != null">extra_files,</if>
+            <if test="summary != null">summary,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="serviceId != null">#{serviceId},</if>
+            <if test="extraId != null">#{extraId},</if>
+            <if test="extraName != null">#{extraName},</if>
+            <if test="extraFiles != null">#{extraFiles},</if>
+            <if test="summary != null">#{summary},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLandServiceExtra" parameterType="LandServiceExtra">
+        update t_land_service_extra
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serviceId != null">service_id = #{serviceId},</if>
+            <if test="extraId != null">extra_id = #{extraId},</if>
+            <if test="extraName != null">extra_name = #{extraName},</if>
+            <if test="extraFiles != null">extra_files = #{extraFiles},</if>
+            <if test="summary != null">summary = #{summary},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLandServiceExtraById" parameterType="String">
+        delete from t_land_service_extra where id = #{id}
+    </delete>
+
+    <delete id="deleteLandServiceExtraByIds" parameterType="String">
+        delete from t_land_service_extra where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

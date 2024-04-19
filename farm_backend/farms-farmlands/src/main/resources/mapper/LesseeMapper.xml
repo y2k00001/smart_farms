@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.LesseeMapper">
+    
+    <resultMap type="Lessee" id="LesseeResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="lesseeId"    column="lessee_id"    />
+        <result property="lesseeName"    column="lessee_name"    />
+        <result property="lesseePhone"    column="lessee_phone"    />
+        <result property="remark"    column="remark"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectLesseeVo">
+        select id, user_id, lessee_id, lessee_name, lessee_phone, remark, create_by_name, create_by, create_time, update_time, is_deleted from t_lessee
+    </sql>
+
+    <select id="selectLesseeList" parameterType="Lessee" resultMap="LesseeResult">
+        <include refid="selectLesseeVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="lesseeId != null  and lesseeId != ''"> and lessee_id = #{lesseeId}</if>
+            <if test="lesseeName != null  and lesseeName != ''"> and lessee_name like concat('%', #{lesseeName}, '%')</if>
+            <if test="lesseePhone != null "> and lessee_phone = #{lesseePhone}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectLesseeById" parameterType="String" resultMap="LesseeResult">
+        <include refid="selectLesseeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLessee" parameterType="Lessee">
+        insert into t_lessee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="lesseeId != null">lessee_id,</if>
+            <if test="lesseeName != null">lessee_name,</if>
+            <if test="lesseePhone != null">lessee_phone,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="lesseeId != null">#{lesseeId},</if>
+            <if test="lesseeName != null">#{lesseeName},</if>
+            <if test="lesseePhone != null">#{lesseePhone},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLessee" parameterType="Lessee">
+        update t_lessee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="lesseeId != null">lessee_id = #{lesseeId},</if>
+            <if test="lesseeName != null">lessee_name = #{lesseeName},</if>
+            <if test="lesseePhone != null">lessee_phone = #{lesseePhone},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLesseeById" parameterType="String">
+        delete from t_lessee where id = #{id}
+    </delete>
+
+    <delete id="deleteLesseeByIds" parameterType="String">
+        delete from t_lessee where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

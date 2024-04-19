@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.LandServiceMapper">
+    
+    <resultMap type="LandService" id="LandServiceResult">
+        <result property="id"    column="id"    />
+        <result property="serviceId"    column="service_id"    />
+        <result property="serviceName"    column="service_name"    />
+        <result property="servicePrice"    column="service_price"    />
+        <result property="serviceType"    column="service_type"    />
+        <result property="summary"    column="summary"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectLandServiceVo">
+        select id, service_id, service_name, service_price, service_type, summary, create_by_name, create_by, create_time, update_time, is_deleted from t_land_service
+    </sql>
+
+    <select id="selectLandServiceList" parameterType="LandService" resultMap="LandServiceResult">
+        <include refid="selectLandServiceVo"/>
+        <where>  
+            <if test="serviceId != null  and serviceId != ''"> and service_id = #{serviceId}</if>
+            <if test="serviceName != null  and serviceName != ''"> and service_name like concat('%', #{serviceName}, '%')</if>
+            <if test="servicePrice != null "> and service_price = #{servicePrice}</if>
+            <if test="serviceType != null "> and service_type = #{serviceType}</if>
+            <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectLandServiceById" parameterType="String" resultMap="LandServiceResult">
+        <include refid="selectLandServiceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLandService" parameterType="LandService">
+        insert into t_land_service
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="serviceId != null">service_id,</if>
+            <if test="serviceName != null">service_name,</if>
+            <if test="servicePrice != null">service_price,</if>
+            <if test="serviceType != null">service_type,</if>
+            <if test="summary != null">summary,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="serviceId != null">#{serviceId},</if>
+            <if test="serviceName != null">#{serviceName},</if>
+            <if test="servicePrice != null">#{servicePrice},</if>
+            <if test="serviceType != null">#{serviceType},</if>
+            <if test="summary != null">#{summary},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLandService" parameterType="LandService">
+        update t_land_service
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serviceId != null">service_id = #{serviceId},</if>
+            <if test="serviceName != null">service_name = #{serviceName},</if>
+            <if test="servicePrice != null">service_price = #{servicePrice},</if>
+            <if test="serviceType != null">service_type = #{serviceType},</if>
+            <if test="summary != null">summary = #{summary},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLandServiceById" parameterType="String">
+        delete from t_land_service where id = #{id}
+    </delete>
+
+    <delete id="deleteLandServiceByIds" parameterType="String">
+        delete from t_land_service where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

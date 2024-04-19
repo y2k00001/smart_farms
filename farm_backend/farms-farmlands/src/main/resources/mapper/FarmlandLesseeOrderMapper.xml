@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.FarmlandLesseeOrderMapper">
+    
+    <resultMap type="FarmlandLesseeOrder" id="FarmlandLesseeOrderResult">
+        <result property="id"    column="id"    />
+        <result property="farmlandLesseeId"    column="farmland_lessee_id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectFarmlandLesseeOrderVo">
+        select id, farmland_lessee_id, order_id, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland_lessee_order
+    </sql>
+
+    <select id="selectFarmlandLesseeOrderList" parameterType="FarmlandLesseeOrder" resultMap="FarmlandLesseeOrderResult">
+        <include refid="selectFarmlandLesseeOrderVo"/>
+        <where>  
+            <if test="farmlandLesseeId != null  and farmlandLesseeId != ''"> and farmland_lessee_id = #{farmlandLesseeId}</if>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectFarmlandLesseeOrderById" parameterType="String" resultMap="FarmlandLesseeOrderResult">
+        <include refid="selectFarmlandLesseeOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFarmlandLesseeOrder" parameterType="FarmlandLesseeOrder">
+        insert into t_farmland_lessee_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="farmlandLesseeId != null">farmland_lessee_id,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="farmlandLesseeId != null">#{farmlandLesseeId},</if>
+            <if test="orderId != null">#{orderId},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFarmlandLesseeOrder" parameterType="FarmlandLesseeOrder">
+        update t_farmland_lessee_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="farmlandLesseeId != null">farmland_lessee_id = #{farmlandLesseeId},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFarmlandLesseeOrderById" parameterType="String">
+        delete from t_farmland_lessee_order where id = #{id}
+    </delete>
+
+    <delete id="deleteFarmlandLesseeOrderByIds" parameterType="String">
+        delete from t_farmland_lessee_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
