@@ -1,19 +1,21 @@
 package com.neo.farmlands.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neo.farmlands.domain.Lessee;
 
 /**
  * 租户信息Mapper接口
- * 
+ *
  * @author neo
  * @date 2024-04-19
  */
-public interface LesseeMapper 
+public interface LesseeMapper extends BaseMapper<Lessee>
 {
     /**
      * 查询租户信息
-     * 
+     *
      * @param id 租户信息主键
      * @return 租户信息
      */
@@ -21,7 +23,7 @@ public interface LesseeMapper
 
     /**
      * 查询租户信息列表
-     * 
+     *
      * @param lessee 租户信息
      * @return 租户信息集合
      */
@@ -29,7 +31,7 @@ public interface LesseeMapper
 
     /**
      * 新增租户信息
-     * 
+     *
      * @param lessee 租户信息
      * @return 结果
      */
@@ -37,7 +39,7 @@ public interface LesseeMapper
 
     /**
      * 修改租户信息
-     * 
+     *
      * @param lessee 租户信息
      * @return 结果
      */
@@ -45,7 +47,7 @@ public interface LesseeMapper
 
     /**
      * 删除租户信息
-     * 
+     *
      * @param id 租户信息主键
      * @return 结果
      */
@@ -53,7 +55,7 @@ public interface LesseeMapper
 
     /**
      * 批量删除租户信息
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */

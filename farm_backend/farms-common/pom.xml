@@ -143,6 +143,12 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
 
+        <!--hutool-all-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

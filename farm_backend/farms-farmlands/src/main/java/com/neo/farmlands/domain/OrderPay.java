@@ -9,12 +9,12 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 租赁信息和订单关联表
- * @TableName t_farmland_lessee_order
+ * 账单支付单关联表
+ * @TableName t_order_pay
  */
-@TableName(value ="t_farmland_lessee_order")
+@TableName(value ="t_order_pay")
 @Data
-public class FarmlandLesseeOrder implements Serializable {
+public class OrderPay implements Serializable {
     /**
      * id
      */
@@ -22,14 +22,19 @@ public class FarmlandLesseeOrder implements Serializable {
     private String id;
 
     /**
-     * 农田租赁信息ID
-     */
-    private String farmlandLesseeId;
-
-    /**
      * 账单ID
      */
     private String orderId;
+
+    /**
+     * 账单类型;1.租赁合同；2购买种子
+     */
+    private String orderType;
+
+    /**
+     * 支付单ID
+     */
+    private String payId;
 
     /**
      * 创建人姓名
@@ -54,7 +59,7 @@ public class FarmlandLesseeOrder implements Serializable {
     /**
      * 是否删除
      */
-    private String isDeleted;
+    private Integer isDeleted;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

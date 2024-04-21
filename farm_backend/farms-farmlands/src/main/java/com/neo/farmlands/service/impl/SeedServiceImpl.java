@@ -1,7 +1,14 @@
 package com.neo.farmlands.service.impl;
 
 import java.util.List;
+
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
+import com.neo.farmlands.domain.LandArea;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.SeedMapper;
@@ -15,7 +22,7 @@ import com.neo.farmlands.service.ISeedService;
  * @date 2024-04-16
  */
 @Service
-public class SeedServiceImpl implements ISeedService
+public class SeedServiceImpl extends ServiceImpl<SeedMapper, Seed> implements ISeedService
 {
     @Autowired
     private SeedMapper seedMapper;
@@ -92,5 +99,20 @@ public class SeedServiceImpl implements ISeedService
     public int deleteSeedById(String id)
     {
         return seedMapper.deleteSeedById(id);
+    }
+
+    @Override
+    public Seed getOneBySeedId(String seedId, Boolean isThrowException) {
+        LambdaQueryWrapper<Seed> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Seed::getSeedId, seedId).eq(Seed::getIsDeleted, "0");
+        Seed seed = this.getOne(queryWrapper);
+        if(BeanUtil.isEmpty(seed) ){
+            if(isThrowException){
+                throw new ServiceException(StrUtil.format("编号【】种子不存在!",seedId));
+            }else {
+                return new Seed();
+            }
+        }
+        return seed;
     }
 }

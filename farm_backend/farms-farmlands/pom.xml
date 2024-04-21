@@ -23,6 +23,29 @@
             <artifactId>farms-common</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.neo</groupId>
+            <artifactId>farms-system</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-spring-boot-starter</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-wx</artifactId>
+            <version>2.14.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-ali</artifactId>
+            <version>2.14.7</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

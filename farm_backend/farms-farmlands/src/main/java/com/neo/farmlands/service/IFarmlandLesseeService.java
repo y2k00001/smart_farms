@@ -1,19 +1,23 @@
 package com.neo.farmlands.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.FarmlandLessee;
+import com.neo.farmlands.domain.vo.FarmlandLesseeReqVO;
+import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
 
 /**
  * 农田租赁信息Service接口
- * 
+ *
  * @author neo
  * @date 2024-04-15
  */
-public interface IFarmlandLesseeService 
+public interface IFarmlandLesseeService extends IService<FarmlandLessee>
 {
     /**
      * 查询农田租赁信息
-     * 
+     *
      * @param id 农田租赁信息主键
      * @return 农田租赁信息
      */
@@ -21,7 +25,7 @@ public interface IFarmlandLesseeService
 
     /**
      * 查询农田租赁信息列表
-     * 
+     *
      * @param farmlandLessee 农田租赁信息
      * @return 农田租赁信息集合
      */
@@ -29,7 +33,7 @@ public interface IFarmlandLesseeService
 
     /**
      * 新增农田租赁信息
-     * 
+     *
      * @param farmlandLessee 农田租赁信息
      * @return 结果
      */
@@ -37,7 +41,7 @@ public interface IFarmlandLesseeService
 
     /**
      * 修改农田租赁信息
-     * 
+     *
      * @param farmlandLessee 农田租赁信息
      * @return 结果
      */
@@ -45,7 +49,7 @@ public interface IFarmlandLesseeService
 
     /**
      * 批量删除农田租赁信息
-     * 
+     *
      * @param ids 需要删除的农田租赁信息主键集合
      * @return 结果
      */
@@ -53,9 +57,28 @@ public interface IFarmlandLesseeService
 
     /**
      * 删除农田租赁信息信息
-     * 
+     *
      * @param id 农田租赁信息主键
      * @return 结果
      */
     public int deleteFarmlandLesseeById(String id);
+
+    /**
+     * 提交农田租赁信息
+     * @author monkey
+     * @datetime  2024/4/19 11:45
+     * @param farmlandLesseeReq
+     * @return
+     **/
+    void submitFarmlandLessee(FarmlandLesseeReqVO farmlandLesseeReq);
+
+    /**
+     * description
+     * @author monkey
+     * @datetime  2024/4/21 11:29
+     * @param farmlandLesseeId
+     * @param isThrowException
+     * @return {@link null}
+     **/
+    FarmlandLessee getOneByFarmlandId(String farmlandLesseeId, boolean isThrowException);
 }

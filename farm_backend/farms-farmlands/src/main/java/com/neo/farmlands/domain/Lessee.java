@@ -1,5 +1,7 @@
 package com.neo.farmlands.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
 import lombok.Data;
@@ -18,6 +20,7 @@ public class Lessee extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** id */
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     /** 系统用户ID */

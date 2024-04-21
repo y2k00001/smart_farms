@@ -1,4 +1,4 @@
-package com.neo.farmlands.controller;
+package com.neo.farmlands.controller.manage;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;

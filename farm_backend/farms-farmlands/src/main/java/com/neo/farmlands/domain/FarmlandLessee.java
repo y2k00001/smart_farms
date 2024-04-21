@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author neo
  * @date 2024-04-15
  */
+@Data
 public class FarmlandLessee extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -71,143 +73,4 @@ public class FarmlandLessee extends BaseEntity
     @Excel(name = "是否删除")
     private Long isDeleted;
 
-    public void setId(String id)
-    {
-        this.id = id;
-    }
-
-    public String getId()
-    {
-        return id;
-    }
-    public void setFarmlandLesseeId(String farmlandLesseeId)
-    {
-        this.farmlandLesseeId = farmlandLesseeId;
-    }
-
-    public String getFarmlandLesseeId()
-    {
-        return farmlandLesseeId;
-    }
-    public void setFarmlandId(String farmlandId)
-    {
-        this.farmlandId = farmlandId;
-    }
-
-    public String getFarmlandId()
-    {
-        return farmlandId;
-    }
-    public void setLesseeId(String lesseeId)
-    {
-        this.lesseeId = lesseeId;
-    }
-
-    public String getLesseeId()
-    {
-        return lesseeId;
-    }
-    public void setLesseePrice(BigDecimal lesseePrice)
-    {
-        this.lesseePrice = lesseePrice;
-    }
-
-    public BigDecimal getLesseePrice()
-    {
-        return lesseePrice;
-    }
-    public void setLesseeAmount(BigDecimal lesseeAmount)
-    {
-        this.lesseeAmount = lesseeAmount;
-    }
-
-    public BigDecimal getLesseeAmount()
-    {
-        return lesseeAmount;
-    }
-    public void setLesseeDay(Long lesseeDay)
-    {
-        this.lesseeDay = lesseeDay;
-    }
-
-    public Long getLesseeDay()
-    {
-        return lesseeDay;
-    }
-    public void setLesseeStartDate(Date lesseeStartDate)
-    {
-        this.lesseeStartDate = lesseeStartDate;
-    }
-
-    public Date getLesseeStartDate()
-    {
-        return lesseeStartDate;
-    }
-    public void setLesseeEndDate(Date lesseeEndDate)
-    {
-        this.lesseeEndDate = lesseeEndDate;
-    }
-
-    public Date getLesseeEndDate()
-    {
-        return lesseeEndDate;
-    }
-    public void setStatus(Long status)
-    {
-        this.status = status;
-    }
-
-    public Long getStatus()
-    {
-        return status;
-    }
-    public void setLesseeFiles(String lesseeFiles)
-    {
-        this.lesseeFiles = lesseeFiles;
-    }
-
-    public String getLesseeFiles()
-    {
-        return lesseeFiles;
-    }
-    public void setCreateByName(String createByName)
-    {
-        this.createByName = createByName;
-    }
-
-    public String getCreateByName()
-    {
-        return createByName;
-    }
-    public void setIsDeleted(Long isDeleted)
-    {
-        this.isDeleted = isDeleted;
-    }
-
-    public Long getIsDeleted()
-    {
-        return isDeleted;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("farmlandLesseeId", getFarmlandLesseeId())
-            .append("farmlandId", getFarmlandId())
-            .append("lesseeId", getLesseeId())
-            .append("lesseePrice", getLesseePrice())
-            .append("lesseeAmount", getLesseeAmount())
-            .append("lesseeDay", getLesseeDay())
-            .append("lesseeStartDate", getLesseeStartDate())
-            .append("lesseeEndDate", getLesseeEndDate())
-            .append("status", getStatus())
-            .append("lesseeFiles", getLesseeFiles())
-            .append("createByName", getCreateByName())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("isDeleted", getIsDeleted())
-            .toString();
-    }
 }

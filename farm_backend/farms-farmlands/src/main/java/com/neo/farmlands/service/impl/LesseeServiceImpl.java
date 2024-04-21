@@ -1,6 +1,8 @@
 package com.neo.farmlands.service.impl;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ import com.neo.farmlands.service.ILesseeService;
  * @date 2024-04-19
  */
 @Service
-public class LesseeServiceImpl implements ILesseeService
+public class LesseeServiceImpl extends ServiceImpl<LesseeMapper,Lessee> implements ILesseeService
 {
     @Autowired
     private LesseeMapper lesseeMapper;

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.PayMapper">
+    
+    <resultMap type="Pay" id="PayResult">
+        <result property="id"    column="id"    />
+        <result property="payId"    column="pay_id"    />
+        <result property="thirdTradeNo"    column="third_trade_no"    />
+        <result property="subject"    column="subject"    />
+        <result property="body"    column="body"    />
+        <result property="paySource"    column="pay_source"    />
+        <result property="payUserId"    column="pay_user_id"    />
+        <result property="payChannel"    column="pay_channel"    />
+        <result property="payAmount"    column="pay_amount"    />
+        <result property="updateAmount"    column="update_amount"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="expiredTime"    column="expired_time"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectPayVo">
+        select id, pay_id, third_trade_no, subject, body, pay_source, pay_user_id, pay_channel, pay_amount, update_amount, pay_status, pay_time, expired_time, create_by_name, create_by, create_time, update_time, is_deleted from t_pay
+    </sql>
+
+    <select id="selectPayList" parameterType="Pay" resultMap="PayResult">
+        <include refid="selectPayVo"/>
+        <where>  
+            <if test="payId != null  and payId != ''"> and pay_id = #{payId}</if>
+            <if test="thirdTradeNo != null  and thirdTradeNo != ''"> and third_trade_no = #{thirdTradeNo}</if>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="body != null  and body != ''"> and body = #{body}</if>
+            <if test="paySource != null "> and pay_source = #{paySource}</if>
+            <if test="payUserId != null  and payUserId != ''"> and pay_user_id = #{payUserId}</if>
+            <if test="payChannel != null "> and pay_channel = #{payChannel}</if>
+            <if test="payAmount != null "> and pay_amount = #{payAmount}</if>
+            <if test="updateAmount != null "> and update_amount = #{updateAmount}</if>
+            <if test="payStatus != null "> and pay_status = #{payStatus}</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="expiredTime != null "> and expired_time = #{expiredTime}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectPayById" parameterType="String" resultMap="PayResult">
+        <include refid="selectPayVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPay" parameterType="Pay">
+        insert into t_pay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="payId != null">pay_id,</if>
+            <if test="thirdTradeNo != null">third_trade_no,</if>
+            <if test="subject != null">subject,</if>
+            <if test="body != null">body,</if>
+            <if test="paySource != null">pay_source,</if>
+            <if test="payUserId != null">pay_user_id,</if>
+            <if test="payChannel != null">pay_channel,</if>
+            <if test="payAmount != null">pay_amount,</if>
+            <if test="updateAmount != null">update_amount,</if>
+            <if test="payStatus != null">pay_status,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="expiredTime != null">expired_time,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="payId != null">#{payId},</if>
+            <if test="thirdTradeNo != null">#{thirdTradeNo},</if>
+            <if test="subject != null">#{subject},</if>
+            <if test="body != null">#{body},</if>
+            <if test="paySource != null">#{paySource},</if>
+            <if test="payUserId != null">#{payUserId},</if>
+            <if test="payChannel != null">#{payChannel},</if>
+            <if test="payAmount != null">#{payAmount},</if>
+            <if test="updateAmount != null">#{updateAmount},</if>
+            <if test="payStatus != null">#{payStatus},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="expiredTime != null">#{expiredTime},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePay" parameterType="Pay">
+        update t_pay
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="payId != null">pay_id = #{payId},</if>
+            <if test="thirdTradeNo != null">third_trade_no = #{thirdTradeNo},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="body != null">body = #{body},</if>
+            <if test="paySource != null">pay_source = #{paySource},</if>
+            <if test="payUserId != null">pay_user_id = #{payUserId},</if>
+            <if test="payChannel != null">pay_channel = #{payChannel},</if>
+            <if test="payAmount != null">pay_amount = #{payAmount},</if>
+            <if test="updateAmount != null">update_amount = #{updateAmount},</if>
+            <if test="payStatus != null">pay_status = #{payStatus},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="expiredTime != null">expired_time = #{expiredTime},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePayById" parameterType="String">
+        delete from t_pay where id = #{id}
+    </delete>
+
+    <delete id="deletePayByIds" parameterType="String">
+        delete from t_pay where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

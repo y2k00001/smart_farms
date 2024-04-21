@@ -1,19 +1,21 @@
 package com.neo.farmlands.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.LandArea;
 
 /**
  * 农田租赁最小面积Service接口
- * 
+ *
  * @author neo
  * @date 2024-04-19
  */
-public interface ILandAreaService 
+public interface ILandAreaService extends IService<LandArea>
 {
     /**
      * 查询农田租赁最小面积
-     * 
+     *
      * @param id 农田租赁最小面积主键
      * @return 农田租赁最小面积
      */
@@ -21,7 +23,7 @@ public interface ILandAreaService
 
     /**
      * 查询农田租赁最小面积列表
-     * 
+     *
      * @param landArea 农田租赁最小面积
      * @return 农田租赁最小面积集合
      */
@@ -29,7 +31,7 @@ public interface ILandAreaService
 
     /**
      * 新增农田租赁最小面积
-     * 
+     *
      * @param landArea 农田租赁最小面积
      * @return 结果
      */
@@ -37,7 +39,7 @@ public interface ILandAreaService
 
     /**
      * 修改农田租赁最小面积
-     * 
+     *
      * @param landArea 农田租赁最小面积
      * @return 结果
      */
@@ -45,7 +47,7 @@ public interface ILandAreaService
 
     /**
      * 批量删除农田租赁最小面积
-     * 
+     *
      * @param ids 需要删除的农田租赁最小面积主键集合
      * @return 结果
      */
@@ -53,9 +55,11 @@ public interface ILandAreaService
 
     /**
      * 删除农田租赁最小面积信息
-     * 
+     *
      * @param id 农田租赁最小面积主键
      * @return 结果
      */
     public int deleteLandAreaById(String id);
+
+    LandArea getOneByLandAreaId(String landAreaId,  Boolean isThrowException);
 }

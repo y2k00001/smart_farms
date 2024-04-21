@@ -1,19 +1,21 @@
 package com.neo.farmlands.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.FarmlandLesseeOrder;
+import com.neo.farmlands.domain.Pay;
+import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
+
+import java.util.List;
 
 /**
- * 租赁信息和订单关联Service接口
- * 
- * @author neo
- * @date 2024-04-19
- */
-public interface IFarmlandLesseeOrderService 
-{
+* @author monkey
+* @description 针对表【t_farmland_lessee_order(租赁信息和订单关联表)】的数据库操作Service
+* @createDate 2024-04-20 23:07:12
+*/
+public interface IFarmlandLesseeOrderService extends IService<FarmlandLesseeOrder> {
     /**
      * 查询租赁信息和订单关联
-     * 
+     *
      * @param id 租赁信息和订单关联主键
      * @return 租赁信息和订单关联
      */
@@ -21,7 +23,7 @@ public interface IFarmlandLesseeOrderService
 
     /**
      * 查询租赁信息和订单关联列表
-     * 
+     *
      * @param farmlandLesseeOrder 租赁信息和订单关联
      * @return 租赁信息和订单关联集合
      */
@@ -29,7 +31,7 @@ public interface IFarmlandLesseeOrderService
 
     /**
      * 新增租赁信息和订单关联
-     * 
+     *
      * @param farmlandLesseeOrder 租赁信息和订单关联
      * @return 结果
      */
@@ -37,7 +39,7 @@ public interface IFarmlandLesseeOrderService
 
     /**
      * 修改租赁信息和订单关联
-     * 
+     *
      * @param farmlandLesseeOrder 租赁信息和订单关联
      * @return 结果
      */
@@ -45,7 +47,7 @@ public interface IFarmlandLesseeOrderService
 
     /**
      * 批量删除租赁信息和订单关联
-     * 
+     *
      * @param ids 需要删除的租赁信息和订单关联主键集合
      * @return 结果
      */
@@ -53,9 +55,11 @@ public interface IFarmlandLesseeOrderService
 
     /**
      * 删除租赁信息和订单关联信息
-     * 
+     *
      * @param id 租赁信息和订单关联主键
      * @return 结果
      */
     public int deleteFarmlandLesseeOrderById(String id);
+
+    void saveBizOrder(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, Pay pay);
 }

@@ -1,24 +1,38 @@
 package com.neo.farmlands.service.impl;
+import java.util.Date;
 
-import java.util.List;
+import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
+
+import com.neo.farmlands.constant.IDConstants;
+import com.neo.farmlands.domain.FarmlandLesseeOrder;
+import com.neo.farmlands.domain.OrderPay;
+import com.neo.farmlands.domain.Pay;
+import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
+import com.neo.farmlands.enums.OrderTypeEnum;
+import com.neo.farmlands.mapper.FarmlandLesseeOrderMapper;
+import com.neo.farmlands.service.IFarmlandLesseeOrderService;
+import com.neo.farmlands.service.IOrderPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.neo.farmlands.mapper.FarmlandLesseeOrderMapper;
-import com.neo.farmlands.domain.FarmlandLesseeOrder;
-import com.neo.farmlands.service.IFarmlandLesseeOrderService;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
- * 租赁信息和订单关联Service业务层处理
- *
- * @author neo
- * @date 2024-04-19
- */
+* @author monkey
+* @description 针对表【t_farmland_lessee_order(租赁信息和订单关联表)】的数据库操作Service实现
+* @createDate 2024-04-20 23:07:12
+*/
 @Service
-public class FarmlandLesseeOrderServiceImpl implements IFarmlandLesseeOrderService
-{
+public class FarmlandLesseeOrderServiceImpl extends ServiceImpl<FarmlandLesseeOrderMapper, FarmlandLesseeOrder>
+    implements IFarmlandLesseeOrderService {
     @Autowired
     private FarmlandLesseeOrderMapper farmlandLesseeOrderMapper;
+
+    @Resource
+    private IOrderPayService orderPayService;
 
     /**
      * 查询租赁信息和订单关联
@@ -93,4 +107,25 @@ public class FarmlandLesseeOrderServiceImpl implements IFarmlandLesseeOrderServi
     {
         return farmlandLesseeOrderMapper.deleteFarmlandLesseeOrderById(id);
     }
+
+    @Override
+    public void saveBizOrder(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, Pay pay) {
+        FarmlandLesseeOrder farmlandLesseeOrder = new FarmlandLesseeOrder();
+        farmlandLesseeOrder.setFarmlandLesseeId(payFarmlandLesseeReqVO.getFarmlandLesseeId());
+        farmlandLesseeOrder.setOrderId(IDConstants.FARMLAND_LESSEE_ORDER_ID_PREFIX+ IdUtil.fastSimpleUUID());
+
+        this.save(farmlandLesseeOrder);
+
+        OrderPay orderPay = new OrderPay();
+        orderPay.setOrderId(farmlandLesseeOrder.getOrderId());
+        orderPay.setOrderType(OrderTypeEnum.ORDER_TYPE_FARMLAND_LESSEE.getCode());
+        orderPay.setPayId(pay.getPayId());
+
+        orderPayService.save(orderPay);
+
+    }
 }
+
+
+
+

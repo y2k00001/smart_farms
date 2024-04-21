@@ -1,12 +1,21 @@
 package com.neo.farmlands.service.impl;
 
 import java.util.List;
+
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
+import com.neo.farmlands.domain.Farmland;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.LandAreaMapper;
 import com.neo.farmlands.domain.LandArea;
 import com.neo.farmlands.service.ILandAreaService;
+
+import javax.annotation.Resource;
 
 /**
  * 农田租赁最小面积Service业务层处理
@@ -15,9 +24,9 @@ import com.neo.farmlands.service.ILandAreaService;
  * @date 2024-04-19
  */
 @Service
-public class LandAreaServiceImpl implements ILandAreaService
+public class LandAreaServiceImpl extends ServiceImpl<LandAreaMapper,LandArea> implements ILandAreaService
 {
-    @Autowired
+    @Resource
     private LandAreaMapper landAreaMapper;
 
     /**
@@ -92,5 +101,20 @@ public class LandAreaServiceImpl implements ILandAreaService
     public int deleteLandAreaById(String id)
     {
         return landAreaMapper.deleteLandAreaById(id);
+    }
+
+    @Override
+    public LandArea getOneByLandAreaId(String landAreaId, Boolean isThrowException) {
+        LambdaQueryWrapper<LandArea> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(LandArea::getLandAreaId, landAreaId).eq(LandArea::getIsDeleted, "0");
+        LandArea landArea = this.getOne(queryWrapper);
+        if(BeanUtil.isEmpty(landArea) ){
+            if(isThrowException){
+                throw new ServiceException(StrUtil.format("编号【】租赁地块不存在!",landAreaId));
+            }else {
+                return new LandArea();
+            }
+        }
+        return landArea;
     }
 }

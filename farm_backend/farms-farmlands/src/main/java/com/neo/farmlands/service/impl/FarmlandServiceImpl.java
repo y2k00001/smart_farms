@@ -1,6 +1,13 @@
 package com.neo.farmlands.service.impl;
 
 import java.util.List;
+
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
 import com.neo.common.utils.SecurityUtils;
 import com.neo.common.utils.uuid.IdUtils;
@@ -10,6 +17,8 @@ import com.neo.farmlands.mapper.FarmlandMapper;
 import com.neo.farmlands.domain.Farmland;
 import com.neo.farmlands.service.IFarmlandService;
 
+import javax.annotation.Resource;
+
 /**
  * 农田信息Service业务层处理
  *
@@ -17,9 +26,9 @@ import com.neo.farmlands.service.IFarmlandService;
  * @date 2024-04-10
  */
 @Service
-public class FarmlandServiceImpl implements IFarmlandService
+public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> implements IFarmlandService
 {
-    @Autowired
+    @Resource
     private FarmlandMapper farmlandMapper;
 
     /**
@@ -32,6 +41,13 @@ public class FarmlandServiceImpl implements IFarmlandService
     public Farmland selectFarmlandById(String id)
     {
         return farmlandMapper.selectFarmlandById(id);
+    }
+
+    @Override
+    public Farmland selectFarmlandByFarmlandId(String farmlandId) {
+        LambdaQueryWrapper<Farmland> queryWrapper =  new LambdaQueryWrapper<>();
+        queryWrapper.eq(Farmland::getFarmlandId,farmlandId).eq(Farmland::getIsDeleted,0);
+        return this.getOne(queryWrapper);
     }
 
     /**
@@ -97,5 +113,20 @@ public class FarmlandServiceImpl implements IFarmlandService
     public int deleteFarmlandById(String id)
     {
         return farmlandMapper.deleteFarmlandById(id);
+    }
+
+    @Override
+    public Farmland getOneByFarmlandId(String farmlandId, Boolean isThrowException) {
+        LambdaQueryWrapper<Farmland> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Farmland::getFarmlandId, farmlandId).eq(Farmland::getIsDeleted, "0");
+        Farmland farmland = this.getOne(queryWrapper);
+        if(BeanUtil.isEmpty(farmland) ){
+            if(isThrowException){
+                throw new ServiceException(StrUtil.format("编号【】农田不存在!",farmlandId));
+            }else {
+                return new Farmland();
+            }
+        }
+        return farmland;
     }
 }
