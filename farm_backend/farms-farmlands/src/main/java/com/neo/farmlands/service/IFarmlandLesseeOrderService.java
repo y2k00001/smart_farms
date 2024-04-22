@@ -61,5 +61,5 @@ public interface IFarmlandLesseeOrderService extends IService<FarmlandLesseeOrde
      */
     public int deleteFarmlandLesseeOrderById(String id);
 
-    void saveBizOrder(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, Pay pay);
+    FarmlandLesseeOrder saveBizOrder(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, Pay pay);
 }

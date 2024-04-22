@@ -15,6 +15,7 @@ import com.neo.common.utils.uuid.IdUtils;
 import com.neo.farmlands.constant.BusinessConstant;
 import com.neo.farmlands.constant.IDConstants;
 import com.neo.farmlands.domain.FarmlandLessee;
+import com.neo.farmlands.domain.FarmlandLesseeOrder;
 import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
 import com.neo.farmlands.domain.vo.UnifiedPayRS;
 import com.neo.farmlands.enums.PayChannelEnum;
@@ -137,14 +138,14 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
         FarmlandLessee farmlandLessee = farmlandLesseeService.getOneByFarmlandId(payFarmlandLesseeReqVO.getFarmlandLesseeId(),true);
         // 创建业务订单，业务订单关联支付单记录，支付单
         Pay pay = payService.saveFarmlandLesseePay(payFarmlandLesseeReqVO,farmlandLessee);
-        farmlandLesseeOrderService.saveBizOrder(payFarmlandLesseeReqVO,pay);
+        FarmlandLesseeOrder farmlandLesseeOrder = farmlandLesseeOrderService.saveBizOrder(payFarmlandLesseeReqVO,pay);
 
         // 2.根据支付渠道，支付来源获取支付参数
 
         UnifiedPayRS unifiedPayRS = new UnifiedPayRS();
         switch (PayChannelEnum.getByValue(payFarmlandLesseeReqVO.getPayChannel())){
             case PAY_CHANNEL_WXPAY:
-                unifiedPayRS = thirdPaymentService.wxPay(payFarmlandLesseeReqVO,pay);
+                unifiedPayRS = thirdPaymentService.wxPay(payFarmlandLesseeReqVO,pay,farmlandLesseeOrder);
                 break;
             case PAY_CHANNEL_ALIPAY:
                 // 1.2 支付宝支付

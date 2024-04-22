@@ -109,7 +109,7 @@ public class FarmlandLesseeOrderServiceImpl extends ServiceImpl<FarmlandLesseeOr
     }
 
     @Override
-    public void saveBizOrder(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, Pay pay) {
+    public FarmlandLesseeOrder saveBizOrder(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, Pay pay) {
         FarmlandLesseeOrder farmlandLesseeOrder = new FarmlandLesseeOrder();
         farmlandLesseeOrder.setFarmlandLesseeId(payFarmlandLesseeReqVO.getFarmlandLesseeId());
         farmlandLesseeOrder.setOrderId(IDConstants.FARMLAND_LESSEE_ORDER_ID_PREFIX+ IdUtil.fastSimpleUUID());
@@ -122,6 +122,8 @@ public class FarmlandLesseeOrderServiceImpl extends ServiceImpl<FarmlandLesseeOr
         orderPay.setPayId(pay.getPayId());
 
         orderPayService.save(orderPay);
+
+        return farmlandLesseeOrder;
 
     }
 }

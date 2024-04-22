@@ -37,7 +37,7 @@ public class UnifiedPayRS {
     private Integer payState;
 
     /** 支付参数类型  ( 无参数，  调起支付插件参数， 重定向到指定地址，  用户扫码   )   **/
-    @ApiModelProperty("支付参数类型  ( 无参数，  调起支付插件参数， 重定向到指定地址，  用户扫码   ) ")
+    @ApiModelProperty("BusinessConstant.PAY_DATA_TYPE_XXX 支付参数类型  ( 10 无参数，  20 调起支付插件参数， 30 重定向到指定地址，  40 用户扫码   ) ")
     private String payDataType;
 
     /** 支付参数 **/
