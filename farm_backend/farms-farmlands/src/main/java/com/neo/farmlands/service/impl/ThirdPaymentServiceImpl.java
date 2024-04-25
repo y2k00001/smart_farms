@@ -18,6 +18,7 @@ import com.neo.farmlands.enums.PayStateEnum;
 import com.neo.farmlands.service.IThirdPaymentService;
 import com.neo.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -29,6 +30,7 @@ import java.util.Map;
  *@Author neo
  *@date 2024/4/21 15:56
  */
+@Service
 public class ThirdPaymentServiceImpl implements IThirdPaymentService {
 
     @Resource
