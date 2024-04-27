@@ -22,6 +22,10 @@
             <groupId>com.neo</groupId>
             <artifactId>farms-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.neo</groupId>
+            <artifactId>farms-framework</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.neo</groupId>

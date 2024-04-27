@@ -59,12 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private CorsFilter corsFilter;
 
     /**
-     * 允许匿名访问的地址
-     */
-    @Autowired
-    private PermitAllUrlProperties permitAllUrl;
-
-    /**
      * 解决 无法直接注入 AuthenticationManager
      *
      * @return
@@ -95,15 +89,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception
     {
-        // 注解标记允许匿名访问的url
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity.authorizeRequests();
-        permitAllUrl.getUrls().forEach(url -> registry.antMatchers(url).permitAll());
-
         httpSecurity
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
-                // 禁用HTTP响应标头
-                .headers().cacheControl().disable().and()
                 // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // 基于token，所以不需要session
@@ -111,10 +99,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers("/login", "/register", "/captchaImage").permitAll()
-                // 静态资源，可匿名访问
-                .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
-                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()
+                .antMatchers("/login/*", "/login", "/code/get", "/register", "/captchaImage").anonymous()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/",
+                        "/*.html",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/profile/**"
+                ).permitAll()
+                .antMatchers("/h5/**").permitAll()
+                .antMatchers("/no-auth/**").permitAll()
+                .antMatchers("/common/download**").anonymous()
+                .antMatchers("/common/download/resource**").anonymous()
+                .antMatchers("/swagger-ui.html").anonymous()
+                .antMatchers("/swagger-resources/**").anonymous()
+                .antMatchers("/webjars/**").anonymous()
+                .antMatchers("/*/api-docs").anonymous()
+                .antMatchers("/druid/**").anonymous()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()

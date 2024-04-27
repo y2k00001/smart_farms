@@ -27,4 +27,44 @@ public class BusinessConstant {
     public static final String PAY_DATA_TYPE_REDIRECT_URL  = "30";
 
     public static final String PAY_DATA_TYPE_SCAN_CODE  = "40";
+
+
+    public static final String MEMBER_INFO = "member_info";
+
+    /**
+     * 会员账号状态
+     */
+    public static class MEMBER_ACCOUNT_STATUS {
+        public static final Integer FORBIDDEN = 0;
+        public static final Integer NORMAL = 1;
+
+
+    }
+
+    /**
+     * 登录提示信息
+     */
+    public static class LOGIN_INFO {
+        public static final String WRONG = "账号或密码错误";
+        public static final String FORBIDDEN = "您的账号被禁用，请联系管理员";
+        public static final String SUCCESS = "登录成功";
+        public static final String TO_REGISTER = "请先注册";
+    }
+
+
+    /**
+     * 验证码相关提示信息
+     */
+    public static class VERIFY_CODE_INFO {
+        public static final String EXPIRED = "验证码已过期";
+        public static final String WRONG = "验证码错误";
+    }
+
+    /**
+     * 上架状态：0->下架；1->上架
+     */
+    public static class PublishStatus {
+        public static final Integer GROUNDING = 1;
+        public static final Integer UNDERCARRIAGE = 0;
+    }
 }

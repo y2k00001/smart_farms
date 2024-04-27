@@ -3,7 +3,7 @@ package com.neo.farmlands.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.neo.farmlands.domain.Farmland;
+import com.neo.farmlands.domain.entity.Farmland;
 import com.neo.farmlands.mapper.FarmlandMapper;
 
 /**

@@ -8,11 +8,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
-import com.neo.farmlands.domain.LandArea;
+import com.neo.farmlands.domain.entity.LandArea;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.SeedMapper;
-import com.neo.farmlands.domain.Seed;
+import com.neo.farmlands.domain.entity.Seed;
 import com.neo.farmlands.service.ISeedService;
 
 /**

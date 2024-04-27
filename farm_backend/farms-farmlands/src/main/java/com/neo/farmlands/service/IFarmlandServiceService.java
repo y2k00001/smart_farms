@@ -1,19 +1,19 @@
 package com.neo.farmlands.service;
 
 import java.util.List;
-import com.neo.farmlands.domain.FarmlandService;
+import com.neo.farmlands.domain.entity.FarmlandService;
 
 /**
  * 农田、服务关联Service接口
- * 
+ *
  * @author neo
  * @date 2024-04-19
  */
-public interface IFarmlandServiceService 
+public interface IFarmlandServiceService
 {
     /**
      * 查询农田、服务关联
-     * 
+     *
      * @param id 农田、服务关联主键
      * @return 农田、服务关联
      */
@@ -21,7 +21,7 @@ public interface IFarmlandServiceService
 
     /**
      * 查询农田、服务关联列表
-     * 
+     *
      * @param farmlandService 农田、服务关联
      * @return 农田、服务关联集合
      */
@@ -29,7 +29,7 @@ public interface IFarmlandServiceService
 
     /**
      * 新增农田、服务关联
-     * 
+     *
      * @param farmlandService 农田、服务关联
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface IFarmlandServiceService
 
     /**
      * 修改农田、服务关联
-     * 
+     *
      * @param farmlandService 农田、服务关联
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface IFarmlandServiceService
 
     /**
      * 批量删除农田、服务关联
-     * 
+     *
      * @param ids 需要删除的农田、服务关联主键集合
      * @return 结果
      */
@@ -53,7 +53,7 @@ public interface IFarmlandServiceService
 
     /**
      * 删除农田、服务关联信息
-     * 
+     *
      * @param id 农田、服务关联主键
      * @return 结果
      */

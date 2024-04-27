@@ -6,7 +6,7 @@ import com.neo.common.core.domain.R;
 import com.neo.common.core.page.TableDataInfo;
 import com.neo.common.enums.BusinessType;
 import com.neo.common.utils.poi.ExcelUtil;
-import com.neo.farmlands.domain.FarmlandLessee;
+import com.neo.farmlands.domain.entity.FarmlandLessee;
 import com.neo.farmlands.domain.vo.FarmlandLesseeReqVO;
 import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
 import com.neo.farmlands.domain.vo.UnifiedPayRS;

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.MemberAddressMapper">
+
+    <resultMap type="MemberAddress" id="MemberAddressResult">
+        <result property="id" column="id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="name" column="name"/>
+        <result property="phoneHidden" column="phone_hidden"/>
+        <result property="phoneEncrypted" column="phone_encrypted"/>
+        <result property="defaultStatus" column="default_status"/>
+        <result property="postCode" column="post_code"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="detailAddress" column="detail_address"/>
+        <result property="isDefault" column="is_default"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="selectMemberAddressVo">
+        select id, member_id, name, phone_hidden,phone_encrypted, default_status, post_code, province, city, district, detail_address, is_default, create_by, create_time, update_by, update_time   from ums_member_address
+    </sql>
+
+    <select id="selectByEntity" parameterType="MemberAddress" resultMap="MemberAddressResult">
+        <include refid="selectMemberAddressVo"/>
+        <where>
+            <if test="memberId != null "> and member_id = #{memberId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="defaultStatus != null "> and default_status = #{defaultStatus}</if>
+            <if test="postCode != null  and postCode != ''"> and post_code = #{postCode}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="district != null  and district != ''"> and district = #{district}</if>
+            <if test="detailAddress != null  and detailAddress != ''"> and detail_address = #{detailAddress}</if>
+            <if test="isDefault != null "> and is_default = #{isDefault}</if>
+        </where>
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="MemberAddress">
+        update ums_member_address
+        <set>
+            <if test="memberId != null">
+                member_id = #{memberId, jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                name = #{name, jdbcType=BIGINT},
+            </if>
+            <if test="phone != null">
+                phone = #{phone, jdbcType=BIGINT},
+            </if>
+            <if test="defaultStatus != null">
+                default_status = #{defaultStatus, jdbcType=BIGINT},
+            </if>
+            <if test="postCode != null">
+                post_code = #{postCode, jdbcType=BIGINT},
+            </if>
+            <if test="province != null">
+                province = #{province, jdbcType=BIGINT},
+            </if>
+            <if test="city != null">
+                city = #{city, jdbcType=BIGINT},
+            </if>
+            <if test="district != null">
+                district = #{district, jdbcType=BIGINT},
+            </if>
+            <if test="detailAddress != null">
+                detail_address = #{detailAddress, jdbcType=BIGINT},
+            </if>
+            <if test="isDefault != null">
+                is_default = #{isDefault, jdbcType=BIGINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy, jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime, jdbcType=BIGINT},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy, jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime, jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id, jdbcType=BIGINT}
+    </update>
+    <update id="updateDefault">
+        update ums_member_address
+        set is_default = #{param1}
+        where member_id = #{param2}
+    </update>
+</mapper>

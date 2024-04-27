@@ -3,7 +3,7 @@ package com.neo.farmlands.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.neo.farmlands.domain.OrderPay;
+import com.neo.farmlands.domain.entity.OrderPay;
 
 /**
  * 账单支付单关联Service接口

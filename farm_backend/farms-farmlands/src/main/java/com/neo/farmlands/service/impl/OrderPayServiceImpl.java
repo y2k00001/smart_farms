@@ -7,7 +7,7 @@ import com.neo.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.OrderPayMapper;
-import com.neo.farmlands.domain.OrderPay;
+import com.neo.farmlands.domain.entity.OrderPay;
 import com.neo.farmlands.service.IOrderPayService;
 
 /**

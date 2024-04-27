@@ -1,6 +1,6 @@
 package com.neo.farmlands.domain.vo;
 
-import com.neo.farmlands.domain.BaseBusinessEntity;
+import com.neo.farmlands.domain.entity.BaseBusinessEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

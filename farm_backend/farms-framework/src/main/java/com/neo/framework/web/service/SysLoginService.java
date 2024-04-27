@@ -2,8 +2,13 @@ package com.neo.framework.web.service;
 
 import javax.annotation.Resource;
 
+import cn.hutool.core.util.RandomUtil;
+import com.neo.common.core.domain.ExtraUserBody;
+import com.neo.common.core.domain.entity.SysRole;
+import com.neo.common.utils.*;
 import com.neo.framework.manager.AsyncManager;
 import com.neo.framework.manager.factory.AsyncFactory;
+import com.neo.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,13 +27,13 @@ import com.neo.common.exception.user.CaptchaException;
 import com.neo.common.exception.user.CaptchaExpireException;
 import com.neo.common.exception.user.UserNotExistsException;
 import com.neo.common.exception.user.UserPasswordNotMatchException;
-import com.neo.common.utils.DateUtils;
-import com.neo.common.utils.MessageUtils;
-import com.neo.common.utils.StringUtils;
 import com.neo.common.utils.ip.IpUtils;
 import com.neo.framework.security.context.AuthenticationContextHolder;
 import com.neo.system.service.ISysConfigService;
 import com.neo.system.service.ISysUserService;
+
+import java.util.Collections;
+import java.util.Date;
 
 /**
  * 登录校验方法
@@ -53,29 +58,33 @@ public class SysLoginService
     @Autowired
     private ISysConfigService configService;
 
+    @Resource
+    private ISysRoleService sysRoleService;
+
+    @Resource
+    private SysPermissionService permissionService;
+
     /**
      * 登录验证
      *
      * @param username 用户名
      * @param password 密码
-     * @param code 验证码
-     * @param uuid 唯一标识
+     * @param code     验证码
+     * @param uuid     唯一标识
      * @return 结果
      */
-    public String login(String username, String password, String code, String uuid)
-    {
-        // 验证码校验
-        validateCaptcha(username, code, uuid);
-        // 登录前置校验
-        loginPreCheck(username, password);
+    public String login(String username, String password, String code, String uuid) {
+        boolean captchaOnOff = configService.selectCaptchaOnOff();
+        // 验证码开关
+        if (captchaOnOff) {
+            validateCaptcha(username, code, uuid);
+        }
         // 用户验证
         Authentication authentication = null;
-        try
-        {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-            AuthenticationContextHolder.setContext(authenticationToken);
+        try {
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-            authentication = authenticationManager.authenticate(authenticationToken);
+            authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         }
         catch (Exception e)
         {
@@ -90,13 +99,9 @@ public class SysLoginService
                 throw new ServiceException(e.getMessage());
             }
         }
-        finally
-        {
-            AuthenticationContextHolder.clearContext();
-        }
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        recordLoginInfo(loginUser.getUserId());
+        recordLoginInfo(loginUser.getUser());
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -168,15 +173,38 @@ public class SysLoginService
 
     /**
      * 记录登录信息
-     *
-     * @param userId 用户ID
      */
-    public void recordLoginInfo(Long userId)
-    {
-        SysUser sysUser = new SysUser();
-        sysUser.setUserId(userId);
-        sysUser.setLoginIp(IpUtils.getIpAddr());
-        sysUser.setLoginDate(DateUtils.getNowDate());
-        userService.updateUserProfile(sysUser);
+    public void recordLoginInfo(SysUser user) {
+        user.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        user.setLoginDate(DateUtils.getNowDate());
+        userService.updateUserProfile(user);
+    }
+
+    public SysUser initVipUser(ExtraUserBody body) {
+        Date now = new Date();
+        SysUser user = new SysUser();
+        user.setNickName(body.getNickname());
+        user.setUserName(body.getLogin());
+        user.setAvatar(body.getAvatar());
+        user.setLoginDate(now);
+        user.setPassword(SecurityUtils.encryptPassword(RandomUtil.randomString(16)));
+
+        // 注册用户
+        userService.registerUser(user);
+
+        // 赋予角色
+        SysRole role = sysRoleService.selectRoleByKey("common");
+        // 增加用户的权限，绑定角色
+        sysRoleService.insertAuthUsers(role.getRoleId(), new Long[]{user.getUserId()});
+
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(body.getLogin(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.register.success")));
+        recordLoginInfo(user);
+        user.setRoles(Collections.singletonList(role));
+        return user;
+    }
+
+    public String createToken(SysUser user) {
+        LoginUser loginUser = new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+        return tokenService.createToken(loginUser);
     }
 }

@@ -5,7 +5,7 @@ import com.neo.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.PlotMapper;
-import com.neo.farmlands.domain.Plot;
+import com.neo.farmlands.domain.entity.Plot;
 import com.neo.farmlands.service.IPlotService;
 
 /**

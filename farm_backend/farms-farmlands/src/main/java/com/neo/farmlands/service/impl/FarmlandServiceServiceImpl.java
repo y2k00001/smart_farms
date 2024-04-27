@@ -5,7 +5,7 @@ import com.neo.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.FarmlandServiceMapper;
-import com.neo.farmlands.domain.FarmlandService;
+import com.neo.farmlands.domain.entity.FarmlandService;
 import com.neo.farmlands.service.IFarmlandServiceService;
 
 /**

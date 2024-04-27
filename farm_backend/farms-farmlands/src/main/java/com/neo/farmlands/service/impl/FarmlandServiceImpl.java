@@ -14,7 +14,7 @@ import com.neo.common.utils.uuid.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.FarmlandMapper;
-import com.neo.farmlands.domain.Farmland;
+import com.neo.farmlands.domain.entity.Farmland;
 import com.neo.farmlands.service.IFarmlandService;
 
 import javax.annotation.Resource;

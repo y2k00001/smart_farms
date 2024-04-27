@@ -150,7 +150,7 @@ token:
   secret: abcdefghijklmnopqrstuvwxyz
   # 令牌有效期（默认30分钟）
   expireTime: 30
-
+  memberExpireTime: 30
 # MyBatis配置
 #mybatis:
 #  # 搜索指定包别名
@@ -201,3 +201,39 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+http-pool:
+  connection-request-timeout: 10000
+  connection-timeout: 10000
+  socket-timeout: 10000
+  max-per-route: 200
+  max-total: 200
+aliyun:
+  accessKeyId: ${ALIYUN-AC-ID:xxxx}       # 阿里云的accessKeyId
+  secretAccessKey: ${ALIYUN-AC-ID:xxxxxxxx}   # accessKey 密码
+  oss:
+    endPoint: oss-cn-shenzhen.aliyuncs.com     # Endpoint:在阿里云oss控制台查看自己使用的endpoint
+    bucketName: ${ALIYUN-OSS-BNAME:xxxxxxxxxx}  # bucket 名称
+wechat:
+  enabled: false
+  appId: ${WECHAT-APPID:XXXXXX}
+  secret: ${WECHAT-APP-SECRET:XXXXXX}
+  merchantId: 微信支付商户号
+  privateKeyPath: 微信支付密钥地址相对地址
+  merchantSerialNumber: 微信支付密钥对应的序列号
+  apiV3key: 微信支付apiV3key
+  notifyUrl: 微信支付回调地址
+  miniProgramAppId: ${WECHAT-MINI-APPID:XXXXXX}
+  miniProgramSecret: ${WECHAT-MINI-APP-SECRET:XXXXXX}
+sms:
+  enabled: true
+  # 阿里云 dysmsapi.aliyuncs.com
+  endpoint: dysmsapi.aliyuncs.com
+  accessKeyId: 你的accessKeyId #阿里云短信服务控制台查看
+  accessKeySecret: 你的accessKeySecret #同上
+  signName:  签名
+  templateId: 模板id
+  # 腾讯专用
+  sdkAppId:
+aes:
+  # aes的密钥(长度只能是16或24或32位)
+  key: 1111111111111111

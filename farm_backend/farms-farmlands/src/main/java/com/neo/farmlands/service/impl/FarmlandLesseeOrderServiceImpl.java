@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
 
 import com.neo.farmlands.constant.IDConstants;
-import com.neo.farmlands.domain.FarmlandLesseeOrder;
-import com.neo.farmlands.domain.OrderPay;
-import com.neo.farmlands.domain.Pay;
+import com.neo.farmlands.domain.entity.FarmlandLesseeOrder;
+import com.neo.farmlands.domain.entity.OrderPay;
+import com.neo.farmlands.domain.entity.Pay;
 import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
 import com.neo.farmlands.enums.OrderTypeEnum;
 import com.neo.farmlands.mapper.FarmlandLesseeOrderMapper;

@@ -7,7 +7,7 @@ import com.neo.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.LesseeMapper;
-import com.neo.farmlands.domain.Lessee;
+import com.neo.farmlands.domain.entity.Lessee;
 import com.neo.farmlands.service.ILesseeService;
 
 /**

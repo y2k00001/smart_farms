@@ -2,7 +2,7 @@ package com.neo.farmlands.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.neo.farmlands.domain.FarmlandLesseeOrder;
+import com.neo.farmlands.domain.entity.FarmlandLesseeOrder;
 
 import java.util.List;
 

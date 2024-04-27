@@ -2,6 +2,7 @@ package com.neo.system.mapper;
 
 import java.util.List;
 import com.neo.common.core.domain.entity.SysRole;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 角色表 数据层
@@ -104,4 +105,7 @@ public interface SysRoleMapper
      * @return 结果
      */
     public int deleteRoleByIds(Long[] roleIds);
+
+    @Select("SELECT * FROM sys_role where role_key = #{roleKey}")
+    SysRole selectRoleByKey(String roleKey);
 }

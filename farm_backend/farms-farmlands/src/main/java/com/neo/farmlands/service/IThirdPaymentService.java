@@ -4,8 +4,8 @@ package com.neo.farmlands.service;
  * @date 2024/4/21 15:55
  */
 
-import com.neo.farmlands.domain.FarmlandLesseeOrder;
-import com.neo.farmlands.domain.Pay;
+import com.neo.farmlands.domain.entity.FarmlandLesseeOrder;
+import com.neo.farmlands.domain.entity.Pay;
 import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
 import com.neo.farmlands.domain.vo.UnifiedPayRS;
 

@@ -170,4 +170,10 @@ public class Constants
      */
     public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
             "org.springframework", "org.apache", "com.neo.common.utils.file", "com.neo.common.config", "com.neo.generator" };
+
+    public static final String LOGIN_MEMBER_TOKEN_KEY = "login_member_tokens:";
+
+    public static final String LOGIN_MEMBER_KEY = "login_member_key";
+
+    public static final String SPAN_ID = "spanId";
 }

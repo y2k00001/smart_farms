@@ -3,7 +3,7 @@ package com.neo.farmlands.domain.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
-import com.neo.farmlands.domain.BaseBusinessEntity;
+import com.neo.farmlands.domain.entity.BaseBusinessEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -56,7 +56,7 @@ public class FarmlandLesseeReqVO extends BaseBusinessEntity
     /** 租户手机号 */
     @ApiModelProperty("租户手机号")
     @NotBlank
-    private Long lesseePhone;
+    private String lesseePhone;
 
     /** 租户备注 */
     @ApiModelProperty("租户备注")

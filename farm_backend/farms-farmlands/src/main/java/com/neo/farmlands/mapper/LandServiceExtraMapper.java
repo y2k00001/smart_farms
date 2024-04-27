@@ -1,19 +1,19 @@
 package com.neo.farmlands.mapper;
 
 import java.util.List;
-import com.neo.farmlands.domain.LandServiceExtra;
+import com.neo.farmlands.domain.entity.LandServiceExtra;
 
 /**
  * 服务信息扩展Mapper接口
- * 
+ *
  * @author neo
  * @date 2024-04-19
  */
-public interface LandServiceExtraMapper 
+public interface LandServiceExtraMapper
 {
     /**
      * 查询服务信息扩展
-     * 
+     *
      * @param id 服务信息扩展主键
      * @return 服务信息扩展
      */
@@ -21,7 +21,7 @@ public interface LandServiceExtraMapper
 
     /**
      * 查询服务信息扩展列表
-     * 
+     *
      * @param landServiceExtra 服务信息扩展
      * @return 服务信息扩展集合
      */
@@ -29,7 +29,7 @@ public interface LandServiceExtraMapper
 
     /**
      * 新增服务信息扩展
-     * 
+     *
      * @param landServiceExtra 服务信息扩展
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface LandServiceExtraMapper
 
     /**
      * 修改服务信息扩展
-     * 
+     *
      * @param landServiceExtra 服务信息扩展
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface LandServiceExtraMapper
 
     /**
      * 删除服务信息扩展
-     * 
+     *
      * @param id 服务信息扩展主键
      * @return 结果
      */
@@ -53,7 +53,7 @@ public interface LandServiceExtraMapper
 
     /**
      * 批量删除服务信息扩展
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */

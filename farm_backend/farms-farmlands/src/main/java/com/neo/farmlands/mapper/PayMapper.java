@@ -3,7 +3,7 @@ package com.neo.farmlands.mapper;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.neo.farmlands.domain.Pay;
+import com.neo.farmlands.domain.entity.Pay;
 
 /**
  * 支付记录Mapper接口

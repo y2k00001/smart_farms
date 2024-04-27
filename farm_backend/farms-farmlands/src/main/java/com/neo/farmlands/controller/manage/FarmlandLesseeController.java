@@ -20,7 +20,7 @@ import com.neo.common.annotation.Log;
 import com.neo.common.core.controller.BaseController;
 import com.neo.common.core.domain.AjaxResult;
 import com.neo.common.enums.BusinessType;
-import com.neo.farmlands.domain.FarmlandLessee;
+import com.neo.farmlands.domain.entity.FarmlandLessee;
 import com.neo.farmlands.service.IFarmlandLesseeService;
 import com.neo.common.utils.poi.ExcelUtil;
 import com.neo.common.core.page.TableDataInfo;

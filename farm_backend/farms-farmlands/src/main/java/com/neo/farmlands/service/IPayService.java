@@ -3,8 +3,8 @@ package com.neo.farmlands.service;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.neo.farmlands.domain.FarmlandLessee;
-import com.neo.farmlands.domain.Pay;
+import com.neo.farmlands.domain.entity.FarmlandLessee;
+import com.neo.farmlands.domain.entity.Pay;
 import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
 import com.neo.farmlands.domain.vo.UnifiedPayRS;
 

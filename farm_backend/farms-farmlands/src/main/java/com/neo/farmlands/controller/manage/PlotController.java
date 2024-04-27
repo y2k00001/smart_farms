@@ -16,7 +16,7 @@ import com.neo.common.annotation.Log;
 import com.neo.common.core.controller.BaseController;
 import com.neo.common.core.domain.AjaxResult;
 import com.neo.common.enums.BusinessType;
-import com.neo.farmlands.domain.Plot;
+import com.neo.farmlands.domain.entity.Plot;
 import com.neo.farmlands.service.IPlotService;
 import com.neo.common.utils.poi.ExcelUtil;
 import com.neo.common.core.page.TableDataInfo;

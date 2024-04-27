@@ -3,7 +3,7 @@ package com.neo.farmlands.mapper;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.neo.farmlands.domain.LandService;
+import com.neo.farmlands.domain.entity.LandService;
 
 /**
  * 服务信息Mapper接口
