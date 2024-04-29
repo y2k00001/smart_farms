@@ -123,7 +123,7 @@ public class SysRoleServiceImpl implements ISysRoleService
      * @return 选中角色ID列表
      */
     @Override
-    public List<Long> selectRoleListByUserId(Long userId)
+    public List<Integer> selectRoleListByUserId(Long userId)
     {
         return roleMapper.selectRoleListByUserId(userId);
     }

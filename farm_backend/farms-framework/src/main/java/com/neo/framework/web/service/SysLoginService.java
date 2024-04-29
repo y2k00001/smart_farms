@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import cn.hutool.core.util.RandomUtil;
 import com.neo.common.core.domain.ExtraUserBody;
 import com.neo.common.core.domain.entity.SysRole;
+import com.neo.common.exception.user.*;
 import com.neo.common.utils.*;
 import com.neo.framework.manager.AsyncManager;
 import com.neo.framework.manager.factory.AsyncFactory;
@@ -22,11 +23,6 @@ import com.neo.common.core.domain.entity.SysUser;
 import com.neo.common.core.domain.model.LoginUser;
 import com.neo.common.core.redis.RedisCache;
 import com.neo.common.exception.ServiceException;
-import com.neo.common.exception.user.BlackListException;
-import com.neo.common.exception.user.CaptchaException;
-import com.neo.common.exception.user.CaptchaExpireException;
-import com.neo.common.exception.user.UserNotExistsException;
-import com.neo.common.exception.user.UserPasswordNotMatchException;
 import com.neo.common.utils.ip.IpUtils;
 import com.neo.framework.security.context.AuthenticationContextHolder;
 import com.neo.system.service.ISysConfigService;
@@ -34,6 +30,7 @@ import com.neo.system.service.ISysUserService;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 登录校验方法
@@ -106,6 +103,34 @@ public class SysLoginService
         return tokenService.createToken(loginUser);
     }
 
+
+    public LoginUser loginH5(String username, String password, String uuid) {
+        // 用户验证
+        Authentication authentication = null;
+        try {
+            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        }
+        catch (Exception e)
+        {
+            if (e instanceof BadCredentialsException)
+            {
+                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
+                throw new UserPasswordNotMatchException();
+            }
+            else
+            {
+                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
+                throw new ServiceException(e.getMessage());
+            }
+        }
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+
+        return loginUser;
+    }
+
     /**
      * 校验验证码
      *
@@ -116,58 +141,18 @@ public class SysLoginService
      */
     public void validateCaptcha(String username, String code, String uuid)
     {
-        boolean captchaEnabled = configService.selectCaptchaEnabled();
-        if (captchaEnabled)
+        String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
+        String captcha = redisCache.getCacheObject(verifyKey);
+        redisCache.deleteObject(verifyKey);
+        if (captcha == null)
         {
-            String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
-            String captcha = redisCache.getCacheObject(verifyKey);
-            redisCache.deleteObject(verifyKey);
-            if (captcha == null)
-            {
-                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire")));
-                throw new CaptchaExpireException();
-            }
-            if (!code.equalsIgnoreCase(captcha))
-            {
-                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.error")));
-                throw new CaptchaException();
-            }
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire")));
+            throw new CaptchaExpireException();
         }
-    }
-
-    /**
-     * 登录前置校验
-     * @param username 用户名
-     * @param password 用户密码
-     */
-    public void loginPreCheck(String username, String password)
-    {
-        // 用户名或密码为空 错误
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password))
+        if (!code.equalsIgnoreCase(captcha))
         {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("not.null")));
-            throw new UserNotExistsException();
-        }
-        // 密码如果不在指定范围内 错误
-        if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
-                || password.length() > UserConstants.PASSWORD_MAX_LENGTH)
-        {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
-            throw new UserPasswordNotMatchException();
-        }
-        // 用户名不在指定范围内 错误
-        if (username.length() < UserConstants.USERNAME_MIN_LENGTH
-                || username.length() > UserConstants.USERNAME_MAX_LENGTH)
-        {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
-            throw new UserPasswordNotMatchException();
-        }
-        // IP黑名单校验
-        String blackStr = configService.selectConfigByKey("sys.login.blackIPList");
-        if (IpUtils.isMatchedIp(blackStr, IpUtils.getIpAddr()))
-        {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("login.blocked")));
-            throw new BlackListException();
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.error")));
+            throw new CaptchaException();
         }
     }
 
@@ -178,6 +163,40 @@ public class SysLoginService
         user.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         user.setLoginDate(DateUtils.getNowDate());
         userService.updateUserProfile(user);
+    }
+
+    public SysUser phoneLogin(String phone, String code, String uuid) {
+        // 校验数据
+        // if (!phoneCodeService.validCode(uuid, phone, code)) {
+        //     throw new GlobalException("校验失败");
+        //  }
+        SysUser user = userService.selectUserByUserName(phone);
+        // TODO 内测版，只要电话号码对的上就行
+        if (user == null) {
+            throw new UserException("user.password.not.match", null);
+        }
+        SysRole vipRole = sysRoleService.selectRoleByKey("vip");
+        // 如果用户不存在，则创建用户，赋予权限
+        if (user == null) {
+            user = new SysUser();
+            user.setUserName(phone);
+            user.setNickName("love_" + RandomUtil.randomNumbers(6));
+            user.setPhonenumber(phone);
+            user.setPassword(SecurityUtils.encryptPassword(RandomUtil.randomString(32)));
+            boolean regFlag = userService.registerUser(user);
+            // 增加用户的权限，绑定角色
+            sysRoleService.insertAuthUsers(vipRole.getRoleId(), new Long[]{user.getUserId()});
+        } else {
+            // 查询用户是否具有会员角色，如果没有绑定
+            List<Integer> roles = sysRoleService.selectRoleListByUserId(user.getUserId());
+            Integer roleId = vipRole.getRoleId().intValue();
+            if (!roles.contains(roleId)) {
+                sysRoleService.insertAuthUsers(vipRole.getRoleId(), new Long[]{user.getUserId()});
+            }
+        }
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(phone, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        recordLoginInfo(user);
+        return user;
     }
 
     public SysUser initVipUser(ExtraUserBody body) {

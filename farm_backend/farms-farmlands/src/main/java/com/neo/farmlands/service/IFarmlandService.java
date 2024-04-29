@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.Farmland;
+import com.neo.farmlands.domain.vo.FarmlandVO;
 import com.neo.farmlands.mapper.FarmlandMapper;
 
 /**
@@ -30,7 +31,9 @@ public interface IFarmlandService extends IService<Farmland>
      * @param farmland 农田信息
      * @return 农田信息集合
      */
-    public List<Farmland> selectFarmlandList(Farmland farmland);
+    public List<FarmlandVO> selectFarmlandList(Farmland farmland);
+
+
 
     /**
      * 新增农田信息

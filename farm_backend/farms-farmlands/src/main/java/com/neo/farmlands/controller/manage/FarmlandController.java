@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.neo.common.core.domain.R;
+import com.neo.farmlands.domain.vo.FarmlandVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,10 +46,10 @@ public class FarmlandController extends BaseController
     @PreAuthorize("@ss.hasPermi('farmlands:farmland:list')")
     @GetMapping("/list")
     @ApiOperation(value = "查询农田信息列表")
-    public TableDataInfo<Farmland> list(Farmland farmland)
+    public TableDataInfo<FarmlandVO> list(Farmland farmland)
     {
         startPage();
-        List<Farmland> list = farmlandService.selectFarmlandList(farmland);
+        List<FarmlandVO> list = farmlandService.selectFarmlandList(farmland);
         return getDataTable(list);
     }
 
@@ -61,8 +62,8 @@ public class FarmlandController extends BaseController
     @ApiOperation(value = "导出农田信息列表")
     public void export(HttpServletResponse response, Farmland farmland)
     {
-        List<Farmland> list = farmlandService.selectFarmlandList(farmland);
-        ExcelUtil<Farmland> util = new ExcelUtil<Farmland>(Farmland.class);
+        List<FarmlandVO> list = farmlandService.selectFarmlandList(farmland);
+        ExcelUtil<FarmlandVO> util = new ExcelUtil<FarmlandVO>(FarmlandVO.class);
         util.exportExcel(response, list, "农田信息数据");
     }
 

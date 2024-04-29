@@ -7,6 +7,7 @@ import com.neo.common.core.page.TableDataInfo;
 import com.neo.common.enums.BusinessType;
 import com.neo.common.utils.poi.ExcelUtil;
 import com.neo.farmlands.domain.entity.Farmland;
+import com.neo.farmlands.domain.vo.FarmlandVO;
 import com.neo.farmlands.service.IFarmlandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/h5/farmland")
-@Api(tags = {"农田信息"})
+@Api(tags = {"H5农田信息"})
 public class H5FarmlandController extends BaseController
 {
     @Autowired
@@ -37,11 +38,11 @@ public class H5FarmlandController extends BaseController
 
     @GetMapping("/list")
     @ApiOperation(value = "查询农田信息列表")
-    public R<TableDataInfo<Farmland>> list(Farmland farmland)
+    public TableDataInfo<FarmlandVO> list(Farmland farmland)
     {
         startPage();
-        List<Farmland> list = farmlandService.selectFarmlandList(farmland);
-        return R.ok(getDataTable(list));
+        List<FarmlandVO> list = farmlandService.selectFarmlandList(farmland);
+        return getDataTable(list);
     }
 
     /**

@@ -15,6 +15,7 @@ import com.neo.farmlands.domain.entity.Feedback;
 import com.neo.farmlands.mapper.AddressMapper;
 import com.neo.farmlands.service.impl.FeedbackService;
 import com.neo.system.service.ISysConfigService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
+@Api(tags = {"h5公共接口"})
 public class H5CommonController {
 
   @Autowired
@@ -50,6 +52,7 @@ public class H5CommonController {
 
 
   @GetMapping("/h5/area")
+  @ApiOperation("获取地址列表")
   public AjaxResult getAddressList() {
     String addresses = redisService.getAddressList();
     if (StringUtils.isNotEmpty(addresses)) {
@@ -96,12 +99,14 @@ public class H5CommonController {
   }
 
   @PostMapping("/h5/file/upload")
+  @ApiOperation("文件上传")
   public R<String> uploadFile(MultipartFile file) {
     String url = ossUtils.uploadOneFile(file);
     return R.ok(url);
   }
 
   @GetMapping("/no-auth/config/get")
+  @ApiOperation("获取系统配置项")
   public R<String> getSysConfig(String configKey) {
     String s = sysConfigService.selectConfigByKey(configKey);
     return R.ok(s);

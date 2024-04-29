@@ -1,5 +1,6 @@
 package com.neo.farmlands.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -11,6 +12,9 @@ import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
 import com.neo.common.utils.SecurityUtils;
 import com.neo.common.utils.uuid.IdUtils;
+import com.neo.farmlands.domain.entity.StorageFiles;
+import com.neo.farmlands.domain.vo.FarmlandVO;
+import com.neo.farmlands.service.IStorageFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.FarmlandMapper;
@@ -30,6 +34,9 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
 {
     @Resource
     private FarmlandMapper farmlandMapper;
+
+    @Resource
+    private IStorageFilesService storageFilesService;
 
     /**
      * 查询农田信息
@@ -57,9 +64,21 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
      * @return 农田信息
      */
     @Override
-    public List<Farmland> selectFarmlandList(Farmland farmland)
+    public List<FarmlandVO> selectFarmlandList(Farmland farmland)
     {
-        return farmlandMapper.selectFarmlandList(farmland);
+        List<FarmlandVO> farmlandVOList = new ArrayList<>();
+        List<Farmland> farmlandList =  farmlandMapper.selectFarmlandList(farmland);
+        if(farmlandList.size()>0){
+            farmlandVOList = BeanUtil.copyToList(farmlandList, FarmlandVO.class, null);
+            farmlandVOList.forEach(item->{
+                if(StrUtil.isNotBlank(item.getFileIds())){
+                    String[] fileIds = item.getFileIds().split(",");
+                    List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
+                    item.setFiles(storageFiles);
+                }
+            });
+        }
+        return farmlandVOList;
     }
 
     /**

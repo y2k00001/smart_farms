@@ -1,11 +1,13 @@
-package com.neo.farmlands.domain.entity;
+package com.neo.farmlands.domain.vo;
 
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
+import com.neo.farmlands.domain.entity.StorageFiles;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 农田信息对象 t_farmland
@@ -14,7 +16,7 @@ import java.math.BigDecimal;
  * @date 2024-04-10
  */
 @Data
-public class Farmland extends BaseEntity
+public class FarmlandVO extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -60,6 +62,11 @@ public class Farmland extends BaseEntity
     /** 附件ID集合;逗号分割 */
     @Excel(name = "附件ID集合;逗号分割")
     private String fileIds;
+
+
+    /** 附件数据 */
+    @ApiModelProperty("附件数据")
+    private List<StorageFiles> files;
 
     /** 创建人姓名 */
     @Excel(name = "创建人姓名")

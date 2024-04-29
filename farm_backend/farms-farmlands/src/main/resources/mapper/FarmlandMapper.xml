@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="Farmland" id="FarmlandResult">
         <result property="id"    column="id"    />
         <result property="farmlandId"    column="farmland_id"    />
+        <result property="farmlandName"    column="farmland_name"    />
         <result property="area"    column="area"    />
         <result property="lat"    column="lat"    />
         <result property="lon"    column="lon"    />
@@ -23,13 +24,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFarmlandVo">
-        select id, farmland_id, area, lat, lon, location, status, lease_price, description, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland
+        select id, farmland_id,farmland_name, area, lat, lon, location, status, lease_price, description, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland
     </sql>
 
     <select id="selectFarmlandList" parameterType="Farmland" resultMap="FarmlandResult">
         <include refid="selectFarmlandVo"/>
         <where>
             <if test="farmlandId != null  and farmlandId != ''"> and farmland_id = #{farmlandId}</if>
+            <if test="farmlandName != null  and farmlandName != ''"> and farmland_name = #{farmlandName}</if>
             <if test="area != null  and area != ''"> and area = #{area}</if>
             <if test="lat != null  and lat != ''"> and lat = #{lat}</if>
             <if test="lon != null  and lon != ''"> and lon = #{lon}</if>
@@ -53,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
             <if test="farmlandId != null">farmland_id,</if>
+            <if test="farmlandName != null">farmland_name,</if>
             <if test="area != null">area,</if>
             <if test="lat != null">lat,</if>
             <if test="lon != null">lon,</if>
@@ -70,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
             <if test="farmlandId != null">#{farmlandId},</if>
+            <if test="farmlandName != null">#{farmlandName},</if>
             <if test="area != null">#{area},</if>
             <if test="lat != null">#{lat},</if>
             <if test="lon != null">#{lon},</if>
@@ -90,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update t_farmland
         <trim prefix="SET" suffixOverrides=",">
             <if test="farmlandId != null">farmland_id = #{farmlandId},</if>
+            <if test="farmlandName != null">farmland_name,</if>
             <if test="area != null">area = #{area},</if>
             <if test="lat != null">lat = #{lat},</if>
             <if test="lon != null">lon = #{lon},</if>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.StorageFilesMapper">
+
+    <resultMap id="BaseResultMap" type="StorageFiles">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="fileId" column="file_id" jdbcType="VARCHAR"/>
+            <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+            <result property="originalName" column="original_name" jdbcType="VARCHAR"/>
+            <result property="fileSuffix" column="file_suffix" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="createByName" column="create_by_name" jdbcType="VARCHAR"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,file_id,file_name,
+        original_name,file_suffix,url,
+        create_by_name,create_by,create_time,
+        update_time,is_deleted
+    </sql>
+    <select id="listByFileIds" resultType="com.neo.farmlands.domain.entity.StorageFiles">
+        select
+        <include refid="Base_Column_List"/>
+        from t_storage_files
+        where is_deleted = 0
+        <if test="fileIds != null and fileIds != ''">
+            and file_id in
+            <foreach item="fileId" collection="fileIds" open="(" separator="," close=")">
+                #{fileId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

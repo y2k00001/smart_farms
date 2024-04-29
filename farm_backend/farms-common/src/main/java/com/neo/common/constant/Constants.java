@@ -71,6 +71,11 @@ public class Constants
     public static final String LOGIN_FAIL = "Error";
 
     /**
+     * 验证码 redis key
+     */
+    public static final String CAPTCHA_CODE_KEY = "captcha_codes:";
+
+    /**
      * 所有权限标识
      */
     public static final String ALL_PERMISSION = "*:*:*";

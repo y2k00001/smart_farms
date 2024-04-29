@@ -7,6 +7,8 @@ import com.neo.common.core.domain.R;
 import com.neo.farmlands.domain.vo.WechatLoginForm;
 import com.neo.farmlands.service.impl.MemberWechatService;
 import com.neo.farmlands.utils.WechatUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Base64Utils;
@@ -21,6 +23,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("")
+@Api(tags = "微信相关接口")
 public class WechatController {
     @Autowired
     private MemberWechatService memberWechatService;
@@ -29,6 +32,7 @@ public class WechatController {
      * @return
      */
     @GetMapping("/no-auth/wechat-server-auth")
+    @ApiOperation("微信公众号服务器认证")
     public String getHomeConfig(HttpServletRequest request) {
         String signature = request.getParameter("signature");
         String nonce = request.getParameter("nonce");
@@ -40,10 +44,11 @@ public class WechatController {
         return "err";
     }
     /**
-     * 微信公众号服务器认证
+     * h5 登录
      * @return
      */
     @PostMapping("/no-auth/wechat/h5-login")
+    @ApiOperation("h5 登录")
     public ResponseEntity<String> h5Login(@RequestBody WechatLoginForm form) {
         String token = memberWechatService.login(form);
         return ResponseEntity.ok("{\"data\": \"" + token + "\"}");
@@ -51,6 +56,7 @@ public class WechatController {
 
 
     @GetMapping("/no-auth/wechat/getSessionId")
+    @ApiOperation("h5 getSessionId")
     public R<String> getSessionId(String code) {
         JSONObject object = memberWechatService.getSessionId(code);
         if (object != null) {
@@ -65,6 +71,7 @@ public class WechatController {
     }
 
     @GetMapping("/no-auth/wechat/getSessionId2")
+    @ApiOperation("h5 getSessionId2")
     public R<Map> getSessionId2(String code) {
         JSONObject object = memberWechatService.getSessionId(code);
         if (object != null) {

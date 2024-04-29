@@ -6,6 +6,7 @@ import com.neo.common.core.domain.model.LoginMember;
 import com.neo.farmlands.domain.vo.*;
 import com.neo.farmlands.service.impl.H5MemberService;
 import com.neo.framework.web.service.TokenService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/h5")
+@Api(tags = "H5会员相关接口")
 public class H5MemberController {
 
     @Autowired
