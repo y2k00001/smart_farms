@@ -2,6 +2,7 @@ package com.neo.farmlands.domain.entity;
 
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -35,6 +36,9 @@ public class LandArea extends BaseEntity
     /** 单价;单位：元/天 */
     @Excel(name = "单价;单位：元/天")
     private BigDecimal unitPrice;
+
+    @ApiModelProperty("0，未出租；1，已出租")
+    private Integer lesseeStatus;
 
     /** 排序序号 */
     @Excel(name = "排序序号")

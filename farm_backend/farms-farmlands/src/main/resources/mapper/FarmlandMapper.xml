@@ -21,11 +21,81 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="isDeleted"    column="is_deleted"    />
+
+        <collection  property="landServices"   javaType="java.util.List"  resultMap="LandServiceResult" />
+        <collection  property="landAreas"   javaType="java.util.List"  resultMap="LandAreaResult" />
+        <collection  property="seeds"   javaType="java.util.List"  resultMap="SeedResult" />
     </resultMap>
+
+    <resultMap type="LandService" id="LandServiceResult">
+
+        <result property="serviceId"    column="service_id"    />
+        <result property="serviceName"    column="service_name"    />
+        <result property="servicePrice"    column="service_price"    />
+        <result property="serviceType"    column="service_type"    />
+        <result property="summary"    column="summary"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <resultMap type="LandArea" id="LandAreaResult">
+
+        <result property="landAreaId"    column="land_area_id"    />
+        <result property="landAreaName"    column="land_area_name"    />
+        <result property="area"    column="land_area"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="lesseeStatus"    column="lessee_status"    />
+        <result property="sort"    column="sort"    />
+        <result property="remark"    column="remark"    />
+
+    </resultMap>
+
+    <resultMap type="Seed" id="SeedResult">
+
+        <result property="seedId"    column="seed_id"    />
+        <result property="seedName"    column="seed_name"    />
+        <result property="seedType"    column="seed_type"    />
+        <result property="origin"    column="origin"    />
+        <result property="growthCycle"    column="growth_cycle"    />
+        <result property="yield"    column="yield"    />
+        <result property="climate"    column="climate"    />
+        <result property="plantingTechnique"    column="planting_technique"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="unitPrice"    column="seed_unit_price"    />
+        <result property="stockTotal"    column="stock_total"    />
+        <result property="status"    column="seed_status"    />
+
+    </resultMap>
+
 
     <sql id="selectFarmlandVo">
         select id, farmland_id,farmland_name, area, lat, lon, location, status, lease_price, description, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland
     </sql>
+
+
+    <select id="selectFarmlandAllById" parameterType="Farmland" resultMap="FarmlandResult">
+        SELECT
+            f.id, f.farmland_id,f.farmland_name, f.area, f.lat, f.lon, f.location, f.status, f.lease_price, f.description, f.file_ids, f.create_by_name, f.create_by, f.create_time, f.update_time, f.is_deleted,
+            ls.service_id, ls.service_name, ls.service_price, ls.service_type, ls.summary,
+            la.land_area_id, la.land_area_name, la.area land_area, la.unit_price, la.sort, la.remark,la.lessee_status,
+            sd.seed_id, sd.seed_name, sd.seed_type, sd.origin, sd.growth_cycle, sd.yield, sd.climate, sd.planting_technique, sd.remarks, sd.unit_price seed_unit_price, sd.stock_total, sd.status seed_status
+        FROM
+            t_farmland f
+                LEFT JOIN t_farmland_area fa ON fa.farmland_id = f.farmland_id
+                LEFT JOIN t_land_area la ON la.land_area_id = fa.land_area_id
+
+                LEFT JOIN t_farmland_service fs ON fs.farmland_id = f.farmland_id
+                LEFT JOIN t_land_service ls ON ls.service_id = fs.service_id
+
+                LEFT JOIN t_farmland_seed fsd ON fsd.farmland_id = f.farmland_id
+                LEFT JOIN t_seed sd ON sd.seed_id = fsd.seed_id
+        where f.id = #{id}
+    </select>
+
+
 
     <select id="selectFarmlandList" parameterType="Farmland" resultMap="FarmlandResult">
         <include refid="selectFarmlandVo"/>

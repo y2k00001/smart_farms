@@ -21,6 +21,8 @@ public interface FarmlandMapper   extends BaseMapper<Farmland>
      */
     public Farmland selectFarmlandById(String id);
 
+    public Farmland selectFarmlandAllById(String id);
+
     /**
      * 查询农田信息列表
      *

@@ -2,6 +2,9 @@ package com.neo.farmlands.domain.vo;
 
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
+import com.neo.farmlands.domain.entity.LandArea;
+import com.neo.farmlands.domain.entity.LandService;
+import com.neo.farmlands.domain.entity.Seed;
 import com.neo.farmlands.domain.entity.StorageFiles;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -67,6 +70,18 @@ public class FarmlandVO extends BaseEntity
     /** 附件数据 */
     @ApiModelProperty("附件数据")
     private List<StorageFiles> files;
+
+    /** 农场提供的服务 */
+    @ApiModelProperty("农场提供的服务")
+    private List<LandService> landServices;
+
+    /** 农田分割的地块面积 */
+    @ApiModelProperty("农田分割的地块面积")
+    private List<LandArea> landAreas;
+
+    /** 农田可以播种的种子 */
+    @ApiModelProperty("农田可以播种的种子")
+    private List<Seed> seeds;
 
     /** 创建人姓名 */
     @Excel(name = "创建人姓名")

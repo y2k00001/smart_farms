@@ -51,7 +51,7 @@ public class H5FarmlandController extends BaseController
 
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "获取农田信息详细信息")
-    public R<Farmland> getInfo(@PathVariable("id") String id)
+    public R<FarmlandVO> getInfo(@PathVariable("id") String id)
     {
         return R.ok(farmlandService.selectFarmlandById(id));
     }

@@ -21,7 +21,7 @@ public interface IFarmlandService extends IService<Farmland>
      * @param id 农田信息主键
      * @return 农田信息
      */
-    public Farmland selectFarmlandById(String id);
+    public FarmlandVO selectFarmlandById(String id);
 
     public Farmland selectFarmlandByFarmlandId(String farmlandId);
 

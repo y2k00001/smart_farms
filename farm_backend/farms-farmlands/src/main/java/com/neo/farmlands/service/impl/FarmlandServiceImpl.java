@@ -45,9 +45,19 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
      * @return 农田信息
      */
     @Override
-    public Farmland selectFarmlandById(String id)
+    public FarmlandVO selectFarmlandById(String id)
     {
-        return farmlandMapper.selectFarmlandById(id);
+        Farmland farmland = farmlandMapper.selectFarmlandAllById(id);
+        FarmlandVO farmlandVO = BeanUtil.copyProperties(farmland, FarmlandVO.class);
+        if(BeanUtil.isNotEmpty(farmland)){
+            // 查询农场附件
+            List<StorageFiles> storageFiles = storageFilesService.listByFileIds(farmland.getFileIds().split(","));
+            farmlandVO.setFiles(storageFiles);
+            // 查询农场服务
+            // 查询农场地块面积状态
+            //  查询农场种子信息
+        }
+        return farmlandVO;
     }
 
     @Override
