@@ -9,11 +9,17 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
 import com.neo.farmlands.domain.entity.LandArea;
+import com.neo.farmlands.domain.entity.StorageFiles;
+import com.neo.farmlands.domain.vo.SeedVO;
+import com.neo.farmlands.domain.vo.form.SeedForm;
+import com.neo.farmlands.service.IStorageFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.SeedMapper;
 import com.neo.farmlands.domain.entity.Seed;
 import com.neo.farmlands.service.ISeedService;
+
+import javax.annotation.Resource;
 
 /**
  * 种子信息Service业务层处理
@@ -24,8 +30,10 @@ import com.neo.farmlands.service.ISeedService;
 @Service
 public class SeedServiceImpl extends ServiceImpl<SeedMapper, Seed> implements ISeedService
 {
-    @Autowired
+    @Resource
     private SeedMapper seedMapper;
+    @Resource
+    private IStorageFilesService storageFilesService;
 
     /**
      * 查询种子信息
@@ -114,5 +122,17 @@ public class SeedServiceImpl extends ServiceImpl<SeedMapper, Seed> implements IS
             }
         }
         return seed;
+    }
+
+    @Override
+    public List<SeedVO> selectSeedListForH5(SeedForm seedForm) {
+        List<SeedVO> seedVOList = seedMapper.selectSeedListForH5(seedForm);
+        if(seedVOList.size()>0){
+            seedVOList.forEach(seedVO -> {
+                List<StorageFiles> seedFiles = storageFilesService.listByFileIds(seedVO.getFileIds().split(","));
+                seedVO.setFiles(seedFiles);
+            });
+        }
+        return seedVOList;
     }
 }

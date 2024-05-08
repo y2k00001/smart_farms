@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neo.farmlands.mapper.SeedMapper">
-    
+
     <resultMap type="Seed" id="SeedResult">
         <result property="id"    column="id"    />
         <result property="seedId"    column="seed_id"    />
@@ -26,12 +26,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSeedVo">
-        select id, seed_id, seed_name, seed_type, origin, growth_cycle, yield, climate, planting_technique, remarks, unit_price, stock_total, status, create_by_name, create_by, create_time, update_time, is_deleted from t_seed
+        select id, seed_id, seed_name, seed_type, origin, growth_cycle, yield, climate, planting_technique, remarks, unit_price, stock_total, status,file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_seed
     </sql>
 
     <select id="selectSeedList" parameterType="Seed" resultMap="SeedResult">
         <include refid="selectSeedVo"/>
-        <where>  
+        <where>
             <if test="seedId != null  and seedId != ''"> and seed_id = #{seedId}</if>
             <if test="seedName != null  and seedName != ''"> and seed_name like concat('%', #{seedName}, '%')</if>
             <if test="seedType != null "> and seed_type = #{seedType}</if>
@@ -48,12 +48,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
         </where>
     </select>
-    
+
     <select id="selectSeedById" parameterType="String" resultMap="SeedResult">
         <include refid="selectSeedVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectSeedListForH5" resultType="com.neo.farmlands.domain.vo.SeedVO">
+        <include refid="selectSeedVo"/>
+        <where>
+            <if test="seedId != null  and seedId != ''"> and seed_id = #{seedId}</if>
+            <if test="seedName != null  and seedName != ''"> and seed_name like concat('%', #{seedName}, '%')</if>
+            <if test="seedType != null "> and seed_type = #{seedType}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+
+
+            <if test="seedIds != null  and seedIds != ''">
+                and seed_id in
+                <foreach item="seedId" collection="seedIds" open="(" separator="," close=")">
+                    #{seedId}
+                </foreach>
+             </if>
+        </where>
+    </select>
+
     <insert id="insertSeed" parameterType="Seed">
         insert into t_seed
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -127,7 +144,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteSeedByIds" parameterType="String">
-        delete from t_seed where id in 
+        delete from t_seed where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

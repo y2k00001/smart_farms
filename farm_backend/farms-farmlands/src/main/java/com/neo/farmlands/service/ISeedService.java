@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.Seed;
+import com.neo.farmlands.domain.vo.SeedVO;
+import com.neo.farmlands.domain.vo.form.SeedForm;
 import com.neo.farmlands.mapper.SeedMapper;
 
 /**
@@ -63,4 +65,6 @@ public interface ISeedService extends IService<Seed>
     public int deleteSeedById(String id);
 
     Seed getOneBySeedId(String seedId, Boolean isThrowException);
+
+    List<SeedVO> selectSeedListForH5(SeedForm seedForm);
 }

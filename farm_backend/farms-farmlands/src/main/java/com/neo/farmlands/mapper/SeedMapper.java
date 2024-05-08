@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neo.farmlands.domain.entity.Seed;
+import com.neo.farmlands.domain.vo.SeedVO;
+import com.neo.farmlands.domain.vo.form.SeedForm;
 
 /**
  * 种子信息Mapper接口
@@ -60,4 +62,6 @@ public interface SeedMapper extends BaseMapper<Seed>
      * @return 结果
      */
     public int deleteSeedByIds(String[] ids);
+
+    List<SeedVO> selectSeedListForH5(SeedForm seedForm);
 }

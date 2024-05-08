@@ -81,7 +81,7 @@ public class FarmlandVO extends BaseEntity
 
     /** 农田可以播种的种子 */
     @ApiModelProperty("农田可以播种的种子")
-    private List<Seed> seeds;
+    private List<SeedVO> seedVOS;
 
     /** 创建人姓名 */
     @Excel(name = "创建人姓名")

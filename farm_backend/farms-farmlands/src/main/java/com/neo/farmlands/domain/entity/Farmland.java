@@ -2,6 +2,7 @@ package com.neo.farmlands.domain.entity;
 
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
+import com.neo.farmlands.domain.vo.SeedVO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -72,7 +73,7 @@ public class Farmland extends BaseEntity
 
     /** 农田可以播种的种子 */
     @ApiModelProperty("农田可以播种的种子")
-    private List<Seed> seeds;
+    private List<SeedVO> seedVOS;
 
 
     /** 创建人姓名 */

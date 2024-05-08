@@ -12,8 +12,10 @@ import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
 import com.neo.common.utils.SecurityUtils;
 import com.neo.common.utils.uuid.IdUtils;
+import com.neo.farmlands.domain.entity.Seed;
 import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.FarmlandVO;
+import com.neo.farmlands.domain.vo.SeedVO;
 import com.neo.farmlands.service.IStorageFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +57,15 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
             farmlandVO.setFiles(storageFiles);
             // 查询农场服务
             // 查询农场地块面积状态
-            //  查询农场种子信息
+            //  查询农场种子附件信息
+            List<SeedVO> seedVOS = farmland.getSeedVOS();
+            if(seedVOS.size()>0){
+                seedVOS.forEach(i->{
+                    List<StorageFiles> seedFiles = storageFilesService.listByFileIds(i.getFileIds().split(","));
+                    i.setFiles(seedFiles);
+                });
+
+            }
         }
         return farmlandVO;
     }

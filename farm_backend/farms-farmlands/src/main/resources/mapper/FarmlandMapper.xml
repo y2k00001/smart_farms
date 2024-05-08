@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         <collection  property="landServices"   javaType="java.util.List"  resultMap="LandServiceResult" />
         <collection  property="landAreas"   javaType="java.util.List"  resultMap="LandAreaResult" />
-        <collection  property="seeds"   javaType="java.util.List"  resultMap="SeedResult" />
+        <collection  property="seedVOS"   javaType="java.util.List"  resultMap="SeedResult" />
     </resultMap>
 
     <resultMap type="LandService" id="LandServiceResult">
@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </resultMap>
 
-    <resultMap type="Seed" id="SeedResult">
+    <resultMap type="SeedVO" id="SeedResult">
 
         <result property="seedId"    column="seed_id"    />
         <result property="seedName"    column="seed_name"    />
@@ -67,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="unitPrice"    column="seed_unit_price"    />
         <result property="stockTotal"    column="stock_total"    />
         <result property="status"    column="seed_status"    />
+        <result property="fileIds"    column="seed_file_ids"    />
 
     </resultMap>
 
@@ -81,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             f.id, f.farmland_id,f.farmland_name, f.area, f.lat, f.lon, f.location, f.status, f.lease_price, f.description, f.file_ids, f.create_by_name, f.create_by, f.create_time, f.update_time, f.is_deleted,
             ls.service_id, ls.service_name, ls.service_price, ls.service_type, ls.summary,
             la.land_area_id, la.land_area_name, la.area land_area, la.unit_price, la.sort, la.remark,la.lessee_status,
-            sd.seed_id, sd.seed_name, sd.seed_type, sd.origin, sd.growth_cycle, sd.yield, sd.climate, sd.planting_technique, sd.remarks, sd.unit_price seed_unit_price, sd.stock_total, sd.status seed_status
+            sd.seed_id, sd.seed_name, sd.seed_type, sd.origin, sd.growth_cycle, sd.yield, sd.climate, sd.planting_technique, sd.remarks, sd.unit_price seed_unit_price, sd.stock_total, sd.status seed_status,sd.file_ids seed_file_ids
         FROM
             t_farmland f
                 LEFT JOIN t_farmland_area fa ON fa.farmland_id = f.farmland_id
