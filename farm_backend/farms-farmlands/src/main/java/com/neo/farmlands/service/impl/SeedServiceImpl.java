@@ -42,9 +42,17 @@ public class SeedServiceImpl extends ServiceImpl<SeedMapper, Seed> implements IS
      * @return 种子信息
      */
     @Override
-    public Seed selectSeedById(String id)
+    public SeedVO selectSeedById(String id)
     {
-        return seedMapper.selectSeedById(id);
+        SeedVO seedVO = new SeedVO();
+        Seed seed = seedMapper.selectSeedById(id);
+        if(BeanUtil.isNotEmpty(seed)){
+            seedVO = BeanUtil.copyProperties(seed, SeedVO.class);
+            List<StorageFiles> seedFiles = storageFilesService.listByFileIds(seedVO.getFileIds().split(","));
+            seedVO.setFiles(seedFiles);
+        }
+        return seedVO;
+
     }
 
     /**

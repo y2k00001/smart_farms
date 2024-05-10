@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neo.farmlands.domain.entity.Farmland;
+import com.neo.farmlands.domain.vo.LesseeOrderVO;
+import com.neo.farmlands.domain.vo.form.H5PreLesseeOrderForm;
 
 /**
  * 农田信息Mapper接口
@@ -22,6 +24,8 @@ public interface FarmlandMapper   extends BaseMapper<Farmland>
     public Farmland selectFarmlandById(String id);
 
     public Farmland selectFarmlandAllById(String id);
+
+    public LesseeOrderVO getFarmlandPreOrder(H5PreLesseeOrderForm lesseeOrderForm);
 
     /**
      * 查询农田信息列表

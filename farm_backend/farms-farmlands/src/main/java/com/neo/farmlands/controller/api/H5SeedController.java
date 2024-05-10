@@ -55,7 +55,7 @@ public class H5SeedController extends BaseController
 
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "获取种子信息详细信息")
-    public R<Seed> getInfo(@PathVariable("id") String id)
+    public R<SeedVO> getInfo(@PathVariable("id") String id)
     {
         return R.ok(seedService.selectSeedById(id));
     }

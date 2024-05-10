@@ -47,6 +47,10 @@ public class SeedVO extends BaseEntity
     @Excel(name = "产量;单位吨/亩")
     private BigDecimal yield;
 
+    /** 播种季节 */
+    @Excel(name = "播种季节")
+    private String seedtime;
+
     /** 适宜气候描述 */
     @Excel(name = "适宜气候描述")
     private String climate;

@@ -22,7 +22,7 @@ public interface ISeedService extends IService<Seed>
      * @param id 种子信息主键
      * @return 种子信息
      */
-    public Seed selectSeedById(String id);
+    public SeedVO selectSeedById(String id);
 
     /**
      * 查询种子信息列表

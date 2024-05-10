@@ -2,6 +2,9 @@ package com.neo.farmlands.controller.manage;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.neo.common.core.domain.R;
+import com.neo.farmlands.domain.vo.SeedVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,9 +67,9 @@ public class SeedController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('farmlands:seed:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") String id)
+    public R<SeedVO> getInfo(@PathVariable("id") String id)
     {
-        return success(seedService.selectSeedById(id));
+        return R.ok(seedService.selectSeedById(id));
     }
 
     /**

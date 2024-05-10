@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="origin"    column="origin"    />
         <result property="growthCycle"    column="growth_cycle"    />
         <result property="yield"    column="yield"    />
+        <result property="seedtime"    column="seedtime"    />
         <result property="climate"    column="climate"    />
         <result property="plantingTechnique"    column="planting_technique"    />
         <result property="remarks"    column="remarks"    />
@@ -26,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSeedVo">
-        select id, seed_id, seed_name, seed_type, origin, growth_cycle, yield, climate, planting_technique, remarks, unit_price, stock_total, status,file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_seed
+        select id, seed_id, seed_name, seed_type, origin, growth_cycle, yield,seedtime, climate, planting_technique, remarks, unit_price, stock_total, status,file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_seed
     </sql>
 
     <select id="selectSeedList" parameterType="Seed" resultMap="SeedResult">
@@ -81,6 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="origin != null">origin,</if>
             <if test="growthCycle != null">growth_cycle,</if>
             <if test="yield != null">yield,</if>
+            <if test="seedtime != null">seedtime,</if>
             <if test="climate != null">climate,</if>
             <if test="plantingTechnique != null">planting_technique,</if>
             <if test="remarks != null">remarks,</if>
@@ -101,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="origin != null">#{origin},</if>
             <if test="growthCycle != null">#{growthCycle},</if>
             <if test="yield != null">#{yield},</if>
+            <if test="seedtime != null">#{seedtime},</if>
             <if test="climate != null">#{climate},</if>
             <if test="plantingTechnique != null">#{plantingTechnique},</if>
             <if test="remarks != null">#{remarks},</if>
@@ -124,6 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="origin != null">origin = #{origin},</if>
             <if test="growthCycle != null">growth_cycle = #{growthCycle},</if>
             <if test="yield != null">yield = #{yield},</if>
+            <if test="seedtime != null">yield = #{seedtime},</if>
             <if test="climate != null">climate = #{climate},</if>
             <if test="plantingTechnique != null">planting_technique = #{plantingTechnique},</if>
             <if test="remarks != null">remarks = #{remarks},</if>

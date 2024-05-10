@@ -71,6 +71,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </resultMap>
 
+    <resultMap type="lesseeOrderVO" id="FarmlandPreOrderResult">
+        <result property="farmlandId"    column="farmland_id"    />
+        <result property="farmlandName"    column="farmland_name"    />
+        <result property="location"    column="location"    />
+        <result property="status"    column="status"    />
+        <result property="leasePrice"    column="lease_price"    />
+        <result property="description"    column="description"    />
+        <result property="fileIds"    column="file_ids"    />
+        <association  property="landServices"   javaType="com.neo.farmlands.domain.entity.LandService"  resultMap="LandServiceResult" />
+        <association  property="landAreas"   javaType="com.neo.farmlands.domain.entity.LandArea"  resultMap="LandAreaResult" />
+
+    </resultMap>
+
 
     <sql id="selectFarmlandVo">
         select id, farmland_id,farmland_name, area, lat, lon, location, status, lease_price, description, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland
@@ -94,6 +107,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 LEFT JOIN t_farmland_seed fsd ON fsd.farmland_id = f.farmland_id
                 LEFT JOIN t_seed sd ON sd.seed_id = fsd.seed_id
         where f.id = #{id}
+    </select>
+
+
+
+    <select id="getFarmlandPreOrder" parameterType="H5PreLesseeOrderForm" resultMap="FarmlandPreOrderResult">
+        SELECT
+            f.id, f.farmland_id,f.farmland_name, f.area, f.lat, f.lon, f.location, f.status, f.lease_price, f.description, f.file_ids, f.create_by_name, f.create_by, f.create_time, f.update_time, f.is_deleted,
+            ls.service_id, ls.service_name, ls.service_price, ls.service_type, ls.summary,
+            la.land_area_id, la.land_area_name, la.area land_area, la.unit_price, la.sort, la.remark,la.lessee_status
+        FROM
+            t_farmland f
+                LEFT JOIN t_farmland_area fa ON fa.farmland_id = f.farmland_id
+                LEFT JOIN t_land_area la ON la.land_area_id = fa.land_area_id
+
+                LEFT JOIN t_farmland_service fs ON fs.farmland_id = f.farmland_id
+                LEFT JOIN t_land_service ls ON ls.service_id = fs.service_id
+
+
+        where f.farmland_id = #{farmlandId}
+          AND la.land_area_id =#{landAreaId}
+          AND ls.service_id =#{serviceId}
     </select>
 
 
