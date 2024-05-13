@@ -60,4 +60,6 @@ public interface LandServiceMapper extends BaseMapper<LandService>
      * @return 结果
      */
     public int deleteLandServiceByIds(String[] ids);
+
+    List<LandService> getFarmLandListByFarmlandId(String farmlandId);
 }

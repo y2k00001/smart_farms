@@ -5,11 +5,13 @@ import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
 import com.neo.farmlands.domain.entity.LandArea;
 import com.neo.farmlands.domain.entity.LandService;
+import com.neo.farmlands.domain.entity.StorageFiles;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 租赁订单信息对象
@@ -42,7 +44,9 @@ public class LesseeOrderVO extends BaseEntity
     /** 附件ID集合;逗号分割 */
     @Excel(name = "附件ID集合;逗号分割")
     private String fileIds;
-
+    /** 附件数据 */
+    @ApiModelProperty("附件数据")
+    private List<StorageFiles> files;
 
     /** 租赁价格;单位：元/天 */
     @Excel(name = "租赁价格;单位：元/天")

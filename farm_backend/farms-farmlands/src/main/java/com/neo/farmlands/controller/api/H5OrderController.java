@@ -2,6 +2,7 @@ package com.neo.farmlands.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
 
+import com.neo.common.core.domain.R;
 import com.neo.farmlands.domain.entity.OrderPay;
 import com.neo.farmlands.domain.vo.LesseeOrderVO;
 import com.neo.farmlands.domain.vo.form.H5PreLesseeOrderForm;
@@ -37,10 +38,10 @@ public class H5OrderController {
 
     @ApiOperation("获取预下单信息")
     @PostMapping("/getPreOrder")
-    public ResponseEntity<LesseeOrderVO> getPreOrder(@RequestBody H5PreLesseeOrderForm lesseeOrderForm){
+    public R<LesseeOrderVO> getPreOrder(@RequestBody H5PreLesseeOrderForm lesseeOrderForm){
 
         LesseeOrderVO lesseeOrderVO = orderService.getPreOrder(lesseeOrderForm);
-        return ResponseEntity.ok(lesseeOrderVO);
+        return R.ok(lesseeOrderVO);
     }
 
 }

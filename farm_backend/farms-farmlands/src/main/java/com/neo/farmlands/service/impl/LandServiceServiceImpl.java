@@ -114,4 +114,15 @@ public class LandServiceServiceImpl extends ServiceImpl<LandServiceMapper, LandS
         }
         return landService;
     }
+
+    @Override
+    public LandService getByServiceId(String serviceId) {
+        return null;
+    }
+
+    @Override
+    public List<LandService> getFarmLandList(String farmlandId) {
+        List<LandService> landServices = landServiceMapper.getFarmLandListByFarmlandId(farmlandId);
+        return landServices;
+    }
 }

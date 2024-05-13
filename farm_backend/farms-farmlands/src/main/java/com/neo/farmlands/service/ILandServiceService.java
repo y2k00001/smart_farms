@@ -61,5 +61,17 @@ public interface ILandServiceService extends IService<LandService>
      */
     public int deleteLandServiceById(String id);
 
+    /**
+     * description
+     * @author monkey
+     * @datetime  2024/5/11 11:20
+     * @param serviceId
+     * @param isThrowException 查询不到数据是否抛异常
+     * @return {@link LandService}
+     **/
     LandService getOneByServiceId(String serviceId, Boolean isThrowException);
+
+    LandService getByServiceId(String serviceId);
+
+    List<LandService> getFarmLandList(String farmlandId);
 }

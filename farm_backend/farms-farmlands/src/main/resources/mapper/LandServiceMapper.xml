@@ -97,4 +97,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="getFarmLandListByFarmlandId" parameterType="String" resultMap="LandServiceResult">
+        SELECT
+            fs.farmland_id,
+            fs.service_id,
+            ls.service_name,
+            ls.service_price,
+            ls.service_type,
+            ls.summary,
+            ls.create_by_name,
+            ls.create_by,
+            ls.create_time,
+            ls.update_time,
+            ls.is_deleted
+        FROM
+            t_farmland_service fs
+                LEFT JOIN t_land_service ls ON ls.service_id = fs.service_id
+        WHERE
+            fs.is_deleted = 0
+          AND ls.is_deleted = 0
+          AND fs.farmland_id = #{farmlandId}
+    </select>
 </mapper>
