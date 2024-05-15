@@ -62,6 +62,9 @@ public class FarmlandVO extends BaseEntity
     @Excel(name = "描述")
     private String description;
 
+    /** 联系电话 */
+    private String contactPhone;
+
     /** 附件ID集合;逗号分割 */
     @Excel(name = "附件ID集合;逗号分割")
     private String fileIds;

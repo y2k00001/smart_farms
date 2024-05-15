@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="status"    column="status"    />
         <result property="leasePrice"    column="lease_price"    />
         <result property="description"    column="description"    />
+        <result property="contactPhone"    column="contact_phone"    />
         <result property="fileIds"    column="file_ids"    />
         <result property="createByName"    column="create_by_name"    />
         <result property="createBy"    column="create_by"    />
@@ -86,13 +87,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <sql id="selectFarmlandVo">
-        select id, farmland_id,farmland_name, area, lat, lon, location, status, lease_price, description, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland
+        select id, farmland_id,farmland_name, area, lat, lon, location, status, lease_price, description,contact_phone, file_ids, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland
     </sql>
 
 
     <select id="selectFarmlandAllById" parameterType="Farmland" resultMap="FarmlandResult">
         SELECT
-            f.id, f.farmland_id,f.farmland_name, f.area, f.lat, f.lon, f.location, f.status, f.lease_price, f.description, f.file_ids, f.create_by_name, f.create_by, f.create_time, f.update_time, f.is_deleted,
+            f.id, f.farmland_id,f.farmland_name, f.area, f.lat, f.lon, f.location, f.status, f.lease_price, f.description,f.contact_phone, f.file_ids, f.create_by_name, f.create_by, f.create_time, f.update_time, f.is_deleted,
             ls.service_id, ls.service_name, ls.service_price, ls.service_type, ls.summary,
             la.land_area_id, la.land_area_name, la.area land_area, la.unit_price, la.sort, la.remark,la.lessee_status,
             sd.seed_id, sd.seed_name, sd.seed_type, sd.origin, sd.growth_cycle, sd.yield, sd.climate, sd.planting_technique, sd.remarks, sd.unit_price seed_unit_price, sd.stock_total, sd.status seed_status,sd.file_ids seed_file_ids
@@ -113,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getFarmlandPreOrder" parameterType="H5PreLesseeOrderForm" resultMap="FarmlandPreOrderResult">
         SELECT
-            f.id, f.farmland_id,f.farmland_name, f.area, f.lat, f.lon, f.location, f.status, f.lease_price, f.description, f.file_ids, f.create_by_name, f.create_by, f.create_time, f.update_time, f.is_deleted,
+            f.id, f.farmland_id,f.farmland_name, f.area, f.lat, f.lon, f.location, f.status, f.lease_price, f.description,f.contact_phone, f.file_ids, f.create_by_name, f.create_by, f.create_time, f.update_time, f.is_deleted,
             ls.service_id, ls.service_name, ls.service_price, ls.service_type, ls.summary,
             la.land_area_id, la.land_area_name, la.area land_area, la.unit_price, la.sort, la.remark,la.lessee_status
         FROM
@@ -144,6 +145,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="leasePrice != null "> and lease_price = #{leasePrice}</if>
             <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="contactPhone != null  and contactPhone != ''"> and contact_phone = #{contactPhone}</if>
             <if test="fileIds != null  and fileIds != ''"> and file_ids = #{fileIds}</if>
             <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
             <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
@@ -168,6 +170,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">status,</if>
             <if test="leasePrice != null">lease_price,</if>
             <if test="description != null">description,</if>
+            <if test="contactPhone != null">contact_phone,</if>
             <if test="fileIds != null">file_ids,</if>
             <if test="createByName != null">create_by_name,</if>
             <if test="createBy != null">create_by,</if>
@@ -186,6 +189,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">#{status},</if>
             <if test="leasePrice != null">#{leasePrice},</if>
             <if test="description != null">#{description},</if>
+            <if test="contactPhone != null">#{contact_phone},</if>
             <if test="fileIds != null">#{fileIds},</if>
             <if test="createByName != null">#{createByName},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -207,6 +211,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">status = #{status},</if>
             <if test="leasePrice != null">lease_price = #{leasePrice},</if>
             <if test="description != null">description = #{description},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
             <if test="fileIds != null">file_ids = #{fileIds},</if>
             <if test="createByName != null">create_by_name = #{createByName},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
