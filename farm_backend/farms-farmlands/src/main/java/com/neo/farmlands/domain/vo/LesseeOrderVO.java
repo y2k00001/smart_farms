@@ -112,4 +112,7 @@ public class LesseeOrderVO extends BaseEntity
     @Excel(name = "是否删除")
     private Long isDeleted;
 
+    @ApiModelProperty(value = "订单id")
+    private String orderId;
+
 }

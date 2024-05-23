@@ -32,6 +32,7 @@
             <artifactId>farms-system</artifactId>
         </dependency>
 
+        <!-- 全能第三方支付对接Java开发工具包 https://github.com/egzosn/pay-java-parent -->
         <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-spring-boot-starter</artifactId>

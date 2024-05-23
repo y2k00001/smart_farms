@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neo.farmlands.mapper.FarmlandLesseeOrderMapper">
-    
+
     <resultMap type="FarmlandLesseeOrder" id="FarmlandLesseeOrderResult">
         <result property="id"    column="id"    />
         <result property="farmlandLesseeId"    column="farmland_lessee_id"    />
@@ -21,19 +21,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectFarmlandLesseeOrderList" parameterType="FarmlandLesseeOrder" resultMap="FarmlandLesseeOrderResult">
         <include refid="selectFarmlandLesseeOrderVo"/>
-        <where>  
+        <where>
             <if test="farmlandLesseeId != null  and farmlandLesseeId != ''"> and farmland_lessee_id = #{farmlandLesseeId}</if>
             <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
             <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
             <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
         </where>
     </select>
-    
+
     <select id="selectFarmlandLesseeOrderById" parameterType="String" resultMap="FarmlandLesseeOrderResult">
         <include refid="selectFarmlandLesseeOrderVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getOneByOrderId" resultType="com.neo.farmlands.domain.entity.FarmlandLessee">
+        SELECT
+            fl.id, fl.farmland_lessee_id, fl.farmland_id, fl.lessee_id, fl.lessee_price, fl.lessee_amount, fl.lessee_day, fl.lessee_start_date
+             , fl.lessee_end_date, fl.status, fl.lessee_files
+        FROM
+            t_farmland_lessee_order lo
+                LEFT JOIN t_farmland_lessee fl ON fl.farmland_lessee_id = lo.farmland_lessee_id
+                AND fl.is_deleted = 0 AND status = 0
+        WHERE
+            lo.is_deleted = 0
+        AND lo.order_id = #{orderId}
+    </select>
+
     <insert id="insertFarmlandLesseeOrder" parameterType="FarmlandLesseeOrder">
         insert into t_farmland_lessee_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -77,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteFarmlandLesseeOrderByIds" parameterType="String">
-        delete from t_farmland_lessee_order where id in 
+        delete from t_farmland_lessee_order where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

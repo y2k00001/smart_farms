@@ -1,56 +1,35 @@
 package com.neo.farmlands.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
- * 农田租赁最小面积表
- * @TableName t_land_area
+ * 租赁信息和种子关联表
+ * @TableName t_farmland_lessee_order
  */
-@TableName(value ="t_land_area")
+@TableName(value ="t_farmland_lessee_seed")
 @Data
-public class TLandArea implements Serializable {
+public class FarmlandLesseeSeed implements Serializable {
     /**
-     *
+     * id
      */
     @TableId
     private String id;
 
     /**
-     * 农田租赁面积编号Id
+     * 农田租赁信息ID
      */
-    private String landAreaId;
+    private String farmlandLesseeId;
 
     /**
-     * 面积别名
+     * 种子ID
      */
-    private String landAreaName;
-
-    /**
-     * 面积;单位：平方米
-     */
-    private BigDecimal area;
-
-    /**
-     * 单价;单位：元/天
-     */
-    private BigDecimal unitPrice;
-
-    /**
-     * 排序序号
-     */
-    private Integer sort;
-
-    /**
-     * 描述
-     */
-    private String remark;
+    private String seedId;
 
     /**
      * 创建人姓名

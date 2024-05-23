@@ -157,6 +157,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
+    <select id="selectFarmlandByFarmlandId" parameterType="String" resultMap="FarmlandResult">
+        <include refid="selectFarmlandVo"/>
+        where farmland_id = #{farmlandId}
+    </select>
+
     <insert id="insertFarmland" parameterType="Farmland">
         insert into t_farmland
         <trim prefix="(" suffix=")" suffixOverrides=",">

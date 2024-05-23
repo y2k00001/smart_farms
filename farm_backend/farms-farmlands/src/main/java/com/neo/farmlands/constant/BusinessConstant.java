@@ -31,6 +31,8 @@ public class BusinessConstant {
 
     public static final String MEMBER_INFO = "member_info";
 
+
+
     /**
      * 会员账号状态
      */

@@ -1,5 +1,6 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
 import com.neo.farmlands.domain.vo.SeedVO;
@@ -16,6 +17,7 @@ import java.util.List;
  * @date 2024-04-10
  */
 @Data
+@TableName(value ="t_farmland")
 public class Farmland extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

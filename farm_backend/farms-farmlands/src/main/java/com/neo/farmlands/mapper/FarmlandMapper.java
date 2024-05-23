@@ -23,6 +23,8 @@ public interface FarmlandMapper   extends BaseMapper<Farmland>
      */
     public Farmland selectFarmlandById(String id);
 
+    public Farmland selectFarmlandByFarmlandId(String farmlandId);
+
     public Farmland selectFarmlandAllById(String id);
 
     public LesseeOrderVO getFarmlandPreOrder(H5PreLesseeOrderForm lesseeOrderForm);

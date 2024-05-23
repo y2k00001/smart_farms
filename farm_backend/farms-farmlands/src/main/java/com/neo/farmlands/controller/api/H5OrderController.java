@@ -56,7 +56,7 @@ public class H5OrderController {
 
     @ApiOperation("下单")
     @PostMapping("/add")
-    public R<Long> submit(@RequestBody OrderSubmitForm form) {
+    public R<LesseeOrderVO> submit(@RequestBody OrderSubmitForm form) {
         Member member = (Member) LocalDataUtil.getVar(BusinessConstant.MEMBER_INFO);
         Long memberId = member.getId();
         String redisKey = "h5_order_add" + memberId;
@@ -81,8 +81,8 @@ public class H5OrderController {
     @PostMapping("/orderPay")
     public R<OrderPayVO> orderPay(@RequestBody OrderPayForm req){
         log.info("订单支付","提交的数据："+JSONObject.toJSONString(req));
-        String redisKey = "h5_oms_order_pay_"+req.getPayId();
-        String redisValue = req.getPayId()+"_"+System.currentTimeMillis();
+        String redisKey = "h5_oms_order_pay_"+req.getOrderId();
+        String redisValue = req.getOrderId()+"_"+System.currentTimeMillis();
         try {
             redisService.lock(redisKey, redisValue, 60);
             Member member = (Member) LocalDataUtil.getVar(BusinessConstant.MEMBER_INFO);

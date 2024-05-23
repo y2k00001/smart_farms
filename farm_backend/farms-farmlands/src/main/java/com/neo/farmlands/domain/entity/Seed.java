@@ -1,5 +1,6 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
  * @date 2024-04-16
  */
 @Data
+@TableName("t_seed")
 public class Seed extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

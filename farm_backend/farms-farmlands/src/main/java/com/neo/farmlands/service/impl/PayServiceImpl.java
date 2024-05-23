@@ -8,6 +8,8 @@ import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
@@ -179,5 +181,12 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
 
         this.save(pay);
         return pay;
+    }
+
+    @Override
+    public void updateStatusByPayId(String payId,Integer status) {
+        LambdaUpdateWrapper<Pay> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Pay::getPayId,payId).set(Pay::getPayStatus,status);
+        this.update(updateWrapper);
     }
 }

@@ -2,6 +2,7 @@ package com.neo.farmlands.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.neo.farmlands.domain.entity.FarmlandLessee;
 import com.neo.farmlands.domain.entity.FarmlandLesseeOrder;
 
 import java.util.List;
@@ -60,6 +61,8 @@ public interface FarmlandLesseeOrderMapper extends BaseMapper<FarmlandLesseeOrde
      * @return 结果
      */
     public int deleteFarmlandLesseeOrderByIds(String[] ids);
+
+    FarmlandLessee getOneByOrderId(Long orderId);
 }
 
 

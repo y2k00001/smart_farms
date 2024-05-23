@@ -1,8 +1,10 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import java.util.Date;
  * @date 2024-04-15
  */
 @Data
+@TableName(value ="t_farmland_lessee")
 public class FarmlandLessee extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -33,6 +36,12 @@ public class FarmlandLessee extends BaseEntity
     /** 租户id */
     @Excel(name = "租户id")
     private String lesseeId;
+
+    @ApiModelProperty("地块面积id")
+    private String landAreaId;
+
+    @ApiModelProperty("租赁服务id")
+    private String serviceId;
 
     /** 租赁单价;单位：元/天 */
     @Excel(name = "租赁单价;单位：元/天")

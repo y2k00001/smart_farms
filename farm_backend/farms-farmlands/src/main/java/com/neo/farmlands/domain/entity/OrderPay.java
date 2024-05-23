@@ -29,7 +29,7 @@ public class OrderPay implements Serializable {
     /**
      * 账单类型;1.租赁合同；2购买种子
      */
-    private String orderType;
+    private Integer orderType;
 
     /**
      * 支付单ID

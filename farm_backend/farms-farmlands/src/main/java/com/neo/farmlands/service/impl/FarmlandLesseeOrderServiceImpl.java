@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
 
 import com.neo.farmlands.constant.IDConstants;
+import com.neo.farmlands.domain.entity.FarmlandLessee;
 import com.neo.farmlands.domain.entity.FarmlandLesseeOrder;
 import com.neo.farmlands.domain.entity.OrderPay;
 import com.neo.farmlands.domain.entity.Pay;
@@ -125,6 +126,11 @@ public class FarmlandLesseeOrderServiceImpl extends ServiceImpl<FarmlandLesseeOr
 
         return farmlandLesseeOrder;
 
+    }
+
+    @Override
+    public FarmlandLessee getOneByOrderId(Long orderId) {
+        return farmlandLesseeOrderMapper.getOneByOrderId(orderId);
     }
 }
 

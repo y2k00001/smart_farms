@@ -1,5 +1,6 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
  * @date 2024-04-19
  */
 @Data
+@TableName(value ="t_land_area")
 public class LandArea extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

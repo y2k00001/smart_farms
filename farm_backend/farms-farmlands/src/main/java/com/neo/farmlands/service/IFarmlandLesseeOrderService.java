@@ -1,6 +1,7 @@
 package com.neo.farmlands.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.neo.farmlands.domain.entity.FarmlandLessee;
 import com.neo.farmlands.domain.entity.FarmlandLesseeOrder;
 import com.neo.farmlands.domain.entity.Pay;
 import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
@@ -62,4 +63,6 @@ public interface IFarmlandLesseeOrderService extends IService<FarmlandLesseeOrde
     public int deleteFarmlandLesseeOrderById(String id);
 
     FarmlandLesseeOrder saveBizOrder(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, Pay pay);
+
+    FarmlandLessee getOneByOrderId(Long orderId);
 }

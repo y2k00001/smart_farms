@@ -11,23 +11,23 @@ package com.neo.farmlands.enums;
  *@date 2024/4/21 15:35
  */
 public enum OrderTypeEnum {
-    ORDER_TYPE_FARMLAND_LESSEE("10", "租赁合同订单"),
+    ORDER_TYPE_FARMLAND_LESSEE(10, "租赁合同订单"),
 
-    ORDER_TYPE_SEED("20", "种子购买订单"),
-    ORDER_TYPE_SERVICE("30", "服务购买订单"),
+    ORDER_TYPE_SEED(20, "种子购买订单"),
+    ORDER_TYPE_SERVICE(30, "服务购买订单"),
             ;
 
 
 
-    private final String code;
+    private final Integer code;
     private final String description;
 
-    OrderTypeEnum(String code, String description) {
+    OrderTypeEnum(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 

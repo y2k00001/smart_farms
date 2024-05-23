@@ -67,4 +67,6 @@ public interface IPayService extends IService<Pay>
     UnifiedPayRS prePayFarmlandLessee(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO);
 
     Pay saveFarmlandLesseePay(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, FarmlandLessee farmlandLessee);
+
+    void updateStatusByPayId(String payId,Integer status);
 }
