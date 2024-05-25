@@ -5,7 +5,9 @@ import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.FarmlandLessee;
 import com.neo.farmlands.domain.vo.FarmlandLesseeReqVO;
+import com.neo.farmlands.domain.vo.FarmlandLesseeVO;
 import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
+import com.neo.farmlands.domain.vo.form.FarmlandLesseeForm;
 
 /**
  * 农田租赁信息Service接口
@@ -81,4 +83,6 @@ public interface IFarmlandLesseeService extends IService<FarmlandLessee>
      * @return {@link null}
      **/
     FarmlandLessee getOneByFarmlandId(String farmlandLesseeId, boolean isThrowException);
+
+    List<FarmlandLesseeVO> myFarmlandLesseeList(FarmlandLesseeForm farmlandLesseeForm);
 }

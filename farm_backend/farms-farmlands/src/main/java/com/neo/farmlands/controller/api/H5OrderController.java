@@ -2,13 +2,14 @@ package com.neo.farmlands.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
 
+import com.neo.common.core.controller.BaseController;
 import com.neo.common.core.domain.R;
+import com.neo.common.core.page.TableDataInfo;
 import com.neo.common.core.redis.RedisService;
 import com.neo.farmlands.constant.BusinessConstant;
-import com.neo.farmlands.domain.entity.Member;
-import com.neo.farmlands.domain.entity.OrderPay;
-import com.neo.farmlands.domain.vo.LesseeOrderVO;
-import com.neo.farmlands.domain.vo.OrderPayVO;
+import com.neo.farmlands.domain.entity.*;
+import com.neo.farmlands.domain.vo.*;
+import com.neo.farmlands.domain.vo.form.FarmlandLesseeForm;
 import com.neo.farmlands.domain.vo.form.H5PreLesseeOrderForm;
 import com.neo.farmlands.domain.vo.form.OrderPayForm;
 import com.neo.farmlands.domain.vo.form.OrderSubmitForm;
@@ -23,11 +24,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/h5/order")
 @Slf4j
-public class H5OrderController {
+public class H5OrderController extends BaseController {
 
 
     @Resource
@@ -35,6 +37,15 @@ public class H5OrderController {
 
     @Resource
     private RedisService redisService;
+
+
+    @ApiOperation("订单列表")
+    @GetMapping("/page")
+    public TableDataInfo<H5OrderVO> orderPage(Integer status){
+        startPage();
+        Member member = (Member) LocalDataUtil.getVar(BusinessConstant.MEMBER_INFO);
+        return getDataTable(orderService.orderPage(status, member.getId()));
+    }
 
     @ApiOperation("获取预下单信息")
     @PostMapping("/addOrderCheck")
@@ -99,6 +110,20 @@ public class H5OrderController {
                 log.error("",e);
             }
         }
+    }
+
+
+    /**
+     * 查询我的农田租赁信息列表
+     */
+
+    @PostMapping("/myFarmlandLesseeList")
+    @ApiOperation(value = "查询我的农田租赁信息列表")
+    public TableDataInfo<FarmlandLesseeVO> myFarmlandLesseeList(@RequestBody FarmlandLesseeForm farmlandLesseeForm)
+    {
+        startPage();
+        List<FarmlandLesseeVO> list = orderService.myFarmlandLesseeList(farmlandLesseeForm);
+        return getDataTable(list);
     }
 
 }

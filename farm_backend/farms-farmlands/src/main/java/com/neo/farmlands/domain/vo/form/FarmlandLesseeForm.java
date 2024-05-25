@@ -1,6 +1,5 @@
-package com.neo.farmlands.domain.entity;
+package com.neo.farmlands.domain.vo.form;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
@@ -17,8 +16,8 @@ import java.util.Date;
  * @date 2024-04-15
  */
 @Data
-@TableName(value ="t_farmland_lessee")
-public class FarmlandLessee extends BaseEntity
+
+public class FarmlandLesseeForm
 {
     private static final long serialVersionUID = 1L;
 
@@ -80,9 +79,5 @@ public class FarmlandLessee extends BaseEntity
     /** 创建人姓名 */
     @Excel(name = "创建人姓名")
     private String createByName;
-
-    /** 是否删除 */
-    @Excel(name = "是否删除")
-    private Long isDeleted;
 
 }

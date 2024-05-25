@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neo.farmlands.mapper.FarmlandLesseeMapper">
-    
+
     <resultMap type="FarmlandLessee" id="FarmlandLesseeResult">
         <result property="id"    column="id"    />
         <result property="farmlandLesseeId"    column="farmland_lessee_id"    />
@@ -24,12 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFarmlandLesseeVo">
-        select id, farmland_lessee_id, farmland_id, lessee_id, lessee_price, lessee_amount, lessee_day, lessee_start_date, lessee_end_date, status, lessee_files, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland_lessee
+        select id, farmland_lessee_id, farmland_id, lessee_id,member_id, lessee_price, lessee_amount, lessee_day, lessee_start_date, lessee_end_date, status, lessee_files, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland_lessee
     </sql>
 
     <select id="selectFarmlandLesseeList" parameterType="FarmlandLessee" resultMap="FarmlandLesseeResult">
         <include refid="selectFarmlandLesseeVo"/>
-        <where>  
+        <where>
             <if test="farmlandLesseeId != null  and farmlandLesseeId != ''"> and farmland_lessee_id = #{farmlandLesseeId}</if>
             <if test="farmlandId != null  and farmlandId != ''"> and farmland_id = #{farmlandId}</if>
             <if test="lesseeId != null  and lesseeId != ''"> and lessee_id = #{lesseeId}</if>
@@ -44,12 +44,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
         </where>
     </select>
-    
+
     <select id="selectFarmlandLesseeById" parameterType="String" resultMap="FarmlandLesseeResult">
         <include refid="selectFarmlandLesseeVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getFarmlandLesseeListByEntity" resultType="com.neo.farmlands.domain.vo.FarmlandLesseeVO">
+        <include refid="selectFarmlandLesseeVo"/>
+        <where>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+            <if test="memberId != null "> and member_id = #{memberId}</if>
+        </where>
+
+    </select>
+
     <insert id="insertFarmlandLessee" parameterType="FarmlandLessee">
         insert into t_farmland_lessee
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -117,7 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteFarmlandLesseeByIds" parameterType="String">
-        delete from t_farmland_lessee where id in 
+        delete from t_farmland_lessee where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

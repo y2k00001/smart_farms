@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neo.farmlands.domain.entity.FarmlandLessee;
+import com.neo.farmlands.domain.vo.FarmlandLesseeVO;
 
 /**
  * 农田租赁信息Mapper接口
@@ -60,4 +61,6 @@ public interface FarmlandLesseeMapper extends BaseMapper<FarmlandLessee>
      * @return 结果
      */
     public int deleteFarmlandLesseeByIds(String[] ids);
+
+    List<FarmlandLesseeVO> getFarmlandLesseeListByEntity(FarmlandLessee farmlandLessee);
 }

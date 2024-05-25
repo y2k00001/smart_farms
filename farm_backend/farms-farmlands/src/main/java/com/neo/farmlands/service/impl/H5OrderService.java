@@ -21,8 +21,10 @@ import com.neo.farmlands.constant.BusinessConstant;
 import com.neo.farmlands.constant.IDConstants;
 import com.neo.farmlands.domain.WechatPayData;
 import com.neo.farmlands.domain.entity.*;
+import com.neo.farmlands.domain.vo.FarmlandLesseeVO;
 import com.neo.farmlands.domain.vo.LesseeOrderVO;
 import com.neo.farmlands.domain.vo.OrderPayVO;
+import com.neo.farmlands.domain.vo.form.FarmlandLesseeForm;
 import com.neo.farmlands.domain.vo.form.H5PreLesseeOrderForm;
 import com.neo.farmlands.domain.vo.form.OrderPayForm;
 import com.neo.farmlands.domain.vo.form.OrderSubmitForm;
@@ -117,6 +119,7 @@ public class H5OrderService {
         farmlandLessee.setLandAreaId(form.getLandAreaId());
         farmlandLessee.setServiceId(form.getServiceId());
         farmlandLessee.setLesseeId(lessee.getLesseeId());
+        farmlandLessee.setMemberId(member.getId());
         farmlandLessee.setLesseePrice(farmland.getLeasePrice());
         farmlandLessee.setLesseeAmount(new BigDecimal(form.getOrderAmount()));
         farmlandLessee.setLesseeDay(form.getLesseeDay());
@@ -180,17 +183,25 @@ public class H5OrderService {
         orderPayService.save(orderPay);
 
         // 4.调用第三方支付接口
-        Map<String,Object> resultMap = goH5pay(pay,req);
+        // Map<String,Object> resultMap = goH5pay(pay,req);
 
         // 5.更新支付记录表
         payService.updateStatusByPayId(pay.getPayId(), PayStateEnum.PAY_STATE_PAYING.getCode());
         // 6.返回支付参数信息
-        response.setAppId(resultMap.get("appId").toString());
-        response.setTimeStamp(resultMap.get("timeStamp").toString());
-        response.setNonceStr(resultMap.get("nonceStr").toString());
-        response.setSignType(resultMap.get("signType").toString());
-        response.setPackage_(resultMap.get("package").toString());
-        response.setPaySign(resultMap.get("paySign").toString());
+        // response.setAppId(resultMap.get("appId").toString());
+        // response.setTimeStamp(resultMap.get("timeStamp").toString());
+        // response.setNonceStr(resultMap.get("nonceStr").toString());
+        // response.setSignType(resultMap.get("signType").toString());
+        // response.setPackage_(resultMap.get("package").toString());
+        // response.setPaySign(resultMap.get("paySign").toString());
+
+        response.setAppId("2311122123");
+        response.setTimeStamp("33212333");
+        response.setNonceStr("33212333");
+        response.setSignType("33212333");
+        response.setPackage_("33212333");
+        response.setPaySign("33212333");
+
         return response;
     }
 
@@ -216,5 +227,13 @@ public class H5OrderService {
         MerchantPayOrder payOrder = new MerchantPayOrder(detailsId, transactionType, subject, body, new BigDecimal("0.01"), outTradeNo);
         payOrder.setOpenid(openId);
         return manager.getOrderInfo(payOrder);
+    }
+
+    public List<?> orderPage(Integer status, Long id) {
+        return null;
+    }
+
+    public List<FarmlandLesseeVO> myFarmlandLesseeList(FarmlandLesseeForm farmlandLesseeForm) {
+        return farmlandLesseeService.myFarmlandLesseeList(farmlandLesseeForm);
     }
 }

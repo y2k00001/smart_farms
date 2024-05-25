@@ -19,6 +19,8 @@ import com.neo.farmlands.domain.entity.Farmland;
 import com.neo.farmlands.domain.entity.FarmlandLessee;
 import com.neo.farmlands.domain.entity.Lessee;
 import com.neo.farmlands.domain.vo.FarmlandLesseeReqVO;
+import com.neo.farmlands.domain.vo.FarmlandLesseeVO;
+import com.neo.farmlands.domain.vo.form.FarmlandLesseeForm;
 import com.neo.farmlands.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -173,6 +175,16 @@ public class FarmlandLesseeServiceImpl extends ServiceImpl<FarmlandLesseeMapper,
             }
         }
         return farmlandLessee;
+    }
+
+    @Override
+    public List<FarmlandLesseeVO> myFarmlandLesseeList(FarmlandLesseeForm farmlandLesseeForm) {
+        FarmlandLessee farmlandLessee = BeanUtil.copyProperties(farmlandLesseeForm ,FarmlandLessee.class);
+        farmlandLessee.setIsDeleted(0L);
+        farmlandLessee.setMemberId(farmlandLesseeForm.getMemberId());
+        farmlandLessee.setStatus(farmlandLesseeForm.getStatus());
+        List<FarmlandLesseeVO> farmlandLesseeVOList = farmlandLesseeMapper.getFarmlandLesseeListByEntity(farmlandLessee);
+        return farmlandLesseeVOList;
     }
 
     private Lessee saveLesseeInfo(FarmlandLesseeReqVO farmlandLesseeReq) {
