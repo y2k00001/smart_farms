@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 农田租赁信息对象 t_farmland_lessee
@@ -72,6 +73,10 @@ public class FarmlandLesseeForm
     @Excel(name = "租赁状态;0，待支付，1，已生效，2已结束，3违约")
     private Long status;
 
+    /** 租赁状态;0，待支付，1，已生效，2已结束，3违约 */
+    @ApiModelProperty(name = "租赁状态集合;0，待支付，1，已生效，2已结束，3违约")
+    private List<Long> statusList;
+
     /** 合同附件id集合 */
     @Excel(name = "合同附件id集合")
     private String lesseeFiles;
@@ -79,5 +84,7 @@ public class FarmlandLesseeForm
     /** 创建人姓名 */
     @Excel(name = "创建人姓名")
     private String createByName;
-
+    /** 是否删除 */
+    @ApiModelProperty(name = "是否删除")
+    private Long isDeleted;
 }

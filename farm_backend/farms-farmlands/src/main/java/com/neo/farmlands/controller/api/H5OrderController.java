@@ -121,6 +121,9 @@ public class H5OrderController extends BaseController {
     @ApiOperation(value = "查询我的农田租赁信息列表")
     public TableDataInfo<FarmlandLesseeVO> myFarmlandLesseeList(@RequestBody FarmlandLesseeForm farmlandLesseeForm)
     {
+        Member member = (Member) LocalDataUtil.getVar(BusinessConstant.MEMBER_INFO);
+        Long memberId = member.getId();
+        farmlandLesseeForm.setMemberId(memberId);
         startPage();
         List<FarmlandLesseeVO> list = orderService.myFarmlandLesseeList(farmlandLesseeForm);
         return getDataTable(list);

@@ -1,5 +1,6 @@
 package com.neo.farmlands.service.impl;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -18,9 +19,12 @@ import com.neo.farmlands.domain.*;
 import com.neo.farmlands.domain.entity.Farmland;
 import com.neo.farmlands.domain.entity.FarmlandLessee;
 import com.neo.farmlands.domain.entity.Lessee;
+import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.FarmlandLesseeReqVO;
 import com.neo.farmlands.domain.vo.FarmlandLesseeVO;
+import com.neo.farmlands.domain.vo.FarmlandVO;
 import com.neo.farmlands.domain.vo.form.FarmlandLesseeForm;
+import com.neo.farmlands.enums.FarmlandLesseeStatusEnum;
 import com.neo.farmlands.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +59,11 @@ public class FarmlandLesseeServiceImpl extends ServiceImpl<FarmlandLesseeMapper,
 
     @Resource
     private ILesseeService lesseeService;
+    @Resource
+    private IStorageFilesService storageFilesService;
+
+    @Resource
+    private IFarmlandLesseeOrderService farmlandLesseeOrderService;
 
     /**
      * 查询农田租赁信息
@@ -179,11 +188,29 @@ public class FarmlandLesseeServiceImpl extends ServiceImpl<FarmlandLesseeMapper,
 
     @Override
     public List<FarmlandLesseeVO> myFarmlandLesseeList(FarmlandLesseeForm farmlandLesseeForm) {
-        FarmlandLessee farmlandLessee = BeanUtil.copyProperties(farmlandLesseeForm ,FarmlandLessee.class);
-        farmlandLessee.setIsDeleted(0L);
-        farmlandLessee.setMemberId(farmlandLesseeForm.getMemberId());
-        farmlandLessee.setStatus(farmlandLesseeForm.getStatus());
-        List<FarmlandLesseeVO> farmlandLesseeVOList = farmlandLesseeMapper.getFarmlandLesseeListByEntity(farmlandLessee);
+
+        if(BeanUtil.isEmpty(farmlandLesseeForm.getStatusList())){
+            List<Long> statusList = new ArrayList<>();
+            statusList.add(FarmlandLesseeStatusEnum.FARMLAND_LESSEE_STATUS_NO_PAY.getCode());
+            statusList.add(FarmlandLesseeStatusEnum.FARMLAND_LESSEE_STATUS_PLANTING.getCode());
+            statusList.add(FarmlandLesseeStatusEnum.FARMLAND_LESSEE_STATUS_FINISHED.getCode());
+            farmlandLesseeForm.setStatusList(statusList);
+        }
+
+        List<FarmlandLesseeVO> farmlandLesseeVOList = farmlandLesseeMapper.getFarmlandLesseeListByEntity(farmlandLesseeForm);
+        // TODO 先循环查询吧，固定的页码记录数，
+        farmlandLesseeVOList.forEach(farmlandLesseeVO -> {
+            FarmlandVO farmlandVO = BeanUtil.copyProperties( farmlandService.selectFarmlandByFarmlandId(farmlandLesseeVO.getFarmlandId()) ,FarmlandVO.class);
+            if(StrUtil.isNotBlank(farmlandVO.getFileIds())){
+                String[] fileIds = farmlandVO.getFileIds().split(",");
+                List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
+                farmlandVO.setFiles(storageFiles);
+            }
+            farmlandLesseeVO.setFarmlandVO(farmlandVO);
+            farmlandLesseeVO.setLandArea(landAreaService.getOneByLandAreaId(farmlandLesseeVO.getLandAreaId(),false));
+            farmlandLesseeVO.setLandService(landServiceService.getOneByServiceId(farmlandLesseeVO.getServiceId(),false));
+            farmlandLesseeVO.setFarmlandLesseeOrder(farmlandLesseeOrderService.getOneByFarmlandLesseeId(farmlandLesseeVO.getFarmlandLesseeId(),false));
+        });
         return farmlandLesseeVOList;
     }
 

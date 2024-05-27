@@ -45,6 +45,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             lo.is_deleted = 0
         AND lo.order_id = #{orderId}
     </select>
+    <select id="getOneByFarmlandLesseeId" resultType="com.neo.farmlands.domain.entity.FarmlandLesseeOrder">
+        SELECT
+            lo.id, lo.farmland_lessee_id, lo.order_id
+        FROM
+            t_farmland_lessee_order lo
+        <where>
+            lo.farmland_lessee_id = #{farmlandLesseeId}
+            and lo.is_deleted = 0
+        </where>
+    </select>
 
     <insert id="insertFarmlandLesseeOrder" parameterType="FarmlandLesseeOrder">
         insert into t_farmland_lessee_order

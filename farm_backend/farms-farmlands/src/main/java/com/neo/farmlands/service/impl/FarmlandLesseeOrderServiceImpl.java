@@ -1,15 +1,16 @@
 package com.neo.farmlands.service.impl;
 import java.util.Date;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
 
 import com.neo.farmlands.constant.IDConstants;
-import com.neo.farmlands.domain.entity.FarmlandLessee;
-import com.neo.farmlands.domain.entity.FarmlandLesseeOrder;
-import com.neo.farmlands.domain.entity.OrderPay;
-import com.neo.farmlands.domain.entity.Pay;
+import com.neo.farmlands.domain.entity.*;
 import com.neo.farmlands.domain.vo.PayFarmlandLesseeReqVO;
 import com.neo.farmlands.enums.OrderTypeEnum;
 import com.neo.farmlands.mapper.FarmlandLesseeOrderMapper;
@@ -131,6 +132,19 @@ public class FarmlandLesseeOrderServiceImpl extends ServiceImpl<FarmlandLesseeOr
     @Override
     public FarmlandLessee getOneByOrderId(Long orderId) {
         return farmlandLesseeOrderMapper.getOneByOrderId(orderId);
+    }
+
+    @Override
+    public FarmlandLesseeOrder getOneByFarmlandLesseeId(String farmlandLesseeId, boolean isThrowException) {
+        FarmlandLesseeOrder farmlandLesseeOrder = farmlandLesseeOrderMapper.getOneByFarmlandLesseeId(farmlandLesseeId);
+        if(BeanUtil.isEmpty(farmlandLesseeOrder) ){
+            if(isThrowException){
+                throw new ServiceException(StrUtil.format("编号【】的租赁订单不存在!",farmlandLesseeId));
+            }else {
+                return new FarmlandLesseeOrder();
+            }
+        }
+        return farmlandLesseeOrder;
     }
 }
 

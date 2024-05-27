@@ -65,4 +65,6 @@ public interface IFarmlandLesseeOrderService extends IService<FarmlandLesseeOrde
     FarmlandLesseeOrder saveBizOrder(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, Pay pay);
 
     FarmlandLessee getOneByOrderId(Long orderId);
+
+    FarmlandLesseeOrder getOneByFarmlandLesseeId(String farmlandLesseeId, boolean isThorwnException);
 }

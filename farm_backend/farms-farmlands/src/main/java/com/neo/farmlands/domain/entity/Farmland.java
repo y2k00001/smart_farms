@@ -1,5 +1,6 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
@@ -70,14 +71,17 @@ public class Farmland extends BaseEntity
 
     /** 农场提供的服务 */
     @ApiModelProperty("农场提供的服务")
+    @TableField(exist = false)
     private List<LandService> landServices;
 
     /** 农田分割的地块面积 */
     @ApiModelProperty("农田分割的地块面积")
+    @TableField(exist = false)
     private List<LandArea> landAreas;
 
     /** 农田可以播种的种子 */
     @ApiModelProperty("农田可以播种的种子")
+    @TableField(exist = false)
     private List<SeedVO> seedVOS;
 
 

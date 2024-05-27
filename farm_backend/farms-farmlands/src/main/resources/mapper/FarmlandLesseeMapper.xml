@@ -9,6 +9,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="farmlandLesseeId"    column="farmland_lessee_id"    />
         <result property="farmlandId"    column="farmland_id"    />
         <result property="lesseeId"    column="lessee_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="landAreaId"    column="land_area_id"    />
+        <result property="serviceId"    column="service_id"    />
         <result property="lesseePrice"    column="lessee_price"    />
         <result property="lesseeAmount"    column="lessee_amount"    />
         <result property="lesseeDay"    column="lessee_day"    />
@@ -21,10 +24,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="isDeleted"    column="is_deleted"    />
+
+
     </resultMap>
 
+
+
     <sql id="selectFarmlandLesseeVo">
-        select id, farmland_lessee_id, farmland_id, lessee_id,member_id, lessee_price, lessee_amount, lessee_day, lessee_start_date, lessee_end_date, status, lessee_files, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland_lessee
+        select id, farmland_lessee_id, farmland_id, lessee_id,member_id,land_area_id,service_id, lessee_price, lessee_amount, lessee_day, lessee_start_date, lessee_end_date, status, lessee_files, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland_lessee
     </sql>
 
     <select id="selectFarmlandLesseeList" parameterType="FarmlandLessee" resultMap="FarmlandLesseeResult">
@@ -55,6 +62,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null "> and status = #{status}</if>
             <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
             <if test="memberId != null "> and member_id = #{memberId}</if>
+            <if test="statusList != null ">
+                and status in
+                <foreach collection="statusList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+             </if>
         </where>
 
     </select>
