@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
+import com.neo.farmlands.domain.vo.PayVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.OrderPayMapper;
@@ -94,5 +95,10 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OrderPay> i
     public int deleteOrderPayById(String id)
     {
         return orderPayMapper.deleteOrderPayById(id);
+    }
+
+    @Override
+    public PayVO getByOrderId(Long orderId) {
+        return orderPayMapper.getByOrderId(orderId);
     }
 }

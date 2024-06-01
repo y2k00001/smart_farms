@@ -189,4 +189,11 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
         updateWrapper.eq(Pay::getPayId,payId).set(Pay::getPayStatus,status);
         this.update(updateWrapper);
     }
+
+    @Override
+    public void updateByPayId(String payId, Pay updatePay) {
+        LambdaUpdateWrapper<Pay> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Pay::getPayId,payId);
+        this.update(updatePay,updateWrapper);
+    }
 }

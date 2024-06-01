@@ -65,6 +65,9 @@ public class FarmlandLesseeServiceImpl extends ServiceImpl<FarmlandLesseeMapper,
     @Resource
     private IFarmlandLesseeOrderService farmlandLesseeOrderService;
 
+    @Resource
+    private IFarmlandLesseeSeedService farmlandLesseeSeedService;
+
     /**
      * 查询农田租赁信息
      *
@@ -189,7 +192,7 @@ public class FarmlandLesseeServiceImpl extends ServiceImpl<FarmlandLesseeMapper,
     @Override
     public List<FarmlandLesseeVO> myFarmlandLesseeList(FarmlandLesseeForm farmlandLesseeForm) {
 
-        if(BeanUtil.isEmpty(farmlandLesseeForm.getStatusList())){
+        if(BeanUtil.isEmpty(farmlandLesseeForm.getStatusList()) ||  !(farmlandLesseeForm.getStatusList().size() > 0) ){
             List<Long> statusList = new ArrayList<>();
             statusList.add(FarmlandLesseeStatusEnum.FARMLAND_LESSEE_STATUS_NO_PAY.getCode());
             statusList.add(FarmlandLesseeStatusEnum.FARMLAND_LESSEE_STATUS_PLANTING.getCode());
@@ -212,6 +215,26 @@ public class FarmlandLesseeServiceImpl extends ServiceImpl<FarmlandLesseeMapper,
             farmlandLesseeVO.setFarmlandLesseeOrder(farmlandLesseeOrderService.getOneByFarmlandLesseeId(farmlandLesseeVO.getFarmlandLesseeId(),false));
         });
         return farmlandLesseeVOList;
+    }
+
+    @Override
+    public FarmlandLesseeVO myFarmlandLesseeDetail(FarmlandLesseeForm farmlandLesseeForm) {
+        FarmlandLesseeVO farmlandLesseeVO= farmlandLesseeMapper.getFarmlandLesseeByEntity(farmlandLesseeForm);
+
+
+        FarmlandVO farmlandVO = BeanUtil.copyProperties( farmlandService.selectFarmlandByFarmlandId(farmlandLesseeVO.getFarmlandId()) ,FarmlandVO.class);
+        if(StrUtil.isNotBlank(farmlandVO.getFileIds())){
+            String[] fileIds = farmlandVO.getFileIds().split(",");
+            List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
+            farmlandVO.setFiles(storageFiles);
+        }
+        farmlandLesseeVO.setFarmlandVO(farmlandVO);
+        farmlandLesseeVO.setLandArea(landAreaService.getOneByLandAreaId(farmlandLesseeVO.getLandAreaId(),false));
+        farmlandLesseeVO.setLandService(landServiceService.getOneByServiceId(farmlandLesseeVO.getServiceId(),false));
+        farmlandLesseeVO.setFarmlandLesseeOrder(farmlandLesseeOrderService.getOneByFarmlandLesseeId(farmlandLesseeVO.getFarmlandLesseeId(),false));
+        farmlandLesseeVO.setSeedList(farmlandLesseeSeedService.getSeedListByFarmlandLesseeId(farmlandLesseeForm.getFarmlandLesseeId()));
+        farmlandLesseeVO.setLessee(lesseeService.getOneByLesseeId(farmlandLesseeVO.getLesseeId(),false));
+        return farmlandLesseeVO;
     }
 
     private Lessee saveLesseeInfo(FarmlandLesseeReqVO farmlandLesseeReq) {

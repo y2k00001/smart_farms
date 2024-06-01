@@ -60,4 +60,6 @@ public interface ILesseeService extends IService<Lessee>
      * @return 结果
      */
     public int deleteLesseeById(String id);
+
+    Lessee getOneByLesseeId(String lesseeId, boolean b);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.OrderPay;
+import com.neo.farmlands.domain.vo.PayVO;
 
 /**
  * 账单支付单关联Service接口
@@ -60,4 +61,6 @@ public interface IOrderPayService  extends IService<OrderPay>
      * @return 结果
      */
     public int deleteOrderPayById(String id);
+
+    PayVO getByOrderId(Long orderId);
 }

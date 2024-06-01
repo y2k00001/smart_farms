@@ -24,6 +24,7 @@ import com.neo.farmlands.domain.entity.*;
 import com.neo.farmlands.domain.vo.FarmlandLesseeVO;
 import com.neo.farmlands.domain.vo.LesseeOrderVO;
 import com.neo.farmlands.domain.vo.OrderPayVO;
+import com.neo.farmlands.domain.vo.PayVO;
 import com.neo.farmlands.domain.vo.form.FarmlandLesseeForm;
 import com.neo.farmlands.domain.vo.form.H5PreLesseeOrderForm;
 import com.neo.farmlands.domain.vo.form.OrderPayForm;
@@ -164,29 +165,47 @@ public class H5OrderService {
         if (BeanUtil.isEmpty(farmlandLessee)) {
             throw new ServiceException("没有待支付的订单");
         }
-        // 3.创建支付记录表、订单支付记录关联表
-        Pay pay = new Pay();
-        String subject = StrUtil.format("微信小程序缴费-租赁");
-        pay.setSubject(subject);
-        pay.setBody("");
-        pay.setPaySource(10);
-        pay.setPayChannel(10);
-        pay.setPayAmount(farmlandLessee.getLesseeAmount());
-        pay.setUpdateAmount(new BigDecimal("0"));
-        pay.setPayStatus(0);
-        pay.setExpiredTime(DateUtil.offsetMinute(new Date(),30));
-        payService.save(pay);
-        OrderPay orderPay = new OrderPay();
-        orderPay.setOrderId(req.getOrderId().toString());
-        orderPay.setOrderType(OrderTypeEnum.ORDER_TYPE_FARMLAND_LESSEE.getCode());
-        orderPay.setPayId(pay.getPayId());
-        orderPayService.save(orderPay);
+        // 2.查询订单、支付关联表，有就更新pay记录，没有就新插入pay记录
+        PayVO payVO = orderPayService.getByOrderId(req.getOrderId());
+        String payId;
+        if(BeanUtil.isEmpty(payVO)){
+            //生成一个统一的订单号
+            payId = String.valueOf(IDGenerator.generateId());
+            // 3.创建支付记录表、订单支付记录关联表
+            Pay pay = new Pay();
+            pay.setPayId(payId);
+            String subject = StrUtil.format("微信小程序缴费-租赁");
+            pay.setSubject(subject);
+            pay.setBody("");
+            pay.setPaySource(10);
+            pay.setPayChannel(10);
+            pay.setPayAmount(farmlandLessee.getLesseeAmount());
+            pay.setUpdateAmount(new BigDecimal("0"));
+            pay.setPayStatus(0);
+            pay.setExpiredTime(DateUtil.offsetMinute(new Date(),30));
+            payService.save(pay);
+            OrderPay orderPay = new OrderPay();
+            orderPay.setOrderId(req.getOrderId().toString());
+            orderPay.setOrderType(OrderTypeEnum.ORDER_TYPE_FARMLAND_LESSEE.getCode());
+            orderPay.setPayId(pay.getPayId());
+            orderPayService.save(orderPay);
+        }else {
+            payId = payVO.getPayId();
+            Pay updatePay = BeanUtil.copyProperties(payVO,Pay.class);
+            updatePay.setPayAmount(farmlandLessee.getLesseeAmount());
+            updatePay.setPayStatus(0);
+            updatePay.setExpiredTime(DateUtil.offsetMinute(new Date(),30));
+            updatePay.setUpdateTime(new Date());
+
+            payService.updateByPayId(updatePay.getPayId(),updatePay);
+        }
+
 
         // 4.调用第三方支付接口
         // Map<String,Object> resultMap = goH5pay(pay,req);
 
         // 5.更新支付记录表
-        payService.updateStatusByPayId(pay.getPayId(), PayStateEnum.PAY_STATE_PAYING.getCode());
+        payService.updateStatusByPayId(payId, PayStateEnum.PAY_STATE_PAYING.getCode());
         // 6.返回支付参数信息
         // response.setAppId(resultMap.get("appId").toString());
         // response.setTimeStamp(resultMap.get("timeStamp").toString());
@@ -235,5 +254,9 @@ public class H5OrderService {
 
     public List<FarmlandLesseeVO> myFarmlandLesseeList(FarmlandLesseeForm farmlandLesseeForm) {
         return farmlandLesseeService.myFarmlandLesseeList(farmlandLesseeForm);
+    }
+
+    public FarmlandLesseeVO myFarmlandLesseeDetail(FarmlandLesseeForm farmlandLesseeForm) {
+        return farmlandLesseeService.myFarmlandLesseeDetail(farmlandLesseeForm);
     }
 }

@@ -3,6 +3,9 @@ package com.neo.farmlands.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neo.farmlands.domain.entity.FarmlandLesseeSeed;
+import com.neo.farmlands.domain.entity.Seed;
+
+import java.util.List;
 
 /**
 * @author monkey
@@ -12,6 +15,7 @@ import com.neo.farmlands.domain.entity.FarmlandLesseeSeed;
 */
 public interface FarmlandLesseeSeedMapper extends BaseMapper<FarmlandLesseeSeed> {
 
+    List<Seed> getSeedListByFarmlandLesseeId(String farmlandLesseeId);
 }
 
 

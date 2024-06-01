@@ -129,4 +129,19 @@ public class H5OrderController extends BaseController {
         return getDataTable(list);
     }
 
+    /**
+     * 查询我的农田租赁信息详情
+     */
+
+    @PostMapping("/myFarmlandLesseeDetail")
+    @ApiOperation(value = "查询我的农田租赁信息详情")
+    public R<FarmlandLesseeVO> myFarmlandLesseeDetail(@RequestBody FarmlandLesseeForm farmlandLesseeForm)
+    {
+        Member member = (Member) LocalDataUtil.getVar(BusinessConstant.MEMBER_INFO);
+        Long memberId = member.getId();
+        farmlandLesseeForm.setMemberId(memberId);
+        FarmlandLesseeVO farmlandLesseeVO = orderService.myFarmlandLesseeDetail(farmlandLesseeForm);
+        return R.ok(farmlandLesseeVO);
+    }
+
 }

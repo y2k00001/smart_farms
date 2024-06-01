@@ -29,6 +29,11 @@ public class FarmlandLesseeForm
     @Excel(name = "农田租赁合同ID")
     private String farmlandLesseeId;
 
+    /**
+     * 账单ID
+     */
+    private String orderId;
+
     /** 农田id */
     @Excel(name = "农田id")
     private String farmlandId;

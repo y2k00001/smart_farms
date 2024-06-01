@@ -64,4 +64,6 @@ public interface FarmlandLesseeMapper extends BaseMapper<FarmlandLessee>
     public int deleteFarmlandLesseeByIds(String[] ids);
 
     List<FarmlandLesseeVO> getFarmlandLesseeListByEntity(FarmlandLesseeForm farmlandLesseeForm);
+
+    FarmlandLesseeVO getFarmlandLesseeByEntity(FarmlandLesseeForm farmlandLesseeForm);
 }

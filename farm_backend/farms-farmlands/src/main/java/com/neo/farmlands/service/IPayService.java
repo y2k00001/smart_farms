@@ -69,4 +69,6 @@ public interface IPayService extends IService<Pay>
     Pay saveFarmlandLesseePay(PayFarmlandLesseeReqVO payFarmlandLesseeReqVO, FarmlandLessee farmlandLessee);
 
     void updateStatusByPayId(String payId,Integer status);
+
+    void updateByPayId(String payId, Pay updatePay);
 }

@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
-import com.neo.farmlands.domain.entity.FarmlandLesseeOrder;
-import com.neo.farmlands.domain.entity.LandArea;
-import com.neo.farmlands.domain.entity.LandService;
-import com.neo.farmlands.domain.entity.Seed;
+import com.neo.farmlands.domain.entity.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -75,6 +72,9 @@ public class FarmlandLesseeVO
 
    @ApiModelProperty("租赁种植种子列表")
     private List<Seed> seedList;
+
+   @ApiModelProperty("租户信息")
+   private Lessee lessee;
 
     @ApiModelProperty("租赁土地的关联订单信息")
     private FarmlandLesseeOrder farmlandLesseeOrder;

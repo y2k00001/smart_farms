@@ -85,4 +85,6 @@ public interface IFarmlandLesseeService extends IService<FarmlandLessee>
     FarmlandLessee getOneByFarmlandId(String farmlandLesseeId, boolean isThrowException);
 
     List<FarmlandLesseeVO> myFarmlandLesseeList(FarmlandLesseeForm farmlandLesseeForm);
+
+    FarmlandLesseeVO myFarmlandLesseeDetail(FarmlandLesseeForm farmlandLesseeForm);
 }

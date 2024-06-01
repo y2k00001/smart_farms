@@ -3,6 +3,9 @@ package com.neo.farmlands.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.FarmlandLesseeSeed;
+import com.neo.farmlands.domain.entity.Seed;
+
+import java.util.List;
 
 /**
 * @author monkey
@@ -11,4 +14,5 @@ import com.neo.farmlands.domain.entity.FarmlandLesseeSeed;
 */
 public interface IFarmlandLesseeSeedService extends IService<FarmlandLesseeSeed> {
 
+    List<Seed> getSeedListByFarmlandLesseeId(String farmlandLesseeId);
 }

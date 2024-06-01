@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neo.farmlands.mapper.OrderPayMapper">
-    
+
     <resultMap type="OrderPay" id="OrderPayResult">
         <result property="id"    column="id"    />
         <result property="orderId"    column="order_id"    />
@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectOrderPayList" parameterType="OrderPay" resultMap="OrderPayResult">
         <include refid="selectOrderPayVo"/>
-        <where>  
+        <where>
             <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
             <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
             <if test="payId != null  and payId != ''"> and pay_id = #{payId}</if>
@@ -30,12 +30,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
         </where>
     </select>
-    
+
     <select id="selectOrderPayById" parameterType="String" resultMap="OrderPayResult">
         <include refid="selectOrderPayVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getByOrderId" resultType="com.neo.farmlands.domain.vo.PayVO">
+        select op.order_id, op.order_type, op.pay_id, p.third_trade_no, p.subject, p.body, p.pay_source
+             , p.pay_user_id, p.pay_channel, p.pay_amount, p.update_amount, p.pay_status, p.pay_time, p.expired_time
+        from t_order_pay op left join t_pay p on p.pay_id= op.pay_id
+        where order_id = #{orderId} and op.is_deleted = 0 and p.is_deleted = 0
+    </select>
+
     <insert id="insertOrderPay" parameterType="OrderPay">
         insert into t_order_pay
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -82,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteOrderPayByIds" parameterType="String">
-        delete from t_order_pay where id in 
+        delete from t_order_pay where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

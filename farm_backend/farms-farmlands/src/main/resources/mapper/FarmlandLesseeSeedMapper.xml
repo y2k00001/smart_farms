@@ -20,4 +20,9 @@
         create_by_name,create_by,create_time,
         update_time,is_deleted
     </sql>
+    <select id="getSeedListByFarmlandLesseeId" resultType="com.neo.farmlands.domain.entity.Seed">
+        select s.* from t_farmland_lessee_seed fls
+        left join t_seed s on fls.seed_id = s.seed_id
+        where fls.farmland_lessee_id = #{farmlandLesseeId} and fls.is_deleted = 0 and s.is_deleted = 0
+    </select>
 </mapper>

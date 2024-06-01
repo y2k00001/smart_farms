@@ -2,8 +2,13 @@ package com.neo.farmlands.service.impl;
 
 import java.util.List;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
+import com.neo.farmlands.domain.entity.LandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.LesseeMapper;
@@ -94,5 +99,20 @@ public class LesseeServiceImpl extends ServiceImpl<LesseeMapper,Lessee> implemen
     public int deleteLesseeById(String id)
     {
         return lesseeMapper.deleteLesseeById(id);
+    }
+
+    @Override
+    public Lessee getOneByLesseeId(String lesseeId, boolean isThrowException) {
+        LambdaQueryWrapper<Lessee> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Lessee::getLesseeId, lesseeId).eq(Lessee::getIsDeleted, "0");
+        Lessee lessee = this.getOne(queryWrapper);
+        if(BeanUtil.isEmpty(lessee) ){
+            if(isThrowException){
+                throw new ServiceException(StrUtil.format("编号【】租户信息不存在!",lesseeId));
+            }else {
+                return new Lessee();
+            }
+        }
+        return lessee;
     }
 }

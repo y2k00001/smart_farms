@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neo.farmlands.domain.entity.OrderPay;
+import com.neo.farmlands.domain.vo.PayVO;
 
 /**
  * 账单支付单关联Mapper接口
@@ -60,4 +61,6 @@ public interface OrderPayMapper extends BaseMapper<OrderPay>
      * @return 结果
      */
     public int deleteOrderPayByIds(String[] ids);
+
+    PayVO getByOrderId(Long orderId);
 }
