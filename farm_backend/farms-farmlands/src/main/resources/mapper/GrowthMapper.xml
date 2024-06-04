@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.GrowthMapper">
+
+    <resultMap type="Growth" id="GrowthResult">
+        <result property="id"    column="id"    />
+        <result property="growthId"    column="growth_id"    />
+        <result property="farmlandId"    column="farmland_id"    />
+        <result property="farmlandLesseeId"    column="farmland_lessee_id"    />
+        <result property="seedId"    column="seed_id"    />
+        <result property="landAreaId"    column="land_area_id"    />
+        <result property="farmlandSnap"    column="farmland_snap"    />
+        <result property="seedSnap"    column="seed_snap"    />
+        <result property="farmlanName"    column="farmlan_name"    />
+        <result property="cropName"    column="crop_name"    />
+        <result property="scientificName"    column="scientific_name"    />
+        <result property="growthStage"    column="growth_stage"    />
+        <result property="growthTime"    column="growth_time"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="growthConditions"    column="growth_conditions"    />
+        <result property="fertilizerRequirements"    column="fertilizer_requirements"    />
+        <result property="irrigationNeeds"    column="irrigation_needs"    />
+        <result property="pestControlMeasures"    column="pest_control_measures"    />
+        <result property="climateSuitability"    column="climate_suitability"    />
+        <result property="soilType"    column="soil_type"    />
+        <result property="growthPhaseDetails"    column="growth_phase_details"    />
+        <result property="yieldExpectation"    column="yield_expectation"    />
+        <result property="varietyDescription"    column="variety_description"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+
+    </resultMap>
+
+
+    <resultMap type="growthVO" id="GrowthVOResult">
+        <result property="id"    column="id"    />
+        <result property="growthId"    column="growth_id"    />
+        <result property="farmlandId"    column="farmland_id"    />
+        <result property="farmlandLesseeId"    column="farmland_lessee_id"    />
+        <result property="seedId"    column="seed_id"    />
+        <result property="landAreaId"    column="land_area_id"    />
+        <result property="farmlandSnap"    column="farmland_snap"    />
+        <result property="seedSnap"    column="seed_snap"    />
+        <result property="farmlanName"    column="farmlan_name"    />
+        <result property="cropName"    column="crop_name"    />
+        <result property="scientificName"    column="scientific_name"    />
+        <result property="growthStage"    column="growth_stage"    />
+        <result property="growthTime"    column="growth_time"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="growthConditions"    column="growth_conditions"    />
+        <result property="fertilizerRequirements"    column="fertilizer_requirements"    />
+        <result property="irrigationNeeds"    column="irrigation_needs"    />
+        <result property="pestControlMeasures"    column="pest_control_measures"    />
+        <result property="climateSuitability"    column="climate_suitability"    />
+        <result property="soilType"    column="soil_type"    />
+        <result property="growthPhaseDetails"    column="growth_phase_details"    />
+        <result property="yieldExpectation"    column="yield_expectation"    />
+        <result property="varietyDescription"    column="variety_description"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="isDeleted"    column="is_deleted"    />
+
+        <association property="farmlandVO" javaType="FarmlandVO" />
+        <association property="farmlandLesseeVO" javaType="FarmlandLesseeVO" />
+        <association property="seedVO" javaType="SeedVO" />
+        <association property="landArea" javaType="LandArea" />
+
+
+    </resultMap>
+
+
+    <sql id="selectGrowthVo" >
+        select id, growth_id, farmland_id, farmland_lessee_id, seed_id, land_area_id, farmland_snap, seed_snap, farmlan_name, crop_name, scientific_name, growth_stage, growth_time, start_date, end_date, growth_conditions, fertilizer_requirements, irrigation_needs, pest_control_measures, climate_suitability, soil_type, growth_phase_details, yield_expectation, variety_description, remarks, create_by_name, create_by, create_time, update_time, is_deleted from t_growth
+    </sql>
+
+    <select id="selectGrowthList" parameterType="Growth" resultMap="GrowthResult">
+        <include refid="selectGrowthVo"/>
+        <where>
+            <if test="growthId != null  and growthId != ''"> and growth_id = #{growthId}</if>
+            <if test="farmlandId != null  and farmlandId != ''"> and farmland_id = #{farmlandId}</if>
+            <if test="farmlandLesseeId != null  and farmlandLesseeId != ''"> and farmland_lessee_id = #{farmlandLesseeId}</if>
+            <if test="seedId != null  and seedId != ''"> and seed_id = #{seedId}</if>
+            <if test="landAreaId != null  and landAreaId != ''"> and land_area_id = #{landAreaId}</if>
+            <if test="farmlandSnap != null  and farmlandSnap != ''"> and farmland_snap = #{farmlandSnap}</if>
+            <if test="seedSnap != null  and seedSnap != ''"> and seed_snap = #{seedSnap}</if>
+            <if test="farmlanName != null  and farmlanName != ''"> and farmlan_name like concat('%', #{farmlanName}, '%')</if>
+            <if test="cropName != null  and cropName != ''"> and crop_name like concat('%', #{cropName}, '%')</if>
+            <if test="scientificName != null  and scientificName != ''"> and scientific_name like concat('%', #{scientificName}, '%')</if>
+            <if test="growthStage != null  and growthStage != ''"> and growth_stage = #{growthStage}</if>
+            <if test="growthTime != null  and growthTime != ''"> and growth_time = #{growthTime}</if>
+            <if test="startDate != null  and startDate != ''"> and start_date = #{startDate}</if>
+            <if test="endDate != null  and endDate != ''"> and end_date = #{endDate}</if>
+            <if test="growthConditions != null  and growthConditions != ''"> and growth_conditions = #{growthConditions}</if>
+            <if test="fertilizerRequirements != null  and fertilizerRequirements != ''"> and fertilizer_requirements = #{fertilizerRequirements}</if>
+            <if test="irrigationNeeds != null  and irrigationNeeds != ''"> and irrigation_needs = #{irrigationNeeds}</if>
+            <if test="pestControlMeasures != null  and pestControlMeasures != ''"> and pest_control_measures = #{pestControlMeasures}</if>
+            <if test="climateSuitability != null  and climateSuitability != ''"> and climate_suitability = #{climateSuitability}</if>
+            <if test="soilType != null  and soilType != ''"> and soil_type = #{soilType}</if>
+            <if test="growthPhaseDetails != null  and growthPhaseDetails != ''"> and growth_phase_details = #{growthPhaseDetails}</if>
+            <if test="yieldExpectation != null "> and yield_expectation = #{yieldExpectation}</if>
+            <if test="varietyDescription != null  and varietyDescription != ''"> and variety_description = #{varietyDescription}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+
+    <select id="selectGrowthById" parameterType="String" resultMap="GrowthResult">
+        <include refid="selectGrowthVo"/>
+        where id = #{id}
+    </select>
+    <select id="myGrowthList" resultMap="GrowthVOResult">
+        SELECT
+            g.id, g.growth_id, g.farmland_id, g.farmland_lessee_id, g.seed_id, g.land_area_id, g.farmland_snap, g.seed_snap, g.farmlan_name, g.crop_name, g.scientific_name
+             , g.growth_stage, g.growth_time, g.start_date, g.end_date, g.growth_conditions, g.fertilizer_requirements, g.irrigation_needs, g.pest_control_measures
+             , g.climate_suitability, g.soil_type, g.growth_phase_details, g.yield_expectation, g.variety_description, g.remarks,g.create_by_name
+             , g.create_by, g.create_time, g.update_time, g.is_deleted
+        FROM
+            t_growth g
+                LEFT JOIN t_farmland_lessee fl ON fl.farmland_lessee_id = g.farmland_lessee_id
+        WHERE
+            g.is_deleted = 0
+          AND fl.is_deleted = 0
+          AND fl.member_id = 1
+        <if test="growthStage != null "> and growth_stage = #{growthStage}</if>
+        <if test="statusList != null ">
+            and g.growth_stage in
+            <foreach collection="statusList" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="insertGrowth" parameterType="Growth">
+        insert into t_growth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="growthId != null">growth_id,</if>
+            <if test="farmlandId != null">farmland_id,</if>
+            <if test="farmlandLesseeId != null">farmland_lessee_id,</if>
+            <if test="seedId != null">seed_id,</if>
+            <if test="landAreaId != null">land_area_id,</if>
+            <if test="farmlandSnap != null">farmland_snap,</if>
+            <if test="seedSnap != null">seed_snap,</if>
+            <if test="farmlanName != null">farmlan_name,</if>
+            <if test="cropName != null">crop_name,</if>
+            <if test="scientificName != null">scientific_name,</if>
+            <if test="growthStage != null">growth_stage,</if>
+            <if test="growthTime != null">growth_time,</if>
+            <if test="startDate != null">start_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="growthConditions != null">growth_conditions,</if>
+            <if test="fertilizerRequirements != null">fertilizer_requirements,</if>
+            <if test="irrigationNeeds != null">irrigation_needs,</if>
+            <if test="pestControlMeasures != null">pest_control_measures,</if>
+            <if test="climateSuitability != null">climate_suitability,</if>
+            <if test="soilType != null">soil_type,</if>
+            <if test="growthPhaseDetails != null">growth_phase_details,</if>
+            <if test="yieldExpectation != null">yield_expectation,</if>
+            <if test="varietyDescription != null">variety_description,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="growthId != null">#{growthId},</if>
+            <if test="farmlandId != null">#{farmlandId},</if>
+            <if test="farmlandLesseeId != null">#{farmlandLesseeId},</if>
+            <if test="seedId != null">#{seedId},</if>
+            <if test="landAreaId != null">#{landAreaId},</if>
+            <if test="farmlandSnap != null">#{farmlandSnap},</if>
+            <if test="seedSnap != null">#{seedSnap},</if>
+            <if test="farmlanName != null">#{farmlanName},</if>
+            <if test="cropName != null">#{cropName},</if>
+            <if test="scientificName != null">#{scientificName},</if>
+            <if test="growthStage != null">#{growthStage},</if>
+            <if test="growthTime != null">#{growthTime},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="growthConditions != null">#{growthConditions},</if>
+            <if test="fertilizerRequirements != null">#{fertilizerRequirements},</if>
+            <if test="irrigationNeeds != null">#{irrigationNeeds},</if>
+            <if test="pestControlMeasures != null">#{pestControlMeasures},</if>
+            <if test="climateSuitability != null">#{climateSuitability},</if>
+            <if test="soilType != null">#{soilType},</if>
+            <if test="growthPhaseDetails != null">#{growthPhaseDetails},</if>
+            <if test="yieldExpectation != null">#{yieldExpectation},</if>
+            <if test="varietyDescription != null">#{varietyDescription},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGrowth" parameterType="Growth">
+        update t_growth
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="growthId != null">growth_id = #{growthId},</if>
+            <if test="farmlandId != null">farmland_id = #{farmlandId},</if>
+            <if test="farmlandLesseeId != null">farmland_lessee_id = #{farmlandLesseeId},</if>
+            <if test="seedId != null">seed_id = #{seedId},</if>
+            <if test="landAreaId != null">land_area_id = #{landAreaId},</if>
+            <if test="farmlandSnap != null">farmland_snap = #{farmlandSnap},</if>
+            <if test="seedSnap != null">seed_snap = #{seedSnap},</if>
+            <if test="farmlanName != null">farmlan_name = #{farmlanName},</if>
+            <if test="cropName != null">crop_name = #{cropName},</if>
+            <if test="scientificName != null">scientific_name = #{scientificName},</if>
+            <if test="growthStage != null">growth_stage = #{growthStage},</if>
+            <if test="growthTime != null">growth_time = #{growthTime},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="growthConditions != null">growth_conditions = #{growthConditions},</if>
+            <if test="fertilizerRequirements != null">fertilizer_requirements = #{fertilizerRequirements},</if>
+            <if test="irrigationNeeds != null">irrigation_needs = #{irrigationNeeds},</if>
+            <if test="pestControlMeasures != null">pest_control_measures = #{pestControlMeasures},</if>
+            <if test="climateSuitability != null">climate_suitability = #{climateSuitability},</if>
+            <if test="soilType != null">soil_type = #{soilType},</if>
+            <if test="growthPhaseDetails != null">growth_phase_details = #{growthPhaseDetails},</if>
+            <if test="yieldExpectation != null">yield_expectation = #{yieldExpectation},</if>
+            <if test="varietyDescription != null">variety_description = #{varietyDescription},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGrowthById" parameterType="String">
+        delete from t_growth where id = #{id}
+    </delete>
+
+    <delete id="deleteGrowthByIds" parameterType="String">
+        delete from t_growth where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

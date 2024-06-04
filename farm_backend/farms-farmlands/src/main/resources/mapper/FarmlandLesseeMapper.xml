@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             fl.is_deleted = 0 and flo.is_deleted = 0
             <if test="farmlandLesseeId != null "> and fl.farmland_lessee_id = #{farmlandLesseeId}</if>
-            <if test="orderId != null "> and fl.farmland_lessee_id = #{farmlandLesseeId}</if>
+            <if test="orderId != null "> and flo.order_id = #{orderId}</if>
             <if test="status != null "> and fl.status = #{status}</if>
             <if test="memberId != null "> and fl.member_id = #{memberId}</if>
 

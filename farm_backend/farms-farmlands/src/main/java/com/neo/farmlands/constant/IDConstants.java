@@ -30,4 +30,8 @@ public class IDConstants {
     /** 农田租户ID前缀
      */
     public static final String FARMLAND_LESSEE_ORDER_ID_PREFIX   = "FLL_O_";
+
+    /** 生长周期信息ID前缀
+     */
+    public static final String GROWTH_ID_PREFIX   = "GR_";
 }
