@@ -1,11 +1,13 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 种子信息对象 t_seed
@@ -87,5 +89,8 @@ public class Seed extends BaseEntity
     /** 是否删除 */
     @Excel(name = "是否删除")
     private Long isDeleted;
+
+    @TableField(exist = false)
+    private List<StorageFiles> files;
 
 }

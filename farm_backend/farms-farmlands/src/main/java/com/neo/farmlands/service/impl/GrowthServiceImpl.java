@@ -12,6 +12,7 @@ import com.neo.common.utils.uuid.IdUtils;
 import com.neo.farmlands.constant.BusinessConstant;
 import com.neo.farmlands.constant.IDConstants;
 import com.neo.farmlands.domain.entity.Growth;
+import com.neo.farmlands.domain.vo.FarmlandLesseeVO;
 import com.neo.farmlands.domain.vo.GrowthVO;
 import com.neo.farmlands.domain.vo.form.FarmlandLesseeForm;
 import com.neo.farmlands.domain.vo.form.GrowthForm;
@@ -135,7 +136,8 @@ public class GrowthServiceImpl extends ServiceImpl<GrowthMapper, Growth> impleme
                 FarmlandLesseeForm farmlandLesseeForm = new FarmlandLesseeForm();
                 farmlandLesseeForm.setFarmlandLesseeId(growthVO.getFarmlandLesseeId());
                 farmlandLesseeForm.setMemberId(growthForm.getMemberId());
-                farmlandLesseeService.myFarmlandLesseeDetail(farmlandLesseeForm);
+                FarmlandLesseeVO farmlandLesseeVO = farmlandLesseeService.myFarmlandLesseeDetail(farmlandLesseeForm);
+                growthVO.setFarmlandLesseeVO(farmlandLesseeVO);
             });
         }
         return growthVOList;

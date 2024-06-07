@@ -58,7 +58,7 @@ public class GrowthForm
 
     /** 农田昵称 */
     @Excel(name = "农田昵称")
-    private String farmlanName;
+    private String farmlandName;
 
     /** 农作物名称 */
     @Excel(name = "农作物名称")
