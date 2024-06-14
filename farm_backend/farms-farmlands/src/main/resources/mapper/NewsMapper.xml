@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.NewsMapper">
+
+    <resultMap type="News" id="NewsResult">
+        <result property="id"    column="id"    />
+        <result property="newsId"    column="news_id"    />
+        <result property="newsType"    column="news_type"    />
+        <result property="newTitle"    column="new_title"    />
+        <result property="sort"    column="sort"    />
+        <result property="thumbnailFile"    column="thumbnail_file"    />
+        <result property="pictureIds"    column="picture_ids"    />
+        <result property="content"    column="content"    />
+        <result property="releaseBy"    column="release_by"    />
+        <result property="releaseTime"    column="release_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="status"    column="status"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <resultMap type="com.neo.farmlands.domain.vo.NewsVO" id="NewsVoResult">
+        <result property="id"    column="id"    />
+        <result property="newsId"    column="news_id"    />
+        <result property="newsType"    column="news_type"    />
+        <result property="newTitle"    column="new_title"    />
+        <result property="sort"    column="sort"    />
+        <result property="thumbnailFile"    column="thumbnail_file"    />
+        <result property="pictureIds"    column="picture_ids"    />
+        <result property="content"    column="content"    />
+        <result property="releaseBy"    column="release_by"    />
+        <result property="releaseTime"    column="release_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="status"    column="status"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectNewsVo">
+        select id, news_id, news_type, new_title, sort, thumbnail_file, picture_ids, content, release_by, release_time, start_time, end_time, status, create_by_name, create_by, create_time, update_time, is_deleted from t_news
+    </sql>
+
+    <select id="selectNewsList" parameterType="com.neo.farmlands.domain.vo.form.NewsForm" resultMap="NewsResult">
+        <include refid="selectNewsVo"/>
+        <where>
+            <if test="newsId != null  and newsId != ''"> and news_id = #{newsId}</if>
+            <if test="newsType != null "> and news_type = #{newsType}</if>
+            <if test="newTitle != null  and newTitle != ''"> and new_title = #{newTitle}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="thumbnailFile != null  and thumbnailFile != ''"> and thumbnail_file = #{thumbnailFile}</if>
+            <if test="pictureIds != null  and pictureIds != ''"> and picture_ids = #{pictureIds}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="releaseBy != null  and releaseBy != ''"> and release_by = #{releaseBy}</if>
+            <if test="releaseTime != null "> and release_time = #{releaseTime}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+
+    <select id="selectNewsById" parameterType="String" resultMap="NewsVoResult">
+        <include refid="selectNewsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNews" parameterType="News">
+        insert into t_news
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="newsId != null">news_id,</if>
+            <if test="newsType != null">news_type,</if>
+            <if test="newTitle != null">new_title,</if>
+            <if test="sort != null">sort,</if>
+            <if test="thumbnailFile != null">thumbnail_file,</if>
+            <if test="pictureIds != null">picture_ids,</if>
+            <if test="content != null">content,</if>
+            <if test="releaseBy != null">release_by,</if>
+            <if test="releaseTime != null">release_time,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="status != null">status,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="newsId != null">#{newsId},</if>
+            <if test="newsType != null">#{newsType},</if>
+            <if test="newTitle != null">#{newTitle},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="thumbnailFile != null">#{thumbnailFile},</if>
+            <if test="pictureIds != null">#{pictureIds},</if>
+            <if test="content != null">#{content},</if>
+            <if test="releaseBy != null">#{releaseBy},</if>
+            <if test="releaseTime != null">#{releaseTime},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNews" parameterType="News">
+        update t_news
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="newsId != null">news_id = #{newsId},</if>
+            <if test="newsType != null">news_type = #{newsType},</if>
+            <if test="newTitle != null">new_title = #{newTitle},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="thumbnailFile != null">thumbnail_file = #{thumbnailFile},</if>
+            <if test="pictureIds != null">picture_ids = #{pictureIds},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="releaseBy != null">release_by = #{releaseBy},</if>
+            <if test="releaseTime != null">release_time = #{releaseTime},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNewsById" parameterType="String">
+        delete from t_news where id = #{id}
+    </delete>
+
+    <delete id="deleteNewsByIds" parameterType="String">
+        delete from t_news where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
