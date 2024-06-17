@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, news_id, news_type, new_title, sort, thumbnail_file, picture_ids, content, release_by, release_time, start_time, end_time, status, create_by_name, create_by, create_time, update_time, is_deleted from t_news
     </sql>
 
-    <select id="selectNewsList" parameterType="com.neo.farmlands.domain.vo.form.NewsForm" resultMap="NewsResult">
+    <select id="selectNewsList" parameterType="com.neo.farmlands.domain.vo.form.NewsForm" resultMap="NewsVoResult">
         <include refid="selectNewsVo"/>
         <where>
             <if test="newsId != null  and newsId != ''"> and news_id = #{newsId}</if>
@@ -68,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
             <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
         </where>
+        order by sort asc, release_time desc
     </select>
 
     <select id="selectNewsById" parameterType="String" resultMap="NewsVoResult">

@@ -31,7 +31,8 @@ public class BusinessConstant {
 
     public static final String MEMBER_INFO = "member_info";
 
-
+    // 资讯类型字典key
+    public static final String NEWS_TYPE = "news_type";
 
     /**
      * 会员账号状态

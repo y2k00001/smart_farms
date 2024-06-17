@@ -13,4 +13,7 @@ import java.util.List;
 public interface IStorageFilesService extends IService<StorageFiles> {
 
     List<StorageFiles> listByFileIds(String[] fileIds);
+
+
+    StorageFiles getOneByFileId(String fileId, Boolean isThrowException);
 }

@@ -3,11 +3,14 @@ package com.neo.farmlands.domain.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
+import com.neo.farmlands.domain.entity.StorageFiles;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 资讯对象 t_news
@@ -28,8 +31,11 @@ public class NewsVO extends BaseEntity
     private String newsId;
 
     /** 咨讯类型 */
-    @Excel(name = "咨讯类型")
+    @Excel(name = "资讯类型编码")
     private Long newsType;
+
+    @ApiModelProperty("资讯类型字符")
+    private String newsTypeStr;
 
     /** 标题;10,1星；20,2星；30，3星；40,4星；50,5星 */
     @Excel(name = "标题;10,1星；20,2星；30，3星；40,4星；50,5星")
@@ -43,9 +49,16 @@ public class NewsVO extends BaseEntity
     @Excel(name = "封面缩略图ID;1，是，0，否")
     private String thumbnailFile;
 
+    @ApiModelProperty("缩略图实体类")
+    private StorageFiles thumbnailFileEntity;
+
     /** 图片ID集合 */
     @Excel(name = "图片ID集合")
     private String pictureIds;
+
+    /** 图片ID集合 */
+    @ApiModelProperty("图片集合类")
+    private List<StorageFiles> pictureList;
 
     /** 内容 */
     @Excel(name = "内容")

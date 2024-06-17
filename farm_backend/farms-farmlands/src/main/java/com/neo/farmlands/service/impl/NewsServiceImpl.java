@@ -2,16 +2,23 @@ package com.neo.farmlands.service.impl;
 
 import java.util.List;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
+import com.neo.common.utils.DictUtils;
+import com.neo.farmlands.constant.BusinessConstant;
 import com.neo.farmlands.domain.entity.News;
+import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.NewsVO;
 import com.neo.farmlands.domain.vo.form.NewsForm;
+import com.neo.farmlands.service.IStorageFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.NewsMapper;
 
 import com.neo.farmlands.service.INewsService;
+
+import javax.annotation.Resource;
 
 /**
  * 资讯Service业务层处理
@@ -24,6 +31,9 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements IN
 {
     @Autowired
     private NewsMapper newsMapper;
+
+    @Resource
+    private IStorageFilesService storageFilesService;
 
     /**
      * 查询资讯
@@ -46,7 +56,20 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements IN
     @Override
     public List<NewsVO> selectNewsList(NewsForm news)
     {
-        return newsMapper.selectNewsList(news);
+        List<NewsVO> newsVOS =  newsMapper.selectNewsList(news);
+        if(newsVOS.size() > 0 ){
+            newsVOS.forEach(newsVO -> {
+                if(StrUtil.isNotBlank( newsVO.getPictureIds())){
+                    String[] fileIds = newsVO.getPictureIds().split(",");
+                    List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
+                    newsVO.setPictureList(storageFiles);
+                }
+                newsVO.setThumbnailFileEntity(storageFilesService.getOneByFileId(newsVO.getThumbnailFile(),false));
+                String newsTypeStr = DictUtils.getDictLabel(BusinessConstant.NEWS_TYPE, newsVO.getNewsType()+"");
+                newsVO.setNewsTypeStr(newsTypeStr);
+            });
+        }
+        return newsVOS;
     }
 
     /**
