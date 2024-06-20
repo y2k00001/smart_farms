@@ -37,9 +37,13 @@ public class NewsVO extends BaseEntity
     @ApiModelProperty("资讯类型字符")
     private String newsTypeStr;
 
-    /** 标题;10,1星；20,2星；30，3星；40,4星；50,5星 */
-    @Excel(name = "标题;10,1星；20,2星；30，3星；40,4星；50,5星")
+    /** 标题 */
+    @ApiModelProperty(name = "标题")
     private String newTitle;
+
+    /** 摘要 */
+    @ApiModelProperty(value = "摘要")
+    private String summary;
 
     /** 排序 */
     @Excel(name = "排序")

@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="newsId"    column="news_id"    />
         <result property="newsType"    column="news_type"    />
         <result property="newTitle"    column="new_title"    />
+        <result property="summary"    column="summary"    />
         <result property="sort"    column="sort"    />
         <result property="thumbnailFile"    column="thumbnail_file"    />
         <result property="pictureIds"    column="picture_ids"    />
@@ -47,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectNewsVo">
-        select id, news_id, news_type, new_title, sort, thumbnail_file, picture_ids, content, release_by, release_time, start_time, end_time, status, create_by_name, create_by, create_time, update_time, is_deleted from t_news
+        select id, news_id, news_type, new_title,summary, sort, thumbnail_file, picture_ids, content, release_by, release_time, start_time, end_time, status, create_by_name, create_by, create_time, update_time, is_deleted from t_news
     </sql>
 
     <select id="selectNewsList" parameterType="com.neo.farmlands.domain.vo.form.NewsForm" resultMap="NewsVoResult">

@@ -4,6 +4,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -30,9 +31,14 @@ public class News extends BaseEntity
     @Excel(name = "咨讯类型")
     private Long newsType;
 
-    /** 标题;10,1星；20,2星；30，3星；40,4星；50,5星 */
-    @Excel(name = "标题;10,1星；20,2星；30，3星；40,4星；50,5星")
+    /** 标题 */
+    @ApiModelProperty(value = "标题")
     private String newTitle;
+
+
+    /** 摘要 */
+    @ApiModelProperty(value = "摘要")
+    private String summary;
 
     /** 排序 */
     @Excel(name = "排序")
