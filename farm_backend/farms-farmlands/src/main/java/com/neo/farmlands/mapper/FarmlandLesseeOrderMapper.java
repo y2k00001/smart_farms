@@ -62,7 +62,7 @@ public interface FarmlandLesseeOrderMapper extends BaseMapper<FarmlandLesseeOrde
      */
     public int deleteFarmlandLesseeOrderByIds(String[] ids);
 
-    FarmlandLessee getOneByOrderId(Long orderId);
+    FarmlandLessee getOneByOrderId(String orderId);
 
     FarmlandLesseeOrder getOneByFarmlandLesseeId(String farmlandLesseeId);
 }

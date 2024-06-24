@@ -98,7 +98,12 @@ public class OrderPayServiceImpl extends ServiceImpl<OrderPayMapper, OrderPay> i
     }
 
     @Override
-    public PayVO getByOrderId(Long orderId) {
+    public PayVO getByOrderId(String orderId) {
         return orderPayMapper.getByOrderId(orderId);
+    }
+
+    @Override
+    public OrderPay getByPayId(String payId) {
+        return orderPayMapper.getByPayId(payId);
     }
 }

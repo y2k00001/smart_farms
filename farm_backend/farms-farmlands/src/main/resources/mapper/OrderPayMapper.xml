@@ -35,6 +35,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectOrderPayVo"/>
         where id = #{id}
     </select>
+
+    <select id="getByPayId" parameterType="String" resultMap="OrderPayResult">
+        <include refid="selectOrderPayVo"/>
+        where pay_id = #{payId} and is_deleted = 0
+    </select>
+
+
     <select id="getByOrderId" resultType="com.neo.farmlands.domain.vo.PayVO">
         select op.order_id, op.order_type, op.pay_id, p.third_trade_no, p.subject, p.body, p.pay_source
              , p.pay_user_id, p.pay_channel, p.pay_amount, p.update_amount, p.pay_status, p.pay_time, p.expired_time

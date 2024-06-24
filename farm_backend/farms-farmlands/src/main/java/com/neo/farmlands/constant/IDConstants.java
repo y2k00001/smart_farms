@@ -23,11 +23,11 @@ public class IDConstants {
     public static final String LESSEE_ID_PREFIX   = "LES_";
 
     /**
-     * 农田租户ID前缀
+     * 农田租赁支付单前缀
      */
     public static final String FARMLAND_LESSEE_PAY_ID_PREFIX   = "FLL_P_";
 
-    /** 农田租户ID前缀
+    /** 农田租赁订单前缀
      */
     public static final String FARMLAND_LESSEE_ORDER_ID_PREFIX   = "FLL_O_";
 

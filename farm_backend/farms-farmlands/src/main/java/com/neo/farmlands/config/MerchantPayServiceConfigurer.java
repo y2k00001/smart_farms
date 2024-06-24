@@ -32,6 +32,11 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
     private AutowireCapableBeanFactory spring;
     @Autowired
     private AliPayMessageHandler aliPayMessageHandler;
+
+    @Autowired
+    private WxPayMessageHandler wxPayMessageHandler;
+
+
     /**
      * 商户配置
      *
@@ -115,6 +120,8 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
         PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.PLATFORM_NAME);
         configurer.addHandler(aliPaymentPlatform, aliPayMessageHandler);
         configurer.addInterceptor(aliPaymentPlatform, spring.getBean(AliPayMessageInterceptor.class));
-        configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.PLATFORM_NAME), new WxPayMessageHandler());
+        configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.PLATFORM_NAME), wxPayMessageHandler);
+        // configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.PLATFORM_NAME), new WxPayMessageHandler());
+
     }
 }

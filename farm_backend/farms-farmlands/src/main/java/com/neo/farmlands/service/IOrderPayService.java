@@ -62,5 +62,7 @@ public interface IOrderPayService  extends IService<OrderPay>
      */
     public int deleteOrderPayById(String id);
 
-    PayVO getByOrderId(Long orderId);
+    PayVO getByOrderId(String orderId);
+
+    OrderPay getByPayId(String payId);
 }

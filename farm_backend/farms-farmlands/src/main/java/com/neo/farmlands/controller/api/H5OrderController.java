@@ -2,10 +2,12 @@ package com.neo.farmlands.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
 
+import com.egzosn.pay.common.exception.PayErrorException;
 import com.neo.common.core.controller.BaseController;
 import com.neo.common.core.domain.R;
 import com.neo.common.core.page.TableDataInfo;
 import com.neo.common.core.redis.RedisService;
+import com.neo.common.exception.ServiceException;
 import com.neo.farmlands.constant.BusinessConstant;
 import com.neo.farmlands.domain.entity.*;
 import com.neo.farmlands.domain.vo.*;
@@ -100,7 +102,11 @@ public class H5OrderController extends BaseController {
             Long memberId = member.getId();
             req.setMemberId(memberId);
             return R.ok(orderService.orderPay(req));
-        }catch (Exception e){
+        }catch (PayErrorException payErrorException){
+            log.error("支付异常", payErrorException);
+            throw new ServiceException(payErrorException.getMessage());
+        }
+        catch (Exception e){
             log.error("支付方法异常", e);
             throw new RuntimeException(e.getMessage());
         }finally {

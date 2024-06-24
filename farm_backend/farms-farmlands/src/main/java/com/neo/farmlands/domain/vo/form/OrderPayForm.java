@@ -8,7 +8,7 @@ import lombok.Data;
 @ApiModel("订单支付请求体")
 public class OrderPayForm {
     @ApiModelProperty(value = "订单id", required = true)
-    private Long orderId;
+    private String orderId;
 
     @ApiModelProperty(value = "支付方式： 1-支付宝 2-微信（默认）", required = true)
     private Integer type;

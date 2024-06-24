@@ -62,5 +62,7 @@ public interface OrderPayMapper extends BaseMapper<OrderPay>
      */
     public int deleteOrderPayByIds(String[] ids);
 
-    PayVO getByOrderId(Long orderId);
+    PayVO getByOrderId(String orderId);
+
+    OrderPay getByPayId(String payId);
 }

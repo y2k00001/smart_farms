@@ -222,10 +222,11 @@ public class MemberWechatService {
         String url = LOGIN_URL.replace("#{APPID}", WechatPayData.miniProgramAppId)
                 .replace("#{SECRET}", WechatPayData.miniProgramSecret)
                 .replace("#{JSCODE}", code);
-        log.info("获取openid，url：{}", url);
+        log.info("【调用微信接口】获取openid，url：{}", url);
         try {
             ResponseEntity<String> res = restTemplate.getForEntity(url, String.class);
             String body = res.getBody();
+            log.info("【调用微信接口】获取openid，响应：{}", res);
             if (com.neo.common.utils.StringUtils.isEmpty(body)) {
                 throw new Exception("获取openid出错");
             }

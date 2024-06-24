@@ -71,6 +71,18 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
         return payMapper.selectPayById(id);
     }
 
+    @Override
+    public Pay getPayByPayId(String payId) {
+        LambdaQueryWrapper<Pay> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Pay::getPayId, payId).eq(Pay::getIsDeleted, 0);
+        if (payService.getOne(queryWrapper) != null) {
+            return payService.getOne(queryWrapper);
+        }else {
+            return new Pay();
+        }
+
+    }
+
     /**
      * 查询支付记录列表
      *

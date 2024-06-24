@@ -137,6 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 #{item}
             </foreach>
         </if>
+        order by g.create_time desc
     </select>
 
     <insert id="insertGrowth" parameterType="Growth">

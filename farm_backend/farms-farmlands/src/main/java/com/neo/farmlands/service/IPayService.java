@@ -24,6 +24,8 @@ public interface IPayService extends IService<Pay>
      */
     public Pay selectPayById(String id);
 
+    public Pay getPayByPayId(String id);
+
     /**
      * 查询支付记录列表
      *

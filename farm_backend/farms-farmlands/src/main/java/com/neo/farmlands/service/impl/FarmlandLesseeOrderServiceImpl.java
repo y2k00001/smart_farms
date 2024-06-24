@@ -130,7 +130,7 @@ public class FarmlandLesseeOrderServiceImpl extends ServiceImpl<FarmlandLesseeOr
     }
 
     @Override
-    public FarmlandLessee getOneByOrderId(Long orderId) {
+    public FarmlandLessee getOneByOrderId(String orderId) {
         return farmlandLesseeOrderMapper.getOneByOrderId(orderId);
     }
 
@@ -145,6 +145,13 @@ public class FarmlandLesseeOrderServiceImpl extends ServiceImpl<FarmlandLesseeOr
             }
         }
         return farmlandLesseeOrder;
+    }
+
+    @Override
+    public FarmlandLesseeOrder getLesseeOrderByOrderId(String orderId) {
+        LambdaQueryWrapper<FarmlandLesseeOrder> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FarmlandLesseeOrder::getOrderId,orderId).eq(FarmlandLesseeOrder::getIsDeleted,0);
+        return this.getOne( queryWrapper);
     }
 }
 
