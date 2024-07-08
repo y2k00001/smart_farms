@@ -1,0 +1,161 @@
+<template>
+  <view>
+    <view>
+      <slot name="top"></slot>
+    </view>
+    <view
+      class="ss-order-card-warp ss-flex ss-col-stretch ss-row-between bg-white"
+      :style="[{ borderRadius: radius + 'rpx', marginBottom: marginBottom + 'rpx' }]"
+    >
+      <view class="img-box ss-m-r-24">
+        <image class="order-img" :src="(img)" mode="aspectFill"></image>
+      </view>
+      <view
+        class="box-right ss-flex-col ss-row-between"
+        :style="[{ width: titleWidth ? titleWidth + 'rpx' : '' }]"
+      >
+        <view class="title-text ss-line-2" v-if="farmlandName">{{ farmlandName }}</view>
+        <view class="price-text ss-flex ss-col-center" :style="[{ color: priceColor }]">
+          {{ location }}
+        </view>
+        <view class="spec-text ss-m-t-8 ss-m-b-12">地块：{{ landAreas.landAreaName }}</view>
+        <view  class="spec-text ss-m-t-8 ss-m-b-12">{{ lesseeDayText }} x {{service.servicePrice}}</view>
+
+      </view>
+    </view>
+  </view>
+</template>
+
+<script setup>
+  import sheep from '@/sheep';
+  import { computed } from 'vue';
+  /**
+   * 订单卡片
+   *
+   * @property {String} img 											- 图片
+   * @property {String} title 										- 标题
+   * @property {Number} titleWidth = 0								- 标题宽度，默认0，单位rpx
+   * @property {String} skuText 										- 规格
+   * @property {String | Number} price 								- 价格
+   * @property {String} priceColor 									- 价格颜色
+   * @property {Number | String} num									- 数量
+   *
+   */
+  const props = defineProps({
+    img: {
+      type: String,
+      default: 'https://img1.baidu.com/it/u=1601695551,235775011&fm=26&fmt=auto',
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    titleWidth: {
+      type: Number,
+      default: 0,
+    },
+    skuText: {
+      type: [String, Array],
+      default: '',
+    },
+    price: {
+      type: [String, Number],
+      default: '',
+    },
+    priceColor: {
+      type: [String],
+      default: '',
+    },
+    num: {
+      type: [String, Number],
+      default: 0,
+    },
+    score: {
+      type: [String, Number],
+      default: '',
+    },
+    radius: {
+      type: [String],
+      default: '',
+    },
+    marginBottom: {
+      type: [String],
+      default: '',
+    },
+    farmlandName: '',
+    landAreas:{},
+    location: '',
+    lesseeDayText: '',
+    service:{}
+
+  });
+
+</script>
+
+<style lang="scss" scoped>
+  .score-img {
+    width: 36rpx;
+    height: 36rpx;
+    margin: 0 4rpx;
+  }
+  .ss-order-card-warp {
+    padding: 20rpx;
+
+    .img-box {
+      width: 164rpx;
+      height: 164rpx;
+      border-radius: 10rpx;
+      overflow: hidden;
+
+      .order-img {
+        width: 164rpx;
+        height: 164rpx;
+      }
+    }
+
+    .box-right {
+      flex: 1;
+      // width: 500rpx;
+      // height: 164rpx;
+      position: relative;
+
+      .tool-box {
+        position: absolute;
+        right: 0rpx;
+        bottom: -10rpx;
+      }
+    }
+
+    .title-text {
+      font-size: 28rpx;
+      font-weight: 500;
+      line-height: 40rpx;
+    }
+
+    .spec-text {
+      font-size: 24rpx;
+      font-weight: 400;
+      color: $dark-9;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .price-text {
+      font-size: 24rpx;
+      font-weight: 500;
+      font-family: OPPOSANS;
+    }
+
+    .total-text {
+      font-size: 24rpx;
+      font-weight: 400;
+      line-height: 24rpx;
+      color: $dark-9;
+      margin-left: 8rpx;
+    }
+  }
+</style>

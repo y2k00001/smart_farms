@@ -1,0 +1,767 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^s-(.*)": "@/sheep/components/s-$1/s-$1.vue",
+      "^su-(.*)": "@/sheep/ui/su-$1/su-$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "aliasPath": "/",
+      "style": {
+        "navigationBarTitleText": "首页",
+        "enablePullDownRefresh": true
+      },
+      "meta": {
+        "auth": false,
+        "sync": true,
+        "title": "首页1",
+        "group": "商城"
+      }
+    },
+    {
+      "path": "pages/index/farmlands",
+      "style": {
+        "navigationBarTitleText": "农场",
+        "enablePullDownRefresh": true
+      },
+      "meta": {
+        "sync": true,
+        "title": "农场",
+        "group": "商城"
+      }
+    },
+    {
+      "path": "pages/index/user",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "enablePullDownRefresh": true
+      },
+      "meta": {
+        "sync": true,
+        "title": "个人中心",
+        "group": "商城"
+      }
+    },
+    {
+      "path": "pages/index/cart",
+      "style": {
+        "navigationBarTitleText": "购物车"
+      },
+      "meta": {
+        "sync": true,
+        "title": "购物车",
+        "group": "商城"
+      }
+    },
+    {
+      "path": "pages/index/login",
+      "style": {
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/index/search",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      },
+      "meta": {
+        "sync": true,
+        "title": "搜索",
+        "group": "商城"
+      }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "pages/seeds",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "种子详情"
+          },
+          "meta": {
+            "sync": true,
+            "title": "种子详情",
+            "group": "种子"
+          }
+        },
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "种子列表"
+          },
+          "meta": {
+            "sync": true,
+            "title": "种子列表",
+            "group": "种子"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/farmlands",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "农场详情"
+          },
+          "meta": {
+            "sync": true,
+            "title": "普通商品",
+            "group": "商品"
+          }
+        },
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "农场列表"
+          },
+          "meta": {
+            "sync": true,
+            "title": "商品列表",
+            "group": "商品"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/order",
+      "pages": [
+        {
+          "path": "detail",
+          "style": {
+            "navigationBarTitleText": "订单详情"
+          },
+          "meta": {
+            "auth": true,
+            "title": "订单详情"
+          }
+        },
+        {
+          "path": "confirm",
+          "style": {
+            "navigationBarTitleText": "确认订单"
+          },
+          "meta": {
+            "auth": true,
+            "title": "确认订单"
+          }
+        },
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "我的订单",
+            "enablePullDownRefresh": true
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "用户订单",
+            "group": "订单中心"
+          }
+        },
+        {
+          "path": "invoice",
+          "style": {
+            "navigationBarTitleText": "发票详情"
+          },
+          "meta": {
+            "auth": true,
+            "title": "发票详情"
+          }
+        },
+        {
+          "path": "dispatch/content",
+          "style": {
+            "navigationBarTitleText": "发货内容"
+          },
+          "meta": {
+            "auth": true,
+            "title": "发货内容"
+          }
+        },
+        {
+          "path": "aftersale/apply",
+          "style": {
+            "navigationBarTitleText": "申请售后"
+          },
+          "meta": {
+            "auth": true,
+            "title": "申请售后"
+          }
+        },
+        {
+          "path": "aftersale/list",
+          "style": {
+            "navigationBarTitleText": "售后列表"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "售后订单",
+            "group": "订单中心"
+          }
+        },
+        {
+          "path": "aftersale/detail",
+          "style": {
+            "navigationBarTitleText": "售后详情"
+          },
+          "meta": {
+            "auth": true,
+            "title": "售后详情"
+          }
+        },
+        {
+          "path": "aftersale/log",
+          "style": {
+            "navigationBarTitleText": "售后进度"
+          },
+          "meta": {
+            "auth": true,
+            "title": "售后进度"
+          }
+        },
+        {
+          "path": "express/log",
+          "style": {
+            "navigationBarTitleText": "物流轨迹"
+          },
+          "meta": {
+            "auth": true,
+            "title": "物流轨迹"
+          }
+        },
+        {
+          "path": "express/list",
+          "style": {
+            "navigationBarTitleText": "订单包裹"
+          },
+          "meta": {
+            "auth": true,
+            "title": "订单包裹"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/lessee-order",
+      "pages": [
+        {
+          "path": "confirm",
+          "style": {
+            "navigationBarTitleText": "确认订单"
+          },
+          "meta": {
+            "auth": true,
+            "title": "确认订单"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/user",
+      "pages": [
+        {
+          "path": "info",
+          "style": {
+            "navigationBarTitleText": "我的信息"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "用户信息",
+            "group": "用户中心"
+          }
+        },
+        {
+          "path": "goods-collect",
+          "style": {
+            "navigationBarTitleText": "我的收藏"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "商品收藏",
+            "group": "用户中心"
+          }
+        },
+        {
+          "path": "goods-log",
+          "style": {
+            "navigationBarTitleText": "我的足迹"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "浏览记录",
+            "group": "用户中心"
+          }
+        },
+        {
+          "path": "address/list",
+          "style": {
+            "navigationBarTitleText": "收货地址"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "地址管理",
+            "group": "用户中心"
+          }
+        },
+        {
+          "path": "address/edit",
+          "style": {
+            "navigationBarTitleText": "编辑地址"
+          },
+          "meta": {
+            "auth": true,
+            "title": "编辑地址"
+          }
+        },
+        {
+          "path": "invoice/list",
+          "style": {
+            "navigationBarTitleText": "发票管理"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "发票管理",
+            "group": "用户中心"
+          }
+        },
+        {
+          "path": "invoice/edit",
+          "style": {
+            "navigationBarTitleText": "编辑发票"
+          },
+          "meta": {
+            "auth": true,
+            "title": "编辑发票"
+          }
+        },
+        {
+          "path": "wallet/money",
+          "style": {
+            "navigationBarTitleText": "我的余额"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "用户余额",
+            "group": "用户中心"
+          }
+        },
+        {
+          "path": "wallet/commission",
+          "style": {
+            "navigationBarTitleText": "我的佣金"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "用户佣金",
+            "group": "分销中心"
+          }
+        },
+        {
+          "path": "wallet/score",
+          "style": {
+            "navigationBarTitleText": "我的积分"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "用户积分",
+            "group": "用户中心"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/public",
+      "pages": [
+        {
+          "path": "setting",
+          "style": {
+            "navigationBarTitleText": "系统设置"
+          },
+          "meta": {
+            "sync": true,
+            "title": "系统设置",
+            "group": "通用"
+          }
+        },
+        {
+          "path": "feedback",
+          "style": {
+            "navigationBarTitleText": "问题反馈"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "问题反馈",
+            "group": "通用"
+          }
+        },
+        {
+          "path": "richtext",
+          "style": {
+            "navigationBarTitleText": "富文本"
+          },
+          "meta": {
+            "sync": true,
+            "title": "富文本",
+            "group": "通用"
+          }
+        },
+        {
+          "path": "faq",
+          "style": {
+            "navigationBarTitleText": "常见问题"
+          },
+          "meta": {
+            "sync": true,
+            "title": "常见问题",
+            "group": "通用"
+          }
+        },
+        {
+          "path": "error",
+          "style": {
+            "navigationBarTitleText": "错误页面"
+          }
+        },
+        {
+          "path": "webview",
+          "style": {
+            "navigationBarTitleText": ""
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/farmlandlessee",
+      "pages": [
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "我的土地"
+          },
+          "meta": {
+            "sync": true,
+            "title": "我的土地",
+            "group": "我的土地"
+          }
+        },
+        {
+          "path": "detail",
+          "style": {
+            "navigationBarTitleText": "土地详情"
+          },
+          "meta": {
+            "auth": false,
+            "sync": true,
+            "title": "土地详情",
+            "group": "我的土地"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/growth",
+      "pages": [
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "我的作物"
+          },
+          "meta": {
+            "sync": true,
+            "title": "我的作物",
+            "group": "我的作物"
+          }
+        },
+        {
+          "path": "detail",
+          "style": {
+            "navigationBarTitleText": "作物详情"
+          },
+          "meta": {
+            "auth": false,
+            "sync": true,
+            "title": "作物详情",
+            "group": "我的作物"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/live",
+      "pages": [
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "农场实景"
+          },
+          "meta": {
+            "sync": true,
+            "title": "列表",
+            "group": "农场实景"
+          }
+        },
+        {
+          "path": "detail",
+          "style": {
+            "navigationBarTitleText": "实景监控"
+          },
+          "meta": {
+            "auth": false,
+            "sync": true,
+            "title": "实景监控",
+            "group": "农场实景"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/news",
+      "pages": [
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "农场活动"
+          },
+          "meta": {
+            "sync": true,
+            "title": "列表",
+            "group": "农场实景"
+          }
+        },
+        {
+          "path": "detail",
+          "style": {
+            "navigationBarTitleText": "农场活动"
+          },
+          "meta": {
+            "auth": false,
+            "sync": true,
+            "title": "实景监控",
+            "group": "农场实景"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/notice",
+      "pages": [
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "公告列表"
+          },
+          "meta": {
+            "sync": true,
+            "title": "列表",
+            "group": "农场公告"
+          }
+        },
+        {
+          "path": "detail",
+          "style": {
+            "navigationBarTitleText": "公告详情"
+          },
+          "meta": {
+            "auth": false,
+            "sync": true,
+            "title": "详情",
+            "group": "农场公告"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/farming",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "认采认养"
+          },
+          "meta": {
+            "sync": true,
+            "title": "主页",
+            "group": "认采认养"
+          }
+        },
+        {
+          "path": "list",
+          "style": {
+            "navigationBarTitleText": "认采认养"
+          },
+          "meta": {
+            "sync": true,
+            "title": "列表",
+            "group": "认采认养"
+          }
+        },
+        {
+          "path": "detail",
+          "style": {
+            "navigationBarTitleText": "详情"
+          },
+          "meta": {
+            "auth": false,
+            "sync": true,
+            "title": "实景监控",
+            "group": "认采认养"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/introduction",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "平台简介"
+          },
+          "meta": {
+            "sync": true,
+            "title": "主页",
+            "group": "平台简介"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/shop",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "农场商城"
+          },
+          "meta": {
+            "sync": true,
+            "title": "主页",
+            "group": "农场商城"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/chat",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "客服"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "客服",
+            "group": "客服"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages/pay",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "收银台"
+          }
+        },
+        {
+          "path": "result",
+          "style": {
+            "navigationBarTitleText": "支付结果"
+          }
+        },
+        {
+          "path": "recharge",
+          "style": {
+            "navigationBarTitleText": "充值余额"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "充值余额",
+            "group": "支付"
+          }
+        },
+        {
+          "path": "recharge-log",
+          "style": {
+            "navigationBarTitleText": "充值记录"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "充值记录",
+            "group": "支付"
+          }
+        },
+        {
+          "path": "withdraw",
+          "style": {
+            "navigationBarTitleText": "申请提现"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "申请提现",
+            "group": "支付"
+          }
+        },
+        {
+          "path": "withdraw-log",
+          "style": {
+            "navigationBarTitleText": "提现记录"
+          },
+          "meta": {
+            "auth": true,
+            "sync": true,
+            "title": "提现记录",
+            "group": "支付"
+          }
+        }
+      ]
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "智慧农园",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
+//    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/index/farmlands"
+      },
+      {
+        "pagePath": "pages/index/cart"
+      },
+      {
+        "pagePath": "pages/index/user"
+      }
+    ]
+  }
+}
