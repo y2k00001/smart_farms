@@ -1,4 +1,7 @@
 package com.neo.farmlands.service.impl;
+import java.math.BigDecimal;
+import java.util.Date;
+import com.google.common.collect.Maps;
 
 import java.util.List;
 
@@ -8,12 +11,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
+import com.neo.common.utils.IDGenerator;
+import com.neo.common.utils.SecurityUtils;
+import com.neo.farmlands.constant.IDConstants;
 import com.neo.farmlands.domain.entity.Farmland;
+import com.neo.farmlands.domain.entity.FarmlandArea;
+import com.neo.farmlands.domain.vo.form.LandAreaForm;
+import com.neo.farmlands.service.IFarmlandAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.LandAreaMapper;
 import com.neo.farmlands.domain.entity.LandArea;
 import com.neo.farmlands.service.ILandAreaService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -28,6 +38,9 @@ public class LandAreaServiceImpl extends ServiceImpl<LandAreaMapper,LandArea> im
 {
     @Resource
     private LandAreaMapper landAreaMapper;
+
+    @Resource
+    private IFarmlandAreaService farmlandAreaService;
 
     /**
      * 查询农田租赁最小面积
@@ -56,14 +69,31 @@ public class LandAreaServiceImpl extends ServiceImpl<LandAreaMapper,LandArea> im
     /**
      * 新增农田租赁最小面积
      *
-     * @param landArea 农田租赁最小面积
+     * @param landAreaForm 农田租赁最小面积
      * @return 结果
      */
     @Override
-    public int insertLandArea(LandArea landArea)
+    @Transactional(rollbackFor = Exception.class)
+    public void insertLandArea(LandAreaForm landAreaForm)
     {
+        LandArea landArea = new LandArea();
+        BeanUtil.copyProperties(landAreaForm, landArea);
+
+        landArea.setLandAreaId(IDConstants.LAND_AREA_ID_PREFIX+ IDGenerator.generateId());
+        landArea.setCreateByName(SecurityUtils.getUsername());
+        landArea.setCreateBy(SecurityUtils.getUserId().toString());
         landArea.setCreateTime(DateUtils.getNowDate());
-        return landAreaMapper.insertLandArea(landArea);
+
+        this.save(landArea);
+
+        FarmlandArea farmlandArea = new FarmlandArea();
+        farmlandArea.setFarmlandId(landAreaForm.getFarmlandId());
+        farmlandArea.setLandAreaId(landArea.getLandAreaId());
+        farmlandArea.setCreateByName(SecurityUtils.getUsername());
+        farmlandArea.setCreateBy(SecurityUtils.getUserId().toString());
+        farmlandArea.setCreateTime(DateUtils.getNowDate());
+        farmlandAreaService.save(farmlandArea);
+
     }
 
     /**

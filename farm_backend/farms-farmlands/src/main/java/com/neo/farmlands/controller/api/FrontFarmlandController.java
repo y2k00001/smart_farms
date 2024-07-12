@@ -1,21 +1,17 @@
 package com.neo.farmlands.controller.api;
 
-import com.neo.common.annotation.Log;
+import com.neo.common.annotation.Anonymous;
 import com.neo.common.core.controller.BaseController;
 import com.neo.common.core.domain.R;
 import com.neo.common.core.page.TableDataInfo;
-import com.neo.common.enums.BusinessType;
-import com.neo.common.utils.poi.ExcelUtil;
 import com.neo.farmlands.domain.entity.Farmland;
 import com.neo.farmlands.domain.vo.FarmlandVO;
 import com.neo.farmlands.service.IFarmlandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -25,9 +21,9 @@ import java.util.List;
  * @date 2024-04-10
  */
 @RestController
-@RequestMapping("/h5/farmland")
+@RequestMapping("/front/farmland")
 @Api(tags = {"H5农田信息"})
-public class H5FarmlandController extends BaseController
+public class FrontFarmlandController extends BaseController
 {
     @Autowired
     private IFarmlandService farmlandService;

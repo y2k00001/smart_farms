@@ -58,6 +58,10 @@ public class FarmlandVO extends BaseEntity
     @Excel(name = "租赁价格;单位：元/天")
     private BigDecimal leasePrice;
 
+    /** 摘要 */
+    @ApiModelProperty("摘要")
+    private String summary;
+
     /** 描述 */
     @Excel(name = "描述")
     private String description;

@@ -1,6 +1,8 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
@@ -23,6 +25,7 @@ public class Farmland extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.ASSIGN_ID )
     /** id */
     private String id;
 
@@ -57,6 +60,10 @@ public class Farmland extends BaseEntity
     /** 租赁价格;单位：元/天 */
     @Excel(name = "租赁价格;单位：元/天")
     private BigDecimal leasePrice;
+
+    /** 摘要 */
+    @ApiModelProperty("摘要")
+    private String summary;
 
     /** 描述 */
     @Excel(name = "描述")

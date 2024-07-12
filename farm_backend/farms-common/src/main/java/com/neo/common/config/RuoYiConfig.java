@@ -30,6 +30,18 @@ public class RuoYiConfig
     /** 验证码类型 */
     private static String captchaType;
 
+
+
+    /** 后端地址前缀 */
+    private  String domain;
+    public  String getDomain() {
+        return domain;
+    }
+
+    public  void setDomain(String domain) {
+        this.domain = domain;
+    }
+
     public String getName()
     {
         return name;

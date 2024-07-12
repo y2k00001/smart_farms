@@ -1,15 +1,23 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="农田编号" prop="farmlandId">
+      <el-form-item label="编号" prop="farmlandId">
         <el-input
           v-model="queryParams.farmlandId"
-          placeholder="请输入农田编号"
+          placeholder="请输入编号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="面积" prop="area">
+      <el-form-item label="农田名称" prop="farmlandName">
+        <el-input
+          v-model="queryParams.farmlandName"
+          placeholder="请输入农田名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="面积单位;平方米" prop="area">
         <el-input
           v-model="queryParams.area"
           placeholder="请输入面积单位;平方米"
@@ -41,7 +49,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="租赁价格" prop="leasePrice">
+      <el-form-item label="租赁价格;单位：元/天" prop="leasePrice">
         <el-input
           v-model="queryParams.leasePrice"
           placeholder="请输入租赁价格;单位：元/天"
@@ -49,19 +57,18 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
-      <el-form-item label="创建人" prop="createByName">
+      <el-form-item label="联系电话" prop="contactPhone">
         <el-input
-          v-model="queryParams.createByName"
-          placeholder="请输入创建人姓名"
+          v-model="queryParams.contactPhone"
+          placeholder="请输入联系电话"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="是否删除" prop="isDeleted">
+      <el-form-item label="创建人姓名" prop="createByName">
         <el-input
-          v-model="queryParams.isDeleted"
-          placeholder="请输入是否删除"
+          v-model="queryParams.createByName"
+          placeholder="请输入创建人姓名"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -120,18 +127,23 @@
 
     <el-table v-loading="loading" :data="farmlandList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="农田编号" align="center" prop="farmlandId" />
-      <el-table-column label="面积" align="center" prop="area"  show-overflow-tooltip="true"/>
+      <el-table-column label="编号" align="center" prop="farmlandId" />
+      <el-table-column label="农田名称" align="center" prop="farmlandName" />
+      <el-table-column label="面积单位;平方米" align="center" prop="area" />
       <el-table-column label="维度" align="center" prop="lat" />
       <el-table-column label="经度" align="center" prop="lon" />
       <el-table-column label="位置" align="center" prop="location" />
-      <el-table-column label="状态" align="center" prop="status" />
-      <el-table-column label="租赁价格" align="center" prop="leasePrice" />
-      <el-table-column label="描述" align="center" prop="description" />
-      <el-table-column label="附件" align="center" prop="fileIds" />
+      <el-table-column label="农田状态;0.未上架；10，待租赁，20，已租赁" align="center" prop="status" />
+      <el-table-column label="租赁价格;单位：元/天" align="center" prop="leasePrice" />
+      <el-table-column label="摘要" align="center" prop="summary" />
+      <el-table-column label="联系电话" align="center" prop="contactPhone" />
+      <el-table-column label="附件ID集合;逗号分割" align="center" prop="fileIds" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.fileIds" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="创建人姓名" align="center" prop="createByName" />
-<!--      <el-table-column label="是否删除" align="center" prop="isDeleted" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -163,11 +175,11 @@
     <!-- 添加或修改农田信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="农田编号" prop="farmlandId">
-          <el-input v-model="form.farmlandId" placeholder="请输入农田编号" />
+        <el-form-item label="农田名称" prop="farmlandName">
+          <el-input v-model="form.farmlandName" placeholder="请输入农田名称" />
         </el-form-item>
-        <el-form-item label="面积(单位:平方米)" prop="area">
-          <el-input v-model="form.area" placeholder="请输入面积(单位:平方米)" />
+        <el-form-item label="面积单位;平方米" prop="area">
+          <el-input v-model="form.area" placeholder="请输入面积单位;平方米" />
         </el-form-item>
         <el-form-item label="维度" prop="lat">
           <el-input v-model="form.lat" placeholder="请输入维度" />
@@ -179,13 +191,22 @@
           <el-input v-model="form.location" placeholder="请输入位置" />
         </el-form-item>
         <el-form-item label="租赁价格;单位：元/天" prop="leasePrice">
-          <el-input v-model="form.leasePrice" placeholder="请输入租赁价格(单位：元/天)" />
+          <el-input v-model="form.leasePrice" placeholder="请输入租赁价格;单位：元/天" />
         </el-form-item>
-        <el-form-item label="描述" prop="description">
-          <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="摘要" prop="summary">
+          <el-input v-model="form.summary" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="描述">
+          <editor v-model="form.description" :min-height="192"/>
+        </el-form-item>
+        <el-form-item label="联系电话" prop="contactPhone">
+          <el-input v-model="form.contactPhone" placeholder="请输入联系电话" />
         </el-form-item>
         <el-form-item label="附件ID集合;逗号分割" prop="fileIds">
-          <el-input v-model="form.fileIds" placeholder="请输入附件ID集合;逗号分割" />
+          <image-upload v-model="form.fileIds"/>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -226,16 +247,18 @@ export default {
         pageNum: 1,
         pageSize: 10,
         farmlandId: null,
+        farmlandName: null,
         area: null,
         lat: null,
         lon: null,
         location: null,
         status: null,
         leasePrice: null,
+        summary: null,
         description: null,
+        contactPhone: null,
         fileIds: null,
         createByName: null,
-        isDeleted: null
       },
       // 表单参数
       form: {},
@@ -270,17 +293,22 @@ export default {
       this.form = {
         id: null,
         farmlandId: null,
+        farmlandName: null,
         area: null,
         lat: null,
         lon: null,
         location: null,
         status: null,
         leasePrice: null,
+        summary: null,
         description: null,
+        contactPhone: null,
         fileIds: null,
+        remark: null,
         createByName: null,
         createBy: null,
         createTime: null,
+        updateBy: null,
         updateTime: null,
         isDeleted: null
       };
@@ -341,8 +369,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      const farmlandId = row.farmlandId || this.ids;
-      this.$modal.confirm('是否确认删除农田信息编号为"' + farmlandId + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除农田信息编号为"' + ids + '"的数据项？').then(function() {
         return delFarmland(ids);
       }).then(() => {
         this.getList();

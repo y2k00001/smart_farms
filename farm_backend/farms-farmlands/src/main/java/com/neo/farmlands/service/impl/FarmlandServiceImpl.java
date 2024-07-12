@@ -1,6 +1,7 @@
 package com.neo.farmlands.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -8,10 +9,12 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.neo.common.config.RuoYiConfig;
 import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
 import com.neo.common.utils.SecurityUtils;
 import com.neo.common.utils.uuid.IdUtils;
+import com.neo.farmlands.constant.IDConstants;
 import com.neo.farmlands.domain.entity.Seed;
 import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.FarmlandVO;
@@ -40,6 +43,9 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
     @Resource
     private IStorageFilesService storageFilesService;
 
+    @Autowired
+    private RuoYiConfig ruoyiConfig;
+
     /**
      * 查询农田信息
      *
@@ -53,7 +59,7 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
         FarmlandVO farmlandVO = BeanUtil.copyProperties(farmland, FarmlandVO.class);
         if(BeanUtil.isNotEmpty(farmland)){
             // 查询农场附件
-            List<StorageFiles> storageFiles = storageFilesService.listByFileIds(farmland.getFileIds().split(","));
+            List<StorageFiles> storageFiles = getStorageFiles(farmland.getFileIds());
             farmlandVO.setFiles(storageFiles);
             // 查询农场服务
             // 查询农场地块面积状态
@@ -92,9 +98,7 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
             farmlandVOList = BeanUtil.copyToList(farmlandList, FarmlandVO.class, null);
             farmlandVOList.forEach(item->{
                 if(StrUtil.isNotBlank(item.getFileIds())){
-                    String[] fileIds = item.getFileIds().split(",");
-                    List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
-                    item.setFiles(storageFiles);
+                    item.setFiles(getStorageFiles(item.getFileIds()));
                 }
             });
         }
@@ -110,7 +114,8 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
     @Override
     public int insertFarmland(Farmland farmland)
     {
-        farmland.setId(IdUtils.fastSimpleUUID());
+        farmland.setId(String.valueOf(IdUtils.getSnowflakeId()));
+        farmland.setFarmlandId(IDConstants.FARMLAND_ID_PREFIX+IdUtils.getSnowflakeId());
         farmland.setCreateTime(DateUtils.getNowDate());
         farmland.setCreateBy(SecurityUtils.getUserId().toString());
         farmland.setCreateByName(SecurityUtils.getUsername());
@@ -167,5 +172,18 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
             }
         }
         return farmland;
+    }
+
+    private List<StorageFiles> getStorageFiles(String filePaths){
+
+        List<StorageFiles> storageFiles = new ArrayList<>();
+        List<String> filePathList = new ArrayList<>(Arrays.asList(filePaths.split(",")));
+        filePathList.forEach(t->{
+            StorageFiles storageFile = new StorageFiles();
+            storageFile.setUrl(ruoyiConfig.getDomain() +t);
+            storageFiles.add(storageFile);
+        });
+
+        return storageFiles;
     }
 }

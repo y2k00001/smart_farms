@@ -2,6 +2,10 @@ package com.neo.farmlands.controller.manage;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.neo.common.core.domain.R;
+import com.neo.farmlands.domain.vo.form.LandAreaForm;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,10 +78,12 @@ public class LandAreaController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('farmlands:area:add')")
     @Log(title = "农田租赁最小面积", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody LandArea landArea)
+    @PostMapping("/add")
+    @ApiOperation(value = "新增农田租赁最小面积")
+    public R add(@RequestBody LandAreaForm landAreaForm)
     {
-        return toAjax(landAreaService.insertLandArea(landArea));
+        landAreaService.insertLandArea(landAreaForm);
+        return R.ok();
     }
 
     /**

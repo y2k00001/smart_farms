@@ -110,6 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                         "/profile/**"
                 ).permitAll()
                 .antMatchers("/h5/**").permitAll()
+                .antMatchers("/front/**").permitAll()
                 .antMatchers("/no-auth/**").permitAll()
                 .antMatchers("/common/download**").anonymous()
                 .antMatchers("/common/download/resource**").anonymous()

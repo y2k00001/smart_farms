@@ -1,5 +1,7 @@
 package com.neo.common.utils.uuid;
 
+import cn.hutool.core.lang.Snowflake;
+
 /**
  * ID生成器工具类
  *
@@ -7,6 +9,12 @@ package com.neo.common.utils.uuid;
  */
 public class IdUtils
 {
+
+    private static final Long WORKFLOW_ID = 1L;
+
+    private static final Long DATA_CENTER_ID = 11L;
+
+
     /**
      * 获取随机UUID
      *
@@ -45,5 +53,10 @@ public class IdUtils
     public static String fastSimpleUUID()
     {
         return UUID.fastUUID().toString(true);
+    }
+
+    public static Long getSnowflakeId() {
+        Snowflake snowflake = new Snowflake(WORKFLOW_ID, DATA_CENTER_ID);
+        return snowflake.nextId();
     }
 }

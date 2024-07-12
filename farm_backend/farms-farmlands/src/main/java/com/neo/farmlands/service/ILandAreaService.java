@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.LandArea;
+import com.neo.farmlands.domain.vo.form.LandAreaForm;
 
 /**
  * 农田租赁最小面积Service接口
@@ -32,10 +33,10 @@ public interface ILandAreaService extends IService<LandArea>
     /**
      * 新增农田租赁最小面积
      *
-     * @param landArea 农田租赁最小面积
+     * @param landAreaForm 农田租赁最小面积
      * @return 结果
      */
-    public int insertLandArea(LandArea landArea);
+    public void insertLandArea(LandAreaForm landAreaForm);
 
     /**
      * 修改农田租赁最小面积

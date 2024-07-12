@@ -48,11 +48,11 @@
     {
       "path": "pages/index/cart",
       "style": {
-        "navigationBarTitleText": "购物车"
+        "navigationBarTitleText": "圈子"
       },
       "meta": {
         "sync": true,
-        "title": "购物车",
+        "title": "圈子",
         "group": "商城"
       }
     },

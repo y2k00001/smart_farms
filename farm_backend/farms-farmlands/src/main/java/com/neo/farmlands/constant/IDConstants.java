@@ -13,9 +13,24 @@ package com.neo.farmlands.constant;
 public class IDConstants {
 
     /**
+     * 农场ID前缀
+     */
+    public static final String FARMLAND_ID_PREFIX  = "FL_";
+
+    /**
      * 租赁合同ID前缀
      */
     public static final String FARMLAND_LESSEE_ID_PREFIX  = "FLL_";
+
+    /**
+     * 农田地块面积关联ID前缀
+     */
+    public static final String FARMLAND_AREA_ID_PREFIX  = "FLA_";
+
+    /**
+     * 地块面积ID前缀
+     */
+    public static final String LAND_AREA_ID_PREFIX  = "LA_";
 
     /**
      * 农田租户ID前缀
