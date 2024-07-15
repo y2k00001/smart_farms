@@ -1,5 +1,7 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
@@ -20,6 +22,7 @@ public class LandService extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     /** 服务编号 */

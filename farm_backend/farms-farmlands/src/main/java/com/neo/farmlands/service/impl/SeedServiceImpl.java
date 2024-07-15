@@ -1,4 +1,8 @@
 package com.neo.farmlands.service.impl;
+import java.math.BigDecimal;
+import com.google.common.collect.Lists;
+import java.util.Date;
+import com.google.common.collect.Maps;
 
 import java.util.List;
 
@@ -8,6 +12,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
+import com.neo.common.utils.IDGenerator;
+import com.neo.common.utils.SecurityUtils;
+import com.neo.farmlands.constant.IDConstants;
+import com.neo.farmlands.domain.entity.FarmlandSeed;
 import com.neo.farmlands.domain.entity.LandArea;
 import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.SeedVO;
@@ -70,14 +78,42 @@ public class SeedServiceImpl extends ServiceImpl<SeedMapper, Seed> implements IS
     /**
      * 新增种子信息
      *
-     * @param seed 种子信息
+     * @param seedForm 种子信息
      * @return 结果
      */
     @Override
-    public int insertSeed(Seed seed)
+    public void insertSeed(SeedForm seedForm)
     {
+        Seed seed = new Seed();
+        BeanUtil.copyProperties(seedForm, seed);
+
+        seed.setSeedId(IDConstants.SEED_ID_PREFIX+ IDGenerator.generateId());
+        seed.setCreateByName(SecurityUtils.getUsername());
+        seed.setCreateBy(SecurityUtils.getUserId().toString());
         seed.setCreateTime(DateUtils.getNowDate());
-        return seedMapper.insertSeed(seed);
+
+        this.save(seed);
+
+        FarmlandSeed farmlandSeed = new FarmlandSeed();
+        farmlandSeed.setId("");
+        farmlandSeed.setFarmlandId("");
+        farmlandSeed.setSeedId("");
+        farmlandSeed.setCreateByName("");
+        farmlandSeed.setIsDeleted("");
+
+        farmlandSeed.setCreateBy("");
+        farmlandSeed.setCreateTime(new Date());
+
+        farmlandSeed.setUpdateTime(new Date());
+
+
+
+
+
+
+
+        seed.setCreateTime(DateUtils.getNowDate());
+        seedMapper.insertSeed(seed);
     }
 
     /**

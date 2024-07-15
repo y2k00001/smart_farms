@@ -1,35 +1,34 @@
 package com.neo.farmlands.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.Date;
 
 /**
- * 农田、服务关联对象 t_farmland_service
+ * 农田、种子关联对象 t_farmland_seed
  *
  * @author neo
- * @date 2024-04-19
+ * @date 2024-07-12
  */
 @Data
-@TableName(value ="t_farmland_service")
-public class FarmlandService extends BaseEntity
+public class FarmlandSeed
 {
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
-    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     /** 农田编号ID */
     @Excel(name = "农田编号ID")
     private String farmlandId;
 
-    /** 服务id */
-    @Excel(name = "服务id")
-    private String serviceId;
+    /** 种子id */
+    @Excel(name = "种子id")
+    private String seedId;
 
     /** 创建人姓名 */
     @Excel(name = "创建人姓名")
@@ -38,5 +37,24 @@ public class FarmlandService extends BaseEntity
     /** 是否删除 */
     @Excel(name = "是否删除")
     private String isDeleted;
+
+
+
+    /**
+     * 创建人
+     */
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+
 
 }

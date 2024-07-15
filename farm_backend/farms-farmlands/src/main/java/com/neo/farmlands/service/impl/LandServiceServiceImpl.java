@@ -1,4 +1,7 @@
 package com.neo.farmlands.service.impl;
+import java.math.BigDecimal;
+import java.util.Date;
+import com.google.common.collect.Maps;
 
 import java.util.List;
 
@@ -8,11 +11,20 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.exception.ServiceException;
 import com.neo.common.utils.DateUtils;
+import com.neo.common.utils.IDGenerator;
+import com.neo.common.utils.SecurityUtils;
+import com.neo.farmlands.constant.IDConstants;
+import com.neo.farmlands.domain.entity.FarmlandService;
+import com.neo.farmlands.domain.vo.form.LandServiceForm;
+import com.neo.farmlands.service.IFarmlandService;
+import com.neo.farmlands.service.IFarmlandServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.LandServiceMapper;
 import com.neo.farmlands.domain.entity.LandService;
 import com.neo.farmlands.service.ILandServiceService;
+
+import javax.annotation.Resource;
 
 /**
  * 服务信息Service业务层处理
@@ -25,6 +37,9 @@ public class LandServiceServiceImpl extends ServiceImpl<LandServiceMapper, LandS
 {
     @Autowired
     private LandServiceMapper landServiceMapper;
+
+    @Resource
+    private IFarmlandServiceService farmlandServiceService;
 
     /**
      * 查询服务信息
@@ -53,14 +68,33 @@ public class LandServiceServiceImpl extends ServiceImpl<LandServiceMapper, LandS
     /**
      * 新增服务信息
      *
-     * @param landService 服务信息
+     * @param landServiceForm 服务信息
      * @return 结果
      */
     @Override
-    public int insertLandService(LandService landService)
+    public void insertLandService(LandServiceForm landServiceForm)
     {
+        LandService landService = new LandService();
+        BeanUtil.copyProperties(landServiceForm, landService);
+
+        landService.setServiceId(IDConstants.LAND_SERVICE_ID_PREFIX+ IDGenerator.generateId());
+        landService.setCreateByName(SecurityUtils.getUsername());
+        landService.setCreateBy(SecurityUtils.getUserId().toString());
         landService.setCreateTime(DateUtils.getNowDate());
-        return landServiceMapper.insertLandService(landService);
+
+        this.save(landService);
+
+        FarmlandService farmlandService = new FarmlandService();
+        farmlandService.setFarmlandId(landServiceForm.getFarmlandId());
+        farmlandService.setServiceId(landService.getServiceId());
+        farmlandService.setCreateByName(SecurityUtils.getUsername());
+        farmlandService.setCreateBy(SecurityUtils.getUserId().toString());
+        farmlandService.setCreateTime(DateUtils.getNowDate());
+
+
+        farmlandServiceService.save(farmlandService);
+
+
     }
 
     /**

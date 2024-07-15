@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.FarmlandSeedMapper">
+    
+    <resultMap type="FarmlandSeed" id="FarmlandSeedResult">
+        <result property="id"    column="id"    />
+        <result property="farmlandId"    column="farmland_id"    />
+        <result property="seedId"    column="seed_id"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectFarmlandSeedVo">
+        select id, farmland_id, seed_id, create_by_name, create_by, create_time, update_time, is_deleted from t_farmland_seed
+    </sql>
+
+    <select id="selectFarmlandSeedList" parameterType="FarmlandSeed" resultMap="FarmlandSeedResult">
+        <include refid="selectFarmlandSeedVo"/>
+        <where>  
+            <if test="farmlandId != null  and farmlandId != ''"> and farmland_id = #{farmlandId}</if>
+            <if test="seedId != null  and seedId != ''"> and seed_id = #{seedId}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectFarmlandSeedById" parameterType="String" resultMap="FarmlandSeedResult">
+        <include refid="selectFarmlandSeedVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFarmlandSeed" parameterType="FarmlandSeed">
+        insert into t_farmland_seed
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="farmlandId != null">farmland_id,</if>
+            <if test="seedId != null">seed_id,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="farmlandId != null">#{farmlandId},</if>
+            <if test="seedId != null">#{seedId},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFarmlandSeed" parameterType="FarmlandSeed">
+        update t_farmland_seed
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="farmlandId != null">farmland_id = #{farmlandId},</if>
+            <if test="seedId != null">seed_id = #{seedId},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFarmlandSeedById" parameterType="String">
+        delete from t_farmland_seed where id = #{id}
+    </delete>
+
+    <delete id="deleteFarmlandSeedByIds" parameterType="String">
+        delete from t_farmland_seed where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

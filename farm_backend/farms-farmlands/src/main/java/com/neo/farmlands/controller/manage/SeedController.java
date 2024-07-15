@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.neo.common.core.domain.R;
 import com.neo.farmlands.domain.vo.SeedVO;
+import com.neo.farmlands.domain.vo.form.SeedForm;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,10 +79,12 @@ public class SeedController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('farmlands:seed:add')")
     @Log(title = "种子信息", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody Seed seed)
+    @PostMapping("/add")
+    @ApiOperation(value = "新增种子信息")
+    public R add(@RequestBody SeedForm seedForm)
     {
-        return toAjax(seedService.insertSeed(seed));
+        seedService.insertSeed(seedForm);
+        return R.ok();
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.neo.farmlands.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
@@ -22,6 +24,7 @@ public class Seed extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** id */
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     /** 种子ID */

@@ -35,10 +35,10 @@ public interface ISeedService extends IService<Seed>
     /**
      * 新增种子信息
      *
-     * @param seed 种子信息
+     * @param seedForm 种子信息
      * @return 结果
      */
-    public int insertSeed(Seed seed);
+    public void insertSeed(SeedForm seedForm);
 
     /**
      * 修改种子信息

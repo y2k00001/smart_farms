@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.LandService;
+import com.neo.farmlands.domain.vo.form.LandServiceForm;
 
 /**
  * 服务信息Service接口
@@ -35,7 +36,7 @@ public interface ILandServiceService extends IService<LandService>
      * @param landService 服务信息
      * @return 结果
      */
-    public int insertLandService(LandService landService);
+    public void insertLandService(LandServiceForm landService);
 
     /**
      * 修改服务信息

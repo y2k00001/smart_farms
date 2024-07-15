@@ -20,7 +20,7 @@ export function getSeed(id) {
 // 新增种子信息
 export function addSeed(data) {
   return request({
-    url: '/farmlands/seed',
+    url: '/farmlands/seed/add',
     method: 'post',
     data: data
   })

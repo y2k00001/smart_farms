@@ -1,0 +1,273 @@
+//用于轻量化部署的jenkins 流水线
+def createDateTime() {
+    // 定义一个版本号作为当次构建的版本，输出结果 20191210175842_69
+    return new Date().format('yyyyMMddHHmmss')
+}
+
+pipeline {
+    agent any // 指定所有节点可以构建
+    environment {
+        JOB_DESCRIPTION = "红河快选后端-TEST"
+        BOT_KEY="0"
+        _dateTime = createDateTime()
+    }
+
+    options { // 执行选项
+        buildDiscarder(logRotator(numToKeepStr: '1'))   // 保存历史构建记录的数量
+        disableConcurrentBuilds() // 不允许并发构建
+        timeout(time: 2, unit: 'HOURS') // 构建超时时间最多2个小时
+    }
+
+    parameters {
+	    string  name: 'deployOption',description: '部署方式 全量=full，增量=mini',defaultValue: 'full', trim: true
+        gitParameter name: 'BRANCH_TAG',
+                branchFilter: 'origin/(.*)',
+                quickFilterEnabled: false,
+                selectedValue: 'DEFAULT',
+                sortMode: 'NONE',
+                tagFilter: '*',
+                type: 'PT_BRANCH_TAG',
+                defaultValue: 'prod',
+                useRepository: 'https://git.runjian.com:1024/zqsyq/hpcxyfy/wlsq/customize-projects/honghe/honghe-backend.git'
+    }
+
+
+    tools {
+        maven 'maven3.6.3' // 使用maven
+        git 'Default'
+    }
+
+    stages { // 构建阶段
+        stage('Pre-Build') { // 预构建阶段
+            steps {
+
+                // 获取构建人信息，需要装build user vars 插件
+                wrap([$class: 'BuildUser']) {
+                    script {
+                        BUILD_USER = "${env.BUILD_USER}"
+                    }
+                }
+                // 发送机器人消息
+                sh "curl -X POST https://oapi.dingtalk.com/robot/send?access_token=ae8f68883d4379be71d5775ca2ba44f8f2f9f732ae553b0fabe673962a66a55e -H 'Content-Type: application/json' \
+                    -d '{\"msgtype\": \"text\",\"text\": {\"content\": \"【红河快选后端-PROD-ecloud-51】开始构建，构建方式：${deployOption}. 执行人：${BUILD_USER}\"}}'"
+                checkout([$class: 'GitSCM', gitTool: 'Default',branches: [[name: "${params.BRANCH_TAG}"]], extensions: [], userRemoteConfigs: [[credentialsId: 'guoqing-gitlab', url: 'https://git.runjian.com:1024/zqsyq/hpcxyfy/wlsq/customize-projects/honghe/honghe-backend.git']]])
+
+            }
+        }
+
+        stage('Build') { // 构建阶段
+            steps {
+				sh "cd  mer_java; mvn clean package -Dmaven.test.skip=true -P ${params.deployOption} "
+            }
+
+            post {
+                // 构建成功后，发送jar包到对应服务器，并重启服务
+                success {
+
+				       script{
+
+							switch("${params.deployOption}"){
+								case "mini":
+									sshPublisher(
+											publishers:
+													[
+															// 发送到测试机
+															sshPublisherDesc(
+																	configName: 'honghe_pro',
+																	transfers:
+																			[
+																					//备份旧文件，清空传输目录
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'cd /home/projects/honghe-prod/bak_service/cmd && \
+														 ./bakup.sh',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/cmd',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: ''
+																					),
+
+																					//传输jar,cfg,sh文件
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'echo \'Send file ...\'',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/builded',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: '**/target/output/*.*'
+																					),
+																					//同一个工程依赖的其他模块的jar包（这个不同的流水线要据实修改）
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'echo \'Send file ...\'',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/builded',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: '**/target/output/lib/*.jar'
+																					),
+																					//传输resources下的mapper xml
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'echo \'Send file ...\'',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/builded',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: '**/target/output/resources/mapper/*.xml'
+																					),
+
+																					//传输resources下其他文件
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'echo \'Send file ...\'',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/builded',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: '**/target/output/resources/**/**'
+																					),
+
+																					// 停止服务，删除旧文件，拷贝新文件，启动服务
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'cd /home/projects/honghe-prod/bak_service/cmd && \
+														./stopall.sh && ./remove.sh && sh ./upgrade.sh && cd /home/projects/honghe-prod/bak_service/cmd && ./monitor.sh &&  ./startall.sh ',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/cmd',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: ''
+																					)
+																			],
+																	usePromotionTimestamp: false,
+																	useWorkspaceInPromotion: false,
+																	verbose: false
+															)
+													]
+									)
+									break;
+								default:
+									// 将构建后的文件全量发送，全量部署.
+									sshPublisher(
+											publishers:
+													[
+															// 发送到测试机
+															sshPublisherDesc(
+																	configName: 'honghe_pro',
+																	transfers:
+																			[
+																					//备份旧文件，清空传输目录
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'cd /home/projects/honghe-prod/bak_service/cmd && \
+														 ./bakup.sh',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/cmd',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: ''
+																					),
+
+																					//传输新文件
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'echo \'Send file ...\'',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/builded',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: '**/target/*.zip'
+																					),
+
+																					// 停止服务，删除旧文件，拷贝新文件，启动服务
+																					// 解压缩时远程调用经常会被里面的信息干扰，认为脚本执行失败，要在前面加上sh 执行
+																					sshTransfer(
+																							cleanRemote: false,
+																							excludes: '',
+																							execCommand: 'cd /home/projects/honghe-prod/bak_service/cmd && \
+														./stopall.sh && ./clean.sh && sh ./install.sh && cd /home/projects/honghe-prod/bak_service/cmd && ./monitor.sh &&  ./startall.sh ',
+																							execTimeout: 600000,
+																							flatten: false,
+																							makeEmptyDirs: false,
+																							noDefaultExcludes: false,
+																							patternSeparator: '[, ]+',
+																							remoteDirectory: 'honghe-prod/bak_service/cmd',
+																							remoteDirectorySDF: false,
+																							removePrefix: '',
+																							sourceFiles: ''
+																					)
+																			],
+																	usePromotionTimestamp: false,
+																	useWorkspaceInPromotion: false,
+																	verbose: false
+															)
+													]
+									)
+							}
+
+					   }
+
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            sh "curl -X POST https://oapi.dingtalk.com/robot/send?access_token=ae8f68883d4379be71d5775ca2ba44f8f2f9f732ae553b0fabe673962a66a55e -H 'Content-Type: application/json' \
+                 -d '{\"msgtype\": \"text\",\"text\": {\"content\": \"【红河快选后端-TEST-huawei-13】构建完成！构建结果:${currentBuild.currentResult} 构建详情请见詹金斯日志\"}}'"
+            // One or more steps need to be included within each condition's block.
+            // 发送邮件 现在邮件好像连不上了，先注释...
+            //emailext(
+            //        body: '$DEFAULT_CONTENT',
+            //        subject: '$DEFAULT_SUBJECT',
+            //        from: '',
+            //		to: '95909@runjian.com'
+            //        //to: '96295@runjian.com,95909@runjian.com,95553@runjian.com'
+            //    )
+        }
+    }
+}

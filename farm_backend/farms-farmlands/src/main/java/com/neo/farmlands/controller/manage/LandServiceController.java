@@ -2,6 +2,9 @@ package com.neo.farmlands.controller.manage;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.neo.common.core.domain.R;
+import com.neo.farmlands.domain.vo.form.LandServiceForm;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,10 +77,11 @@ public class LandServiceController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('farmlands:service:add')")
     @Log(title = "服务信息", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody LandService landService)
+    @PostMapping("/add")
+    public R add(@RequestBody LandServiceForm landService)
     {
-        return toAjax(landServiceService.insertLandService(landService));
+        landServiceService.insertLandService(landService);
+        return R.ok();
     }
 
     /**

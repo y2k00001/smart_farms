@@ -32,6 +32,17 @@ public class IDConstants {
      */
     public static final String LAND_AREA_ID_PREFIX  = "LA_";
 
+
+    /**
+     * 种子ID前缀
+     */
+    public static final String SEED_ID_PREFIX  = "SD_";
+
+    /**
+     * 农田服务ID前缀
+     */
+    public static final String LAND_SERVICE_ID_PREFIX  = "LS_";
+
     /**
      * 农田租户ID前缀
      */
