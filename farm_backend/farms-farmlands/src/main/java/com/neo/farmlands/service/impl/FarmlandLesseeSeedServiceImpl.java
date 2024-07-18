@@ -8,6 +8,7 @@ import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.SeedVO;
 import com.neo.farmlands.service.IFarmlandLesseeSeedService;
 import com.neo.farmlands.mapper.FarmlandLesseeSeedMapper;
+import com.neo.farmlands.service.IFarmlandService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,14 +29,16 @@ public class FarmlandLesseeSeedServiceImpl extends ServiceImpl<FarmlandLesseeSee
     @Resource
     private StorageFilesServiceImpl storageFilesService;
 
+    @Resource
+    private IFarmlandService farmlandService;
+
     @Override
     public List<Seed> getSeedListByFarmlandLesseeId(String farmlandLesseeId) {
         List<Seed> seedList =  farmlandLesseeSeedMapper.getSeedListByFarmlandLesseeId(farmlandLesseeId);
         if (seedList.size()>0){
             seedList.forEach(seed->{
                 if(StrUtil.isNotBlank(seed.getFileIds())){
-                    String[] fileIds = seed.getFileIds().split(",");
-                    List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
+                    List<StorageFiles> storageFiles = farmlandService.getStorageFiles(seed.getFileIds());
                     seed.setFiles(storageFiles);
                 }
             });

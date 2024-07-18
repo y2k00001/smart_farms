@@ -11,6 +11,7 @@ import com.neo.farmlands.domain.entity.News;
 import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.NewsVO;
 import com.neo.farmlands.domain.vo.form.NewsForm;
+import com.neo.farmlands.service.IFarmlandService;
 import com.neo.farmlands.service.IStorageFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements IN
 
     @Resource
     private IStorageFilesService storageFilesService;
+
+    @Resource
+    private IFarmlandService farmlandService;
 
     /**
      * 查询资讯
@@ -60,8 +64,7 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements IN
         if(newsVOS.size() > 0 ){
             newsVOS.forEach(newsVO -> {
                 if(StrUtil.isNotBlank( newsVO.getPictureIds())){
-                    String[] fileIds = newsVO.getPictureIds().split(",");
-                    List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
+                    List<StorageFiles> storageFiles = farmlandService.getStorageFiles(newsVO.getPictureIds());
                     newsVO.setPictureList(storageFiles);
                 }
                 newsVO.setThumbnailFileEntity(storageFilesService.getOneByFileId(newsVO.getThumbnailFile(),false));

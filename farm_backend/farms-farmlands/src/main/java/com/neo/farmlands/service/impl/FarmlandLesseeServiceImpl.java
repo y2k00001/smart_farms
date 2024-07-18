@@ -205,8 +205,7 @@ public class FarmlandLesseeServiceImpl extends ServiceImpl<FarmlandLesseeMapper,
         farmlandLesseeVOList.forEach(farmlandLesseeVO -> {
             FarmlandVO farmlandVO = BeanUtil.copyProperties( farmlandService.selectFarmlandByFarmlandId(farmlandLesseeVO.getFarmlandId()) ,FarmlandVO.class);
             if(StrUtil.isNotBlank(farmlandVO.getFileIds())){
-                String[] fileIds = farmlandVO.getFileIds().split(",");
-                List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
+                List<StorageFiles> storageFiles = farmlandService.getStorageFiles(farmlandVO.getFileIds());
                 farmlandVO.setFiles(storageFiles);
             }
             farmlandLesseeVO.setFarmlandVO(farmlandVO);
@@ -224,8 +223,7 @@ public class FarmlandLesseeServiceImpl extends ServiceImpl<FarmlandLesseeMapper,
 
         FarmlandVO farmlandVO = BeanUtil.copyProperties( farmlandService.selectFarmlandByFarmlandId(farmlandLesseeVO.getFarmlandId()) ,FarmlandVO.class);
         if(StrUtil.isNotBlank(farmlandVO.getFileIds())){
-            String[] fileIds = farmlandVO.getFileIds().split(",");
-            List<StorageFiles> storageFiles = storageFilesService.listByFileIds(fileIds);
+            List<StorageFiles> storageFiles = farmlandService.getStorageFiles(farmlandVO.getFileIds());
             farmlandVO.setFiles(storageFiles);
         }
         farmlandLesseeVO.setFarmlandVO(farmlandVO);
