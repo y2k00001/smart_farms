@@ -1,6 +1,7 @@
 package com.neo.common.utils.uuid;
 
 import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 
 /**
  * ID生成器工具类
@@ -56,7 +57,7 @@ public class IdUtils
     }
 
     public static Long getSnowflakeId() {
-        Snowflake snowflake = new Snowflake(WORKFLOW_ID, DATA_CENTER_ID);
+        Snowflake snowflake = IdUtil.getSnowflake(WORKFLOW_ID, DATA_CENTER_ID);
         return snowflake.nextId();
     }
 }

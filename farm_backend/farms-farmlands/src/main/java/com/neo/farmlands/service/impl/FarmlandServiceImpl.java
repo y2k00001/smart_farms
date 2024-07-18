@@ -7,7 +7,6 @@ import java.util.List;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.config.RuoYiConfig;
 import com.neo.common.exception.ServiceException;
@@ -15,16 +14,19 @@ import com.neo.common.utils.DateUtils;
 import com.neo.common.utils.SecurityUtils;
 import com.neo.common.utils.uuid.IdUtils;
 import com.neo.farmlands.constant.IDConstants;
-import com.neo.farmlands.domain.entity.Seed;
+import com.neo.farmlands.domain.entity.FarmlandSeed;
 import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.FarmlandVO;
 import com.neo.farmlands.domain.vo.SeedVO;
+import com.neo.farmlands.domain.vo.form.FarmlandForm;
+import com.neo.farmlands.service.IFarmlandSeedService;
 import com.neo.farmlands.service.IStorageFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.FarmlandMapper;
 import com.neo.farmlands.domain.entity.Farmland;
 import com.neo.farmlands.service.IFarmlandService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -45,6 +47,9 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
 
     @Autowired
     private RuoYiConfig ruoyiConfig;
+
+    @Resource
+    private IFarmlandSeedService farmlandSeedService;
 
     /**
      * 查询农田信息
@@ -108,30 +113,69 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
     /**
      * 新增农田信息
      *
-     * @param farmland 农田信息
+     * @param farmlandForm 农田信息
      * @return 结果
      */
     @Override
-    public int insertFarmland(Farmland farmland)
+    @Transactional(rollbackFor =Exception.class)
+    public int insertFarmland(FarmlandForm farmlandForm)
     {
+        Farmland farmland = new Farmland();
+        BeanUtil.copyProperties(farmlandForm,farmland);
+
         farmland.setId(String.valueOf(IdUtils.getSnowflakeId()));
         farmland.setFarmlandId(IDConstants.FARMLAND_ID_PREFIX+IdUtils.getSnowflakeId());
         farmland.setCreateTime(DateUtils.getNowDate());
         farmland.setCreateBy(SecurityUtils.getUserId().toString());
         farmland.setCreateByName(SecurityUtils.getUsername());
+
+        if(BeanUtil.isNotEmpty(farmlandForm.getSeedIds())){
+            List<FarmlandSeed> farmlandSeeds = new ArrayList<>();
+            farmlandForm.getSeedIds().forEach(seedId->{
+                FarmlandSeed farmlandSeed = new FarmlandSeed();
+                farmlandSeed.setId(String.valueOf(IdUtils.getSnowflakeId()));
+                farmlandSeed.setFarmlandId(farmland.getFarmlandId());
+                farmlandSeed.setSeedId(seedId);
+                farmlandSeeds.add(farmlandSeed);
+            });
+            farmlandSeedService.saveBatch(farmlandSeeds);
+        }
+
+
         return farmlandMapper.insertFarmland(farmland);
     }
 
     /**
      * 修改农田信息
      *
-     * @param farmland 农田信息
+     * @param farmlandForm 农田信息
      * @return 结果
      */
     @Override
-    public int updateFarmland(Farmland farmland)
+    @Transactional(rollbackFor = Exception.class)
+    public int updateFarmland(FarmlandForm farmlandForm)
     {
+        if(BeanUtil.isEmpty(farmlandForm.getId())){
+            throw new ServiceException("id不能为空");
+        }
+        Farmland farmland = this.getById(farmlandForm.getId());
+        if(BeanUtil.isEmpty(farmland)){
+            throw new ServiceException("id不存在");
+        }
+        BeanUtil.copyProperties(farmlandForm,farmland);
         farmland.setUpdateTime(DateUtils.getNowDate());
+        if(BeanUtil.isNotEmpty(farmlandForm.getSeedIds())){
+            List<FarmlandSeed> farmlandSeeds = new ArrayList<>();
+            farmlandForm.getSeedIds().forEach(seedId->{
+                FarmlandSeed farmlandSeed = new FarmlandSeed();
+                farmlandSeed.setId(String.valueOf(IdUtils.getSnowflakeId()));
+                farmlandSeed.setFarmlandId(farmland.getFarmlandId());
+                farmlandSeed.setSeedId(seedId);
+                farmlandSeeds.add(farmlandSeed);
+            });
+            farmlandSeedService.saveBatch(farmlandSeeds);
+        }
+
         return farmlandMapper.updateFarmland(farmland);
     }
 
@@ -174,7 +218,8 @@ public class FarmlandServiceImpl extends ServiceImpl<FarmlandMapper, Farmland> i
         return farmland;
     }
 
-    private List<StorageFiles> getStorageFiles(String filePaths){
+    @Override
+    public List<StorageFiles> getStorageFiles(String filePaths){
 
         List<StorageFiles> storageFiles = new ArrayList<>();
         List<String> filePathList = new ArrayList<>(Arrays.asList(filePaths.split(",")));

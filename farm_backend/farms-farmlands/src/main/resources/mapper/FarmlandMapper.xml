@@ -151,6 +151,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
             <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectFarmlandById" parameterType="String" resultMap="FarmlandResult">

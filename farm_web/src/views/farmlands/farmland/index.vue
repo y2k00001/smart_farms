@@ -17,10 +17,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="面积单位;平方米" prop="area">
+      <el-form-item label="面积单位" prop="area">
         <el-input
           v-model="queryParams.area"
-          placeholder="请输入面积单位;平方米"
+          placeholder="请输入面积单位"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -49,7 +49,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="租赁价格;单位：元/天" prop="leasePrice">
+      <el-form-item label="租赁价格" prop="leasePrice">
         <el-input
           v-model="queryParams.leasePrice"
           placeholder="请输入租赁价格;单位：元/天"
@@ -129,15 +129,15 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="编号" align="center" prop="farmlandId" />
       <el-table-column label="农田名称" align="center" prop="farmlandName" />
-      <el-table-column label="面积单位;平方米" align="center" prop="area" />
+      <el-table-column label="面积" align="center" prop="area" />
       <el-table-column label="维度" align="center" prop="lat" />
       <el-table-column label="经度" align="center" prop="lon" />
       <el-table-column label="位置" align="center" prop="location" />
-      <el-table-column label="农田状态;0.未上架；10，待租赁，20，已租赁" align="center" prop="status" />
-      <el-table-column label="租赁价格;单位：元/天" align="center" prop="leasePrice" />
+      <el-table-column label="农田状态" align="center" prop="status" />
+      <el-table-column label="租赁价格" align="center" prop="leasePrice" />
       <el-table-column label="摘要" align="center" prop="summary" />
       <el-table-column label="联系电话" align="center" prop="contactPhone" />
-      <el-table-column label="附件ID集合;逗号分割" align="center" prop="fileIds" width="100">
+      <el-table-column label="附件ID集合" align="center" prop="fileIds" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.fileIds" :width="50" :height="50"/>
         </template>
@@ -177,6 +177,13 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="农田名称" prop="farmlandName">
           <el-input v-model="form.farmlandName" placeholder="请输入农田名称" />
+        </el-form-item>
+        <el-form-item label="请选择可种植种类" prop="seedIds">
+          <el-select v-model="form.seedIds" placeholder="请选择可种植种类" multiple clearable
+                     :style="{width: '100%'}">
+            <el-option v-for="(item, index) in seedList" :key="index" :label="item.seedName"
+                       :value="item.seedId" :disabled="item.disabled"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="面积单位;平方米" prop="area">
           <el-input v-model="form.area" placeholder="请输入面积单位;平方米" />
@@ -219,11 +226,14 @@
 
 <script>
 import { listFarmland, getFarmland, delFarmland, addFarmland, updateFarmland } from "@/api/farmlands/farmland";
+import { listSeed } from '@/api/farmlands/seed'
 
 export default {
   name: "Farmland",
   data() {
     return {
+      // 种子列表
+      seedList: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -335,6 +345,15 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加农田信息";
+      let params = {
+        pageNum: 1,
+        pageSize: 999
+      }
+      listSeed(params).then(response => {
+        this.seedList = response.rows;
+      });
+
+
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -344,6 +363,13 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改农田信息";
+      });
+      let params = {
+        pageNum: 1,
+        pageSize: 999
+      }
+      listSeed(params).then(response => {
+        this.seedList = response.rows;
       });
     },
     /** 提交按钮 */

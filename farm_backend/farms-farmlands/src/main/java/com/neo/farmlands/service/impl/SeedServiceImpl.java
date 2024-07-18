@@ -94,26 +94,7 @@ public class SeedServiceImpl extends ServiceImpl<SeedMapper, Seed> implements IS
 
         this.save(seed);
 
-        FarmlandSeed farmlandSeed = new FarmlandSeed();
-        farmlandSeed.setId("");
-        farmlandSeed.setFarmlandId("");
-        farmlandSeed.setSeedId("");
-        farmlandSeed.setCreateByName("");
-        farmlandSeed.setIsDeleted("");
 
-        farmlandSeed.setCreateBy("");
-        farmlandSeed.setCreateTime(new Date());
-
-        farmlandSeed.setUpdateTime(new Date());
-
-
-
-
-
-
-
-        seed.setCreateTime(DateUtils.getNowDate());
-        seedMapper.insertSeed(seed);
     }
 
     /**

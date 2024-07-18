@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.Farmland;
+import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.FarmlandVO;
+import com.neo.farmlands.domain.vo.form.FarmlandForm;
 import com.neo.farmlands.mapper.FarmlandMapper;
 
 /**
@@ -41,7 +43,7 @@ public interface IFarmlandService extends IService<Farmland>
      * @param farmland 农田信息
      * @return 结果
      */
-    public int insertFarmland(Farmland farmland);
+    public int insertFarmland(FarmlandForm farmland);
 
     /**
      * 修改农田信息
@@ -49,7 +51,7 @@ public interface IFarmlandService extends IService<Farmland>
      * @param farmland 农田信息
      * @return 结果
      */
-    public int updateFarmland(Farmland farmland);
+    public int updateFarmland(FarmlandForm farmland);
 
     /**
      * 批量删除农田信息
@@ -76,4 +78,6 @@ public interface IFarmlandService extends IService<Farmland>
      * @return
      **/
     Farmland getOneByFarmlandId(String farmlandId, Boolean isThrowException);
+
+    List<StorageFiles> getStorageFiles(String filePaths);
 }

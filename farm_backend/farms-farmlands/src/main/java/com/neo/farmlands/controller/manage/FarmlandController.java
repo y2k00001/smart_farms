@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.neo.common.core.domain.R;
 import com.neo.farmlands.domain.vo.FarmlandVO;
+import com.neo.farmlands.domain.vo.form.FarmlandForm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -85,11 +86,10 @@ public class FarmlandController extends BaseController
     @Log(title = "农田信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ApiOperation(value = "新增农田信息")
-    public R add(@RequestBody Farmland farmland)
+    public R add(@RequestBody FarmlandForm farmland)
     {
         farmlandService.insertFarmland(farmland);
         return R.ok();
-
     }
 
     /**
@@ -99,9 +99,9 @@ public class FarmlandController extends BaseController
     @Log(title = "农田信息", businessType = BusinessType.UPDATE)
     @PostMapping("/update")
     @ApiOperation(value = "修改农田信息")
-    public R edit(@RequestBody Farmland farmland)
+    public R edit(@RequestBody FarmlandForm farmlandForm)
     {
-        farmlandService.updateFarmland(farmland);
+        farmlandService.updateFarmland(farmlandForm);
         return R.ok();
     }
 

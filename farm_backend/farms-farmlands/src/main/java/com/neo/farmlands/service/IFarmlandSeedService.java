@@ -1,5 +1,6 @@
 package com.neo.farmlands.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.FarmlandSeed;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author neo
  * @date 2024-07-12
  */
-public interface IFarmlandSeedService
+public interface IFarmlandSeedService extends IService<FarmlandSeed>
 {
     /**
      * 查询农田、种子关联

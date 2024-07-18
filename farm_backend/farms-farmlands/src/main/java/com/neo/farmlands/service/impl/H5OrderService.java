@@ -108,7 +108,7 @@ public class H5OrderService {
     public LesseeOrderVO getPreOrder(H5PreLesseeOrderForm lesseeOrderForm) {
         LesseeOrderVO lesseeOrderVO = farmlandMapper.getFarmlandPreOrder(lesseeOrderForm);
         if(BeanUtil.isNotEmpty(lesseeOrderVO)){
-            List<StorageFiles> storageFiles = storageFilesService.listByFileIds(lesseeOrderVO.getFileIds().split(","));
+            List<StorageFiles> storageFiles = farmlandService.getStorageFiles(lesseeOrderVO.getFileIds());
             lesseeOrderVO.setFiles(storageFiles);
         }
         return lesseeOrderVO;

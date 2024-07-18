@@ -1,5 +1,6 @@
 package com.neo.farmlands.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.neo.farmlands.domain.entity.FarmlandSeed;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author neo
  * @date 2024-07-12
  */
-public interface FarmlandSeedMapper
+public interface FarmlandSeedMapper extends BaseMapper<FarmlandSeed>
 {
     /**
      * 查询农田、种子关联
