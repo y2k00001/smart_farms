@@ -21,6 +21,8 @@ public class SeedForm
 {
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("种子id集合")
+    private List<String> seedIds;
 
     /** 种子ID */
     @ApiModelProperty("种子ID")
