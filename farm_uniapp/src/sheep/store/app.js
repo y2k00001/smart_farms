@@ -131,12 +131,6 @@ const app = defineStore({
                             "text": "农场"
                         },
                         {
-                            "inactiveIcon": "\/static\/icons\/cart.png",
-                            "activeIcon": "https:\/\/smart-farms.oss-cn-shenzhen.aliyuncs.com\/static\/icons\/cart.gif",
-                            "url": "\/pages\/index\/cart",
-                            "text": "圈子"
-                        },
-                        {
                             "inactiveIcon": "\/static\/icons\/my.png",
                             "activeIcon": "https:\/\/smart-farms.oss-cn-shenzhen.aliyuncs.com\/static\/icons\/my.gif",
                             "url": "\/pages\/index\/user",
@@ -275,20 +269,20 @@ const app = defineStore({
                                         "bgColor": "#68DE99"
                                     }
                                 },
-                                {
-                                    "src": "\/storage\/uniapp\/camera.png",
-                                    "title": {
-                                        "text": "农场实景",
-                                        "color": "#222222"
-                                    },
-                                    "url": "\/pages\/live\/list",
-                                    "badge": {
-                                        "show": 0,
-                                        "text": "",
-                                        "color": "#FFFFFF",
-                                        "bgColor": "#FF6000"
-                                    }
-                                },
+                                // {
+                                //     "src": "\/storage\/uniapp\/camera.png",
+                                //     "title": {
+                                //         "text": "农场实景",
+                                //         "color": "#222222"
+                                //     },
+                                //     "url": "\/pages\/live\/list",
+                                //     "badge": {
+                                //         "show": 0,
+                                //         "text": "",
+                                //         "color": "#FFFFFF",
+                                //         "bgColor": "#FF6000"
+                                //     }
+                                // },
                                 {
                                     "src": "\/storage\/uniapp\/breed.png",
                                     "title": {
@@ -317,20 +311,20 @@ const app = defineStore({
                                         "bgColor": "#FF6000"
                                     }
                                 },
-                                {
-                                    "src": "\/storage\/uniapp\/store.png",
-                                    "title": {
-                                        "text": "农场商城",
-                                        "color": "#222222"
-                                    },
-                                    "url": "\/pages\/shop\/index",
-                                    "badge": {
-                                        "show": 0,
-                                        "text": "",
-                                        "color": "#FFFFFF",
-                                        "bgColor": "#FF6000"
-                                    }
-                                },
+                                // {
+                                //     "src": "\/storage\/uniapp\/store.png",
+                                //     "title": {
+                                //         "text": "农场商城",
+                                //         "color": "#222222"
+                                //     },
+                                //     "url": "\/pages\/shop\/index",
+                                //     "badge": {
+                                //         "show": 0,
+                                //         "text": "",
+                                //         "color": "#FFFFFF",
+                                //         "bgColor": "#FF6000"
+                                //     }
+                                // },
                                 {
                                     "src": "\/storage\/uniapp\/notice.png",
                                     "title": {

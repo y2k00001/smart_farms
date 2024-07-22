@@ -20,7 +20,7 @@
 
     <s-coupon-card v-if="type === 'couponCard'" />
     <s-farmlandlessee-card v-if="type === 'farmlandlesseeCard'" />
-    <s-order-card v-if="type === 'orderCard'" :data="data" />
+<!--    <s-order-card v-if="type === 'orderCard'" :data="data" />-->
     <s-goods-card v-if="type === 'goodsCard'" :data="data" :styles="styles" />
     <s-farmlands-card v-if="type === 'farmlandsCard'" :data="data" :styles="styles" />
     <s-score-block v-if="type === 'scoreGoods'" :data="data" :styles="styles" />
