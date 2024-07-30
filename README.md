@@ -32,7 +32,7 @@
 五、系统流程图
 ![](doc/images/智慧农园业务主流程.png)  
 六、在线演示  
-微信小程序
-![img.png](doc/images/mini.png)
+微信小程序  
+![](https://smart-farms.oss-cn-shenzhen.aliyuncs.com/static/img/mini.jpg)  
 后台管理系统
-![img.png](doc/images/admin.png)
+
