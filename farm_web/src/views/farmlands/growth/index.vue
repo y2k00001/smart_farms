@@ -1,11 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-
-      <el-form-item label="农田ID" prop="farmlandId">
+      <el-form-item label="生长周期ID" prop="growthId">
         <el-input
-          v-model="queryParams.farmlandId"
-          placeholder="请输入农田ID"
+          v-model="queryParams.growthId"
+          placeholder="请输入生长周期ID"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -34,55 +33,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="农田昵称" prop="farmlanName">
+      <el-form-item label="农田昵称" prop="farmlandName">
         <el-input
-          v-model="queryParams.farmlanName"
+          v-model="queryParams.farmlandName"
           placeholder="请输入农田昵称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="生长阶段;" prop="growthStage">
-        <el-input
-          v-model="queryParams.growthStage"
-          placeholder="请输入生长阶段;"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="生长时间;" prop="growthTime">
-        <el-input
-          v-model="queryParams.growthTime"
-          placeholder="请输入生长时间;"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="生长阶段的起始日期" prop="startDate">
-        <el-input
-          v-model="queryParams.startDate"
-          placeholder="请输入生长阶段的起始日期"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="生长阶段的结束日期" prop="endDate">
-        <el-input
-          v-model="queryParams.endDate"
-          placeholder="请输入生长阶段的结束日期"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="预期产量;" prop="yieldExpectation">
-        <el-input
-          v-model="queryParams.yieldExpectation"
-          placeholder="请输入预期产量;"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="备注" prop="remarks">
+      <el-form-item label="" prop="remarks">
         <el-input
           v-model="queryParams.remarks"
           placeholder="请输入"
@@ -90,7 +49,22 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
+      <el-form-item label="创建人姓名" prop="createByName">
+        <el-input
+          v-model="queryParams.createByName"
+          placeholder="请输入创建人姓名"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="创建时间" prop="createTime">
+        <el-date-picker clearable
+          v-model="queryParams.createTime"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="请选择创建时间">
+        </el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -151,25 +125,17 @@
       <el-table-column label="农田租赁合同ID" align="center" prop="farmlandLesseeId" />
       <el-table-column label="种子ID" align="center" prop="seedId" />
       <el-table-column label="租赁面积ID" align="center" prop="landAreaId" />
-      <el-table-column label="农田信息快照" align="center" prop="farmlandSnap" />
-      <el-table-column label="种子信息快照" align="center" prop="seedSnap" />
-      <el-table-column label="农田昵称" align="center" prop="farmlanName" />
+      <el-table-column label="农田昵称" align="center" prop="farmlandName" />
       <el-table-column label="农作物名称" align="center" prop="cropName" />
       <el-table-column label="学名" align="center" prop="scientificName" />
-      <el-table-column label="生长阶段;" align="center" prop="growthStage" />
-      <el-table-column label="生长时间;" align="center" prop="growthTime" />
-      <el-table-column label="生长阶段的起始日期" align="center" prop="startDate" />
-      <el-table-column label="生长阶段的结束日期" align="center" prop="endDate" />
-      <el-table-column label="生长条件;" align="center" prop="growthConditions" />
-      <el-table-column label="施肥要求;" align="center" prop="fertilizerRequirements" />
-      <el-table-column label="灌溉需求;" align="center" prop="irrigationNeeds" />
-      <el-table-column label="病虫害防治措施;" align="center" prop="pestControlMeasures" />
-      <el-table-column label="气候适应性;" align="center" prop="climateSuitability" />
-      <el-table-column label="土壤类型;" align="center" prop="soilType" />
-      <el-table-column label="生长阶段详细信息;" align="center" prop="growthPhaseDetails" />
-      <el-table-column label="预期产量;" align="center" prop="yieldExpectation" />
-      <el-table-column label="品种描述;" align="center" prop="varietyDescription" />
-      <el-table-column label="" align="center" prop="remarks" />
+      <el-table-column label="生长阶段;" align="center" prop="growthStage">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.growth_stage" :value="scope.row.growthStage"/>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column label="remarks" align="center" prop="remarks" />
       <el-table-column label="创建人姓名" align="center" prop="createByName" />
       <el-table-column label="是否删除" align="center" prop="isDeleted" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -203,29 +169,8 @@
     <!-- 添加或修改农作物生长周期信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-<!--        <el-form-item label="生长周期ID" prop="growthId">-->
-<!--          <el-input v-model="form.growthId" placeholder="请输入生长周期ID" />-->
-<!--        </el-form-item>-->
-        <el-form-item label="农田ID" prop="farmlandId">
-          <el-input v-model="form.farmlandId" placeholder="请输入农田ID" />
-        </el-form-item>
-        <el-form-item label="农田租赁合同ID" prop="farmlandLesseeId">
-          <el-input v-model="form.farmlandLesseeId" placeholder="请输入农田租赁合同ID" />
-        </el-form-item>
-        <el-form-item label="种子ID" prop="seedId">
-          <el-input v-model="form.seedId" placeholder="请输入种子ID" />
-        </el-form-item>
-        <el-form-item label="租赁面积ID" prop="landAreaId">
-          <el-input v-model="form.landAreaId" placeholder="请输入租赁面积ID" />
-        </el-form-item>
-        <el-form-item label="农田信息快照" prop="farmlandSnap">
-          <el-input v-model="form.farmlandSnap" placeholder="请输入农田信息快照" />
-        </el-form-item>
-        <el-form-item label="种子信息快照" prop="seedSnap">
-          <el-input v-model="form.seedSnap" placeholder="请输入种子信息快照" />
-        </el-form-item>
-        <el-form-item label="农田昵称" prop="farmlanName">
-          <el-input v-model="form.farmlanName" placeholder="请输入农田昵称" />
+        <el-form-item label="农田昵称" prop="farmlandName">
+          <el-input v-model="form.farmlandName" placeholder="请输入农田昵称" />
         </el-form-item>
         <el-form-item label="农作物名称" prop="cropName">
           <el-input v-model="form.cropName" placeholder="请输入农作物名称" />
@@ -272,12 +217,6 @@
         <el-form-item label="" prop="remarks">
           <el-input v-model="form.remarks" placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="创建人姓名" prop="createByName">
-          <el-input v-model="form.createByName" placeholder="请输入创建人姓名" />
-        </el-form-item>
-        <el-form-item label="是否删除" prop="isDeleted">
-          <el-input v-model="form.isDeleted" placeholder="请输入是否删除" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -292,8 +231,10 @@ import { listGrowth, getGrowth, delGrowth, addGrowth, updateGrowth } from "@/api
 
 export default {
   name: "Growth",
+  dicts: ['growth_stage'],
   data() {
     return {
+
       // 遮罩层
       loading: true,
       // 选中数组
@@ -321,27 +262,10 @@ export default {
         farmlandLesseeId: null,
         seedId: null,
         landAreaId: null,
-        farmlandSnap: null,
-        seedSnap: null,
-        farmlanName: null,
-        cropName: null,
-        scientificName: null,
-        growthStage: null,
-        growthTime: null,
-        startDate: null,
-        endDate: null,
-        growthConditions: null,
-        fertilizerRequirements: null,
-        irrigationNeeds: null,
-        pestControlMeasures: null,
-        climateSuitability: null,
-        soilType: null,
-        growthPhaseDetails: null,
-        yieldExpectation: null,
-        varietyDescription: null,
+        farmlandName: null,
         remarks: null,
         createByName: null,
-        isDeleted: null
+        createTime: null,
       },
       // 表单参数
       form: {},
@@ -382,7 +306,7 @@ export default {
         landAreaId: null,
         farmlandSnap: null,
         seedSnap: null,
-        farmlanName: null,
+        farmlandName: null,
         cropName: null,
         scientificName: null,
         growthStage: null,
