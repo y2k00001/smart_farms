@@ -35,7 +35,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="operationResult != null "> and operation_result = #{operationResult}</if>
             <if test="operationMode != null "> and operation_mode = #{operationMode}</if>
             <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
-            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
         </where>
     </select>
     

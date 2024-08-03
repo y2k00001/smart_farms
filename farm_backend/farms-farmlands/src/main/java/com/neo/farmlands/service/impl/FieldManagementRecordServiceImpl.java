@@ -15,7 +15,7 @@ import com.neo.farmlands.service.IFieldManagementRecordService;
  * 田间管理记录Service业务层处理
  *
  * @author neo
- * @date 2024-06-11
+ * @date 2024-08-03
  */
 @Service
 public class FieldManagementRecordServiceImpl extends ServiceImpl<FieldManagementRecordMapper, FieldManagementRecord> implements IFieldManagementRecordService

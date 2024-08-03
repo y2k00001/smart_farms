@@ -1,8 +1,6 @@
 package com.neo.farmlands.domain.entity;
 
 import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neo.common.annotation.Excel;
 import com.neo.common.core.domain.BaseEntity;
@@ -14,10 +12,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * 田间管理记录对象 t_field_management_record
  *
  * @author neo
- * @date 2024-06-11
+ * @date 2024-08-03
  */
 @Data
-@TableName("t_field_management_record")
 public class FieldManagementRecord extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -62,113 +59,4 @@ public class FieldManagementRecord extends BaseEntity
     @Excel(name = "是否删除")
     private Integer isDeleted;
 
-    public void setId(String id)
-    {
-        this.id = id;
-    }
-
-    public String getId()
-    {
-        return id;
-    }
-    public void setFieldManagementRecordId(String fieldManagementRecordId)
-    {
-        this.fieldManagementRecordId = fieldManagementRecordId;
-    }
-
-    public String getFieldManagementRecordId()
-    {
-        return fieldManagementRecordId;
-    }
-    public void setGrowthId(String growthId)
-    {
-        this.growthId = growthId;
-    }
-
-    public String getGrowthId()
-    {
-        return growthId;
-    }
-    public void setOperationType(Long operationType)
-    {
-        this.operationType = operationType;
-    }
-
-    public Long getOperationType()
-    {
-        return operationType;
-    }
-    public void setOperationTime(Date operationTime)
-    {
-        this.operationTime = operationTime;
-    }
-
-    public Date getOperationTime()
-    {
-        return operationTime;
-    }
-    public void setOperationStatus(Long operationStatus)
-    {
-        this.operationStatus = operationStatus;
-    }
-
-    public Long getOperationStatus()
-    {
-        return operationStatus;
-    }
-    public void setOperationResult(Long operationResult)
-    {
-        this.operationResult = operationResult;
-    }
-
-    public Long getOperationResult()
-    {
-        return operationResult;
-    }
-    public void setOperationMode(Long operationMode)
-    {
-        this.operationMode = operationMode;
-    }
-
-    public Long getOperationMode()
-    {
-        return operationMode;
-    }
-    public void setCreateByName(String createByName)
-    {
-        this.createByName = createByName;
-    }
-
-    public String getCreateByName()
-    {
-        return createByName;
-    }
-    public void setIsDeleted(Integer isDeleted)
-    {
-        this.isDeleted = isDeleted;
-    }
-
-    public Integer getIsDeleted()
-    {
-        return isDeleted;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("fieldManagementRecordId", getFieldManagementRecordId())
-            .append("growthId", getGrowthId())
-            .append("operationType", getOperationType())
-            .append("operationTime", getOperationTime())
-            .append("operationStatus", getOperationStatus())
-            .append("operationResult", getOperationResult())
-            .append("operationMode", getOperationMode())
-            .append("createByName", getCreateByName())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("isDeleted", getIsDeleted())
-            .toString();
-    }
 }

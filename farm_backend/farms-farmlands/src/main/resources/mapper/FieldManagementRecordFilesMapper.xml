@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neo.farmlands.mapper.FieldManagementRecordFilesMapper">
+    
+    <resultMap type="FieldManagementRecordFiles" id="FieldManagementRecordFilesResult">
+        <result property="id"    column="id"    />
+        <result property="fieldManagementRecordId"    column="field_management_record_id"    />
+        <result property="fileId"    column="file_id"    />
+        <result property="createByName"    column="create_by_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectFieldManagementRecordFilesVo">
+        select id, field_management_record_id, file_id, create_by_name, create_by, create_time, update_time, is_deleted from t_field_management_record_files
+    </sql>
+
+    <select id="selectFieldManagementRecordFilesList" parameterType="FieldManagementRecordFiles" resultMap="FieldManagementRecordFilesResult">
+        <include refid="selectFieldManagementRecordFilesVo"/>
+        <where>  
+            <if test="fieldManagementRecordId != null  and fieldManagementRecordId != ''"> and field_management_record_id = #{fieldManagementRecordId}</if>
+            <if test="fileId != null  and fileId != ''"> and file_id = #{fileId}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectFieldManagementRecordFilesById" parameterType="String" resultMap="FieldManagementRecordFilesResult">
+        <include refid="selectFieldManagementRecordFilesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFieldManagementRecordFiles" parameterType="FieldManagementRecordFiles">
+        insert into t_field_management_record_files
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="fieldManagementRecordId != null">field_management_record_id,</if>
+            <if test="fileId != null">file_id,</if>
+            <if test="createByName != null">create_by_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="fieldManagementRecordId != null">#{fieldManagementRecordId},</if>
+            <if test="fileId != null">#{fileId},</if>
+            <if test="createByName != null">#{createByName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFieldManagementRecordFiles" parameterType="FieldManagementRecordFiles">
+        update t_field_management_record_files
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fieldManagementRecordId != null">field_management_record_id = #{fieldManagementRecordId},</if>
+            <if test="fileId != null">file_id = #{fileId},</if>
+            <if test="createByName != null">create_by_name = #{createByName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFieldManagementRecordFilesById" parameterType="String">
+        delete from t_field_management_record_files where id = #{id}
+    </delete>
+
+    <delete id="deleteFieldManagementRecordFilesByIds" parameterType="String">
+        delete from t_field_management_record_files where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

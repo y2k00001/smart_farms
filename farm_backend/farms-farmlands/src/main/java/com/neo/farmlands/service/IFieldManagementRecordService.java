@@ -5,11 +5,12 @@ import com.neo.farmlands.domain.entity.FieldManagementRecord;
 
 import java.util.List;
 
+
 /**
  * 田间管理记录Service接口
  *
  * @author neo
- * @date 2024-06-11
+ * @date 2024-08-03
  */
 public interface IFieldManagementRecordService extends IService<FieldManagementRecord>
 {
