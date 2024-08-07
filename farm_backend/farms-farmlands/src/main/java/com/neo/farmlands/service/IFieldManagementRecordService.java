@@ -2,6 +2,7 @@ package com.neo.farmlands.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neo.farmlands.domain.entity.FieldManagementRecord;
+import com.neo.farmlands.domain.vo.form.FieldManagementRecordForm;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public interface IFieldManagementRecordService extends IService<FieldManagementR
      * @param fieldManagementRecord 田间管理记录
      * @return 结果
      */
-    public int insertFieldManagementRecord(FieldManagementRecord fieldManagementRecord);
+    public int insertFieldManagementRecord(FieldManagementRecordForm fieldManagementRecord);
 
     /**
      * 修改田间管理记录

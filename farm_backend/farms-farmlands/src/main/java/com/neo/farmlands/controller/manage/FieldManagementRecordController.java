@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.neo.farmlands.domain.entity.FieldManagementRecord;
+import com.neo.farmlands.domain.vo.form.FieldManagementRecordForm;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,10 +77,10 @@ public class FieldManagementRecordController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('farmlands:record:add')")
     @Log(title = "田间管理记录", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody FieldManagementRecord fieldManagementRecord)
+    @PostMapping("/add")
+    public AjaxResult add(@RequestBody FieldManagementRecordForm form)
     {
-        return toAjax(fieldManagementRecordService.insertFieldManagementRecord(fieldManagementRecord));
+        return toAjax(fieldManagementRecordService.insertFieldManagementRecord(form));
     }
 
     /**

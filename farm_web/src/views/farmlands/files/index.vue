@@ -9,48 +9,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="操作类型;" prop="operationType">
-        <el-select v-model="queryParams.operationType" placeholder="请选择操作类型;" clearable>
-          <el-option
-            v-for="dict in dict.type.operation_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="操作时间" prop="operationTime">
-        <el-date-picker clearable
-          v-model="queryParams.operationTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择操作时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="操作状态" prop="operationStatus">
-        <el-select v-model="queryParams.operationStatus" placeholder="请选择操作状态" clearable>
-          <el-option
-            v-for="dict in dict.type.operation_status"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="操作结果" prop="operationResult">
-        <el-select v-model="queryParams.operationResult" placeholder="请选择操作结果" clearable>
-          <el-option
-            v-for="dict in dict.type.operation_result"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="操作方式" prop="operationMode">
+      <el-form-item label="附件id" prop="fileId">
         <el-input
-          v-model="queryParams.operationMode"
-          placeholder="请输入操作方式"
+          v-model="queryParams.fileId"
+          placeholder="请输入附件id"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -59,6 +21,14 @@
         <el-input
           v-model="queryParams.createByName"
           placeholder="请输入创建人姓名"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="是否删除" prop="isDeleted">
+        <el-input
+          v-model="queryParams.isDeleted"
+          placeholder="请输入是否删除"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -77,7 +47,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['farmlands:record:add']"
+          v-hasPermi="['farmlands:files:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -88,7 +58,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['farmlands:record:edit']"
+          v-hasPermi="['farmlands:files:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -99,7 +69,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['farmlands:record:remove']"
+          v-hasPermi="['farmlands:files:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -109,42 +79,17 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['farmlands:record:export']"
+          v-hasPermi="['farmlands:files:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="filesList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="记录ID" align="center" prop="fieldManagementRecordId" />
-      <el-table-column label="生长周期ID" align="center" prop="growthId" />
-      <el-table-column label="操作类型" align="center" prop="operationType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.operation_type" :value="scope.row.operationType"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作时间" align="center" prop="operationTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.operationTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作状态" align="center" prop="operationStatus">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.operation_status" :value="scope.row.operationStatus"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作结果" align="center" prop="operationResult">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.operation_result" :value="scope.row.operationResult"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作方式;" align="center" prop="operationMode">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.operation_mode" :value="scope.row.operationMode"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="附件id" align="center" prop="fileId" />
       <el-table-column label="创建人姓名" align="center" prop="createByName" />
       <el-table-column label="是否删除" align="center" prop="isDeleted" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -154,19 +99,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['farmlands:record:edit']"
+            v-hasPermi="['farmlands:files:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['farmlands:record:remove']"
+            v-hasPermi="['farmlands:files:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-
+    
     <pagination
       v-show="total>0"
       :total="total"
@@ -175,49 +120,20 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改田间管理记录对话框 -->
+    <!-- 添加或修改田间管理记录附件对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="操作类型" prop="operationType">
-          <el-select v-model="form.operationType" placeholder="请选择操作类型">
-            <el-option
-              v-for="dict in dict.type.operation_type"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
+        <el-form-item label="记录ID" prop="fieldManagementRecordId">
+          <el-input v-model="form.fieldManagementRecordId" placeholder="请输入记录ID" />
         </el-form-item>
-        <el-form-item label="操作时间" prop="operationTime">
-          <el-date-picker clearable
-            v-model="form.operationTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择操作时间">
-          </el-date-picker>
+        <el-form-item label="附件id" prop="fileId">
+          <el-input v-model="form.fileId" placeholder="请输入附件id" />
         </el-form-item>
-        <el-form-item label="操作状态" prop="operationStatus">
-          <el-select v-model="form.operationStatus" placeholder="请选择操作状态">
-            <el-option
-              v-for="dict in dict.type.operation_status"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
+        <el-form-item label="创建人姓名" prop="createByName">
+          <el-input v-model="form.createByName" placeholder="请输入创建人姓名" />
         </el-form-item>
-        <el-form-item label="操作结果" prop="operationResult">
-          <el-select v-model="form.operationResult" placeholder="请选择操作结果">
-            <el-option
-              v-for="dict in dict.type.operation_result"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="操作方式" prop="operationMode">
-          <el-input v-model="form.operationMode" placeholder="请输入操作方式" />
+        <el-form-item label="是否删除" prop="isDeleted">
+          <el-input v-model="form.isDeleted" placeholder="请输入是否删除" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -229,11 +145,10 @@
 </template>
 
 <script>
-import { listRecord, getRecord, delRecord, addRecord, updateRecord } from "@/api/farmlands/record";
+import { listFiles, getFiles, delFiles, addFiles, updateFiles } from "@/api/farmlands/files";
 
 export default {
-  name: "Record",
-  dicts: ['operation_status', 'operation_type', 'operation_result'],
+  name: "Files",
   data() {
     return {
       // 遮罩层
@@ -248,8 +163,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 田间管理记录表格数据
-      recordList: [],
+      // 田间管理记录附件表格数据
+      filesList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -259,18 +174,17 @@ export default {
         pageNum: 1,
         pageSize: 10,
         fieldManagementRecordId: null,
-        growthId: null,
-        operationType: null,
-        operationTime: null,
-        operationStatus: null,
-        operationResult: null,
-        operationMode: null,
+        fileId: null,
         createByName: null,
+        isDeleted: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        isDeleted: [
+          { required: true, message: "是否删除不能为空", trigger: "blur" }
+        ]
       }
     };
   },
@@ -278,11 +192,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询田间管理记录列表 */
+    /** 查询田间管理记录附件列表 */
     getList() {
       this.loading = true;
-      listRecord(this.queryParams).then(response => {
-        this.recordList = response.rows;
+      listFiles(this.queryParams).then(response => {
+        this.filesList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -297,12 +211,7 @@ export default {
       this.form = {
         id: null,
         fieldManagementRecordId: null,
-        growthId: null,
-        operationType: null,
-        operationTime: null,
-        operationStatus: null,
-        operationResult: null,
-        operationMode: null,
+        fileId: null,
         createByName: null,
         createBy: null,
         createTime: null,
@@ -331,16 +240,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加田间管理记录";
+      this.title = "添加田间管理记录附件";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getRecord(id).then(response => {
+      getFiles(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改田间管理记录";
+        this.title = "修改田间管理记录附件";
       });
     },
     /** 提交按钮 */
@@ -348,13 +257,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateRecord(this.form).then(response => {
+            updateFiles(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addRecord(this.form).then(response => {
+            addFiles(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -366,8 +275,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除田间管理记录编号为"' + ids + '"的数据项？').then(function() {
-        return delRecord(ids);
+      this.$modal.confirm('是否确认删除田间管理记录附件编号为"' + ids + '"的数据项？').then(function() {
+        return delFiles(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -375,9 +284,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('farmlands/record/export', {
+      this.download('farmlands/files/export', {
         ...this.queryParams
-      }, `record_${new Date().getTime()}.xlsx`)
+      }, `files_${new Date().getTime()}.xlsx`)
     }
   }
 };

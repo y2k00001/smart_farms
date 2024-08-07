@@ -2,9 +2,11 @@ package com.neo.farmlands.service.impl;
 
 import java.util.List;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
 import com.neo.farmlands.domain.entity.FieldManagementRecord;
+import com.neo.farmlands.domain.vo.form.FieldManagementRecordForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.neo.farmlands.mapper.FieldManagementRecordMapper;
@@ -54,9 +56,11 @@ public class FieldManagementRecordServiceImpl extends ServiceImpl<FieldManagemen
      * @return 结果
      */
     @Override
-    public int insertFieldManagementRecord(FieldManagementRecord fieldManagementRecord)
+    public int insertFieldManagementRecord(FieldManagementRecordForm form)
     {
+        FieldManagementRecord fieldManagementRecord = new FieldManagementRecord();
         fieldManagementRecord.setCreateTime(DateUtils.getNowDate());
+        BeanUtil.copyProperties(form, fieldManagementRecord);
         return fieldManagementRecordMapper.insertFieldManagementRecord(fieldManagementRecord);
     }
 
