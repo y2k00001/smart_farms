@@ -178,6 +178,16 @@
     <!-- 添加或修改田间管理记录对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="所属生长周期" prop="growthId">
+          <el-select v-model="form.growthId">
+            <el-option
+              v-for="item in growthList"
+              :key="item.growthId"
+              :label="`${item.farmlandName} - ${item.farmlandLesseeId}`"
+              :value="item.growthId"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="操作类型" prop="operationType">
           <el-select v-model="form.operationType" placeholder="请选择操作类型">
             <el-option
@@ -230,6 +240,7 @@
 
 <script>
 import { listRecord, getRecord, delRecord, addRecord, updateRecord } from "@/api/farmlands/record";
+import { listGrowth } from '@/api/farmlands/growth'
 
 export default {
   name: "Record",
@@ -267,11 +278,17 @@ export default {
         operationMode: null,
         createByName: null,
       },
+      queryGrowthParams: {
+        pageNum: 1,
+        pageSize: 999,
+      },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      // 农作物生长周期信息表格数据
+      growthList: [],
     };
   },
   created() {
@@ -332,6 +349,11 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加田间管理记录";
+      listGrowth(this.queryGrowthParams).then(response => {
+        this.growthList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
