@@ -269,20 +269,20 @@ const app = defineStore({
                                         "bgColor": "#68DE99"
                                     }
                                 },
-                                // {
-                                //     "src": "\/storage\/uniapp\/camera.png",
-                                //     "title": {
-                                //         "text": "农场实景",
-                                //         "color": "#222222"
-                                //     },
-                                //     "url": "\/pages\/live\/list",
-                                //     "badge": {
-                                //         "show": 0,
-                                //         "text": "",
-                                //         "color": "#FFFFFF",
-                                //         "bgColor": "#FF6000"
-                                //     }
-                                // },
+                                {
+                                    "src": "\/storage\/uniapp\/camera.png",
+                                    "title": {
+                                        "text": "农场动态",
+                                        "color": "#222222"
+                                    },
+                                    "url": "\/pages\/live\/list",
+                                    "badge": {
+                                        "show": 0,
+                                        "text": "",
+                                        "color": "#FFFFFF",
+                                        "bgColor": "#FF6000"
+                                    }
+                                },
                                 {
                                     "src": "\/storage\/uniapp\/breed.png",
                                     "title": {
