@@ -11,6 +11,9 @@
 业务处理层：负责处理用户请求，包括农田租赁、种子选择、施肥浇水管理、农作物观看、线下互动、采摘邮寄等业务流程的实现。
 数据管理层：存储和管理系统数据，包括用户信息、农田信息、农作物生长数据等，为业务处理层提供数据支持。
 基础设施层：包括5G网络、物联网设备、云计算平台等，为系统提供稳定、高效的技术支撑。
+
+
+
 三、功能模块
 
 农园直播模块：通过高清摄像头和5G网络，实时传输农田画面至用户终端，让用户能够随时随地观看农作物的生长情况，增强用户的参与感和互动体验。
@@ -23,14 +26,25 @@
 采用物联网技术，对农田环境进行实时监测和调控，确保农作物的生长环境达到最佳状态。
 利用云计算平台，实现数据的存储、分析和处理，为业务处理层提供强大的数据支持。
 开发跨平台的前端应用，适应不同终端设备的使用需求，提升用户体验。
-五、系统架构图
-![](https://img.shields.io/badge/系统架构图-点击查看-blue)
-六、系统需求分析
-![](https://img.shields.io/badge/系统需求分析-点击查看-blue)
-七、功能清单
-![](doc/images/智慧农园功能清单.png)
-五、系统流程图
-![](doc/images/智慧农园业务主流程.png)  
+五、项目结构
+.
+├── farm_app               后台管理app端  
+├── farm_backend           后台管理后端  
+│   ├── farms-admin   后台管理系统模块web 入口  
+│   ├── farms-common  
+│   ├── farms-farmlands    农田管理模块  
+│   ├── farms-framework  
+│   ├── farms-generator  
+│   ├── farms-main  
+│   ├── farms-quartz  
+│   ├── farms-system    系统管理模块  
+│   ├── pom.xml    
+│   └── sql      
+├── farm_desktop          后台管理桌面端  
+├── farm_uniapp          用户APP\H5\微信小程序端
+├── farm_web            后台管理PC端
+
+
 六、在线演示  
 微信小程序  
 ![](https://smart-farms.oss-cn-shenzhen.aliyuncs.com/static/img/mini.jpg)  
