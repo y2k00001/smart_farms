@@ -6,6 +6,10 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +30,7 @@ import com.neo.system.service.ISysConfigService;
  * @author ruoyi
  */
 @RestController
+@Api(tags = {"验证码操作处理"})
 public class CaptchaController
 {
     @Resource(name = "captchaProducer")
@@ -43,6 +48,7 @@ public class CaptchaController
      * 生成验证码
      */
     @GetMapping("/captchaImage")
+    @ApiOperation(value = "获取验证码")
     public AjaxResult getCode(HttpServletResponse response) throws IOException
     {
         AjaxResult ajax = AjaxResult.success();
