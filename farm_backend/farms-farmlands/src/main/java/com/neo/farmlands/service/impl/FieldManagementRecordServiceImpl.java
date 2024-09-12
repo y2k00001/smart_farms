@@ -3,8 +3,11 @@ package com.neo.farmlands.service.impl;
 import java.util.List;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
+import com.neo.common.utils.uuid.IdUtils;
+import com.neo.farmlands.constant.IDConstants;
 import com.neo.farmlands.domain.entity.FieldManagementRecord;
 import com.neo.farmlands.domain.vo.form.FieldManagementRecordForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +55,7 @@ public class FieldManagementRecordServiceImpl extends ServiceImpl<FieldManagemen
     /**
      * 新增田间管理记录
      *
-     * @param fieldManagementRecord 田间管理记录
+     * @param form 田间管理记录
      * @return 结果
      */
     @Override
@@ -60,6 +63,8 @@ public class FieldManagementRecordServiceImpl extends ServiceImpl<FieldManagemen
     {
         FieldManagementRecord fieldManagementRecord = new FieldManagementRecord();
         fieldManagementRecord.setCreateTime(DateUtils.getNowDate());
+        fieldManagementRecord.setId(String.valueOf(IdUtils.getSnowflakeId()));
+        fieldManagementRecord.setFieldManagementRecordId(IDConstants.MANAGE_RECORD_ID_PREFIX+IdUtils.getSnowflakeId());
         BeanUtil.copyProperties(form, fieldManagementRecord);
         return fieldManagementRecordMapper.insertFieldManagementRecord(fieldManagementRecord);
     }

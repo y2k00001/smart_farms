@@ -60,4 +60,8 @@ public class IDConstants {
     /** 生长周期信息ID前缀
      */
     public static final String GROWTH_ID_PREFIX   = "GR_";
+
+    /** 田间管理记录ID前缀
+     */
+    public static final String MANAGE_RECORD_ID_PREFIX   = "FMR_";
 }

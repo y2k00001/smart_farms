@@ -20,7 +20,7 @@ export function getRecord(id) {
 // 新增田间管理记录
 export function addRecord(data) {
   return request({
-    url: '/farmlands/record',
+    url: '/farmlands/record/add',
     method: 'post',
     data: data
   })
@@ -29,8 +29,8 @@ export function addRecord(data) {
 // 修改田间管理记录
 export function updateRecord(data) {
   return request({
-    url: '/farmlands/record',
-    method: 'put',
+    url: '/farmlands/record/edit',
+    method: 'post',
     data: data
   })
 }

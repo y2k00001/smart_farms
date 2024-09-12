@@ -202,7 +202,7 @@
           <el-date-picker clearable
             v-model="form.operationTime"
             type="date"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="请选择操作时间">
           </el-date-picker>
         </el-form-item>
@@ -244,7 +244,7 @@ import { listGrowth } from '@/api/farmlands/growth'
 
 export default {
   name: "Record",
-  dicts: ['operation_status', 'operation_type', 'operation_result'],
+  dicts: ['operation_status', 'operation_type', 'operation_result','operation_mode'],
   data() {
     return {
       // 遮罩层
@@ -292,6 +292,7 @@ export default {
     };
   },
   created() {
+    console.log('当前 dicts 的值为:', this.dicts);
     this.getList();
   },
   methods: {
