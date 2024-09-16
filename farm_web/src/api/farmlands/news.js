@@ -20,7 +20,7 @@ export function getNews(id) {
 // 新增资讯
 export function addNews(data) {
   return request({
-    url: '/farmlands/news',
+    url: '/farmlands/news/add',
     method: 'post',
     data: data
   })

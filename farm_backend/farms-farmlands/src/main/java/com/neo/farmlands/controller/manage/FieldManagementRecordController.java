@@ -88,7 +88,7 @@ public class FieldManagementRecordController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('farmlands:record:edit')")
     @Log(title = "田间管理记录", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PostMapping("/edit")
     public AjaxResult edit(@RequestBody FieldManagementRecord fieldManagementRecord)
     {
         return toAjax(fieldManagementRecordService.updateFieldManagementRecord(fieldManagementRecord));

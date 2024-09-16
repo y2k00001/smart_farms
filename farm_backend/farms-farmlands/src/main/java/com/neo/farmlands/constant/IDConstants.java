@@ -64,4 +64,8 @@ public class IDConstants {
     /** 田间管理记录ID前缀
      */
     public static final String MANAGE_RECORD_ID_PREFIX   = "FMR_";
+
+    /** 田资讯记录ID前缀
+     */
+    public static final String NEWS_ID_PREFIX   = "NWS_";
 }

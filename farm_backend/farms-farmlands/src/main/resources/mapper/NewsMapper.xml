@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sort != null "> and sort = #{sort}</if>
             <if test="thumbnailFile != null  and thumbnailFile != ''"> and thumbnail_file = #{thumbnailFile}</if>
             <if test="pictureIds != null  and pictureIds != ''"> and picture_ids = #{pictureIds}</if>
-            <if test="content != null  and content != ''"> and content = #{content}</if>
+
             <if test="releaseBy != null  and releaseBy != ''"> and release_by = #{releaseBy}</if>
             <if test="releaseTime != null "> and release_time = #{releaseTime}</if>
             <if test="startTime != null "> and start_time = #{startTime}</if>
@@ -150,7 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteNewsByIds" parameterType="String">
-        delete from t_news where id in
+        update  t_news  set is_deleted = 1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

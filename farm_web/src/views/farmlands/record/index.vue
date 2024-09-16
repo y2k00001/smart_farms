@@ -55,10 +55,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建人姓名" prop="createByName">
+      <el-form-item label="创建者" prop="createByName">
         <el-input
           v-model="queryParams.createByName"
-          placeholder="请输入创建人姓名"
+          placeholder="请输入创建者姓名"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -145,8 +145,12 @@
           <dict-tag :options="dict.type.operation_mode" :value="scope.row.operationMode"/>
         </template>
       </el-table-column>
-      <el-table-column label="创建人姓名" align="center" prop="createByName" />
-      <el-table-column label="是否删除" align="center" prop="isDeleted" />
+      <el-table-column label="创建者" align="center" prop="createByName" />
+      <el-table-column label="是否删除" align="center" prop="isDeleted" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.common_is_del" :value="scope.row.isDeleted"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -227,7 +231,15 @@
           </el-select>
         </el-form-item>
         <el-form-item label="操作方式" prop="operationMode">
-          <el-input v-model="form.operationMode" placeholder="请输入操作方式" />
+
+          <el-select v-model="form.operationMode" placeholder="请选择操作方式">
+            <el-option
+              v-for="dict in dict.type.operation_mode"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -244,7 +256,7 @@ import { listGrowth } from '@/api/farmlands/growth'
 
 export default {
   name: "Record",
-  dicts: ['operation_status', 'operation_type', 'operation_result','operation_mode'],
+  dicts: ['operation_status', 'operation_type', 'operation_result','operation_mode','common_is_del'],
   data() {
     return {
       // 遮罩层

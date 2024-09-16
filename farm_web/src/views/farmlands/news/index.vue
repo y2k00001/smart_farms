@@ -9,26 +9,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="标题;10,1星；20,2星；30，3星；40,4星；50,5星" prop="newTitle">
+      <el-form-item label="标题;" prop="newTitle">
         <el-input
           v-model="queryParams.newTitle"
-          placeholder="请输入标题;10,1星；20,2星；30，3星；40,4星；50,5星"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="排序" prop="sort">
-        <el-input
-          v-model="queryParams.sort"
-          placeholder="请输入排序"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="图片ID集合" prop="pictureIds">
-        <el-input
-          v-model="queryParams.pictureIds"
-          placeholder="请输入图片ID集合"
+          placeholder="请输入标题;"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -69,14 +53,6 @@
         <el-input
           v-model="queryParams.createByName"
           placeholder="请输入创建人姓名"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="是否删除" prop="isDeleted">
-        <el-input
-          v-model="queryParams.isDeleted"
-          placeholder="请输入是否删除"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -137,12 +113,20 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="资讯ID" align="center" prop="newsId" />
-      <el-table-column label="咨讯类型" align="center" prop="newsType" />
-      <el-table-column label="标题;10,1星；20,2星；30，3星；40,4星；50,5星" align="center" prop="newTitle" />
+      <el-table-column label="咨讯类型" align="center" prop="newsType" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.news_type" :value="scope.row.newsType"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="标题;" align="center" prop="newTitle" />
       <el-table-column label="排序" align="center" prop="sort" />
-      <el-table-column label="封面缩略图ID;1，是，0，否" align="center" prop="thumbnailFile" />
-      <el-table-column label="图片ID集合" align="center" prop="pictureIds" />
-      <el-table-column label="内容" align="center" prop="content" />
+      <el-table-column label="封面缩略图ID" align="center" prop="thumbnailFile" >
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.thumbnailFile" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
+<!--      <el-table-column label="图片ID集合" align="center" prop="pictureIds" />-->
+<!--      <el-table-column label="内容" align="center" prop="content" />-->
       <el-table-column label="发布人" align="center" prop="releaseBy" />
       <el-table-column label="发布时间" align="center" prop="releaseTime" width="180">
         <template slot-scope="scope">
@@ -181,7 +165,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -193,20 +177,30 @@
     <!-- 添加或修改资讯对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="资讯ID" prop="newsId">
-          <el-input v-model="form.newsId" placeholder="请输入资讯ID" />
+
+        <el-form-item label="标题;" prop="newTitle">
+          <el-input v-model="form.newTitle" placeholder="请输入标题;" />
         </el-form-item>
-        <el-form-item label="标题;10,1星；20,2星；30，3星；40,4星；50,5星" prop="newTitle">
-          <el-input v-model="form.newTitle" placeholder="请输入标题;10,1星；20,2星；30，3星；40,4星；50,5星" />
+
+        <el-form-item label="咨讯类型" prop="newsType">
+          <el-select v-model="form.newsType" placeholder="请选择咨讯类型">
+            <el-option
+              v-for="dict in dict.type.news_type"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
         </el-form-item>
+
         <el-form-item label="排序" prop="sort">
           <el-input v-model="form.sort" placeholder="请输入排序" />
         </el-form-item>
-        <el-form-item label="封面缩略图ID;1，是，0，否" prop="thumbnailFile">
+        <el-form-item label="封面缩略图ID" prop="thumbnailFile">
           <file-upload v-model="form.thumbnailFile"/>
         </el-form-item>
         <el-form-item label="图片ID集合" prop="pictureIds">
-          <el-input v-model="form.pictureIds" placeholder="请输入图片ID集合" />
+          <file-upload v-model="form.pictureIds"/>
         </el-form-item>
         <el-form-item label="内容">
           <editor v-model="form.content" :min-height="192"/>
@@ -238,12 +232,6 @@
             placeholder="请选择结束时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="创建人姓名" prop="createByName">
-          <el-input v-model="form.createByName" placeholder="请输入创建人姓名" />
-        </el-form-item>
-        <el-form-item label="是否删除" prop="isDeleted">
-          <el-input v-model="form.isDeleted" placeholder="请输入是否删除" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -258,6 +246,7 @@ import { listNews, getNews, delNews, addNews, updateNews } from "@/api/farmlands
 
 export default {
   name: "News",
+  dicts: ['news_type'],
   data() {
     return {
       // 遮罩层

@@ -35,10 +35,10 @@ public interface INewsService extends IService<News>
     /**
      * 新增资讯
      *
-     * @param news 资讯
+     * @param newsForm 资讯
      * @return 结果
      */
-    public int insertNews(News news);
+    public int insertNews(NewsForm newsForm);
 
     /**
      * 修改资讯

@@ -2,11 +2,16 @@ package com.neo.farmlands.service.impl;
 
 import java.util.List;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neo.common.utils.DateUtils;
 import com.neo.common.utils.DictUtils;
+import com.neo.common.utils.IDGenerator;
+import com.neo.common.utils.SecurityUtils;
+import com.neo.common.utils.uuid.IdUtils;
 import com.neo.farmlands.constant.BusinessConstant;
+import com.neo.farmlands.constant.IDConstants;
 import com.neo.farmlands.domain.entity.News;
 import com.neo.farmlands.domain.entity.StorageFiles;
 import com.neo.farmlands.domain.vo.NewsVO;
@@ -60,6 +65,7 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements IN
     @Override
     public List<NewsVO> selectNewsList(NewsForm news)
     {
+        news.setIsDeleted(0);
         List<NewsVO> newsVOS =  newsMapper.selectNewsList(news);
         if(newsVOS.size() > 0 ){
             newsVOS.forEach(newsVO -> {
@@ -78,13 +84,20 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements IN
     /**
      * 新增资讯
      *
-     * @param news 资讯
+     * @param newsForm 资讯
      * @return 结果
      */
     @Override
-    public int insertNews(News news)
+    public int insertNews(NewsForm newsForm)
     {
+        News news = new News();
+        BeanUtil.copyProperties(newsForm,news);
+        news.setId(String.valueOf(IdUtils.getSnowflakeId()));
+        news.setNewsId(IDConstants.NEWS_ID_PREFIX+ IDGenerator.generateId());
+        news.setCreateByName(SecurityUtils.getUsername());
+        news.setCreateBy(SecurityUtils.getUserId().toString());
         news.setCreateTime(DateUtils.getNowDate());
+
         return newsMapper.insertNews(news);
     }
 

@@ -3,6 +3,7 @@ package com.neo.farmlands.controller.manage;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.neo.common.core.domain.R;
 import com.neo.farmlands.domain.entity.News;
 import com.neo.farmlands.domain.vo.NewsVO;
 import com.neo.farmlands.domain.vo.form.NewsForm;
@@ -78,10 +79,11 @@ public class NewsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('farmlands:news:add')")
     @Log(title = "资讯", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody News news)
+    @PostMapping("/add")
+    public R add(@RequestBody NewsForm newsForm)
     {
-        return toAjax(newsService.insertNews(news));
+        newsService.insertNews(newsForm);
+        return R.ok();
     }
 
     /**
