@@ -25,30 +25,30 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="发布时间" prop="releaseTime">
-        <el-date-picker clearable
-          v-model="queryParams.releaseTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择发布时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="开始时间" prop="startTime">
-        <el-date-picker clearable
-          v-model="queryParams.startTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择开始时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="结束时间" prop="endTime">
-        <el-date-picker clearable
-          v-model="queryParams.endTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择结束时间">
-        </el-date-picker>
-      </el-form-item>
+<!--      <el-form-item label="发布时间" prop="releaseTime">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.releaseTime"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择发布时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="开始时间" prop="startTime">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.startTime"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择开始时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="结束时间" prop="endTime">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.endTime"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择结束时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
       <el-form-item label="创建人姓名" prop="createByName">
         <el-input
           v-model="queryParams.createByName"
@@ -119,6 +119,7 @@
         </template>
       </el-table-column>
       <el-table-column label="标题;" align="center" prop="newTitle" />
+      <el-table-column label="摘要" align="center" prop="summary"  :show-overflow-tooltip="true" />
       <el-table-column label="排序" align="center" prop="sort" />
       <el-table-column label="封面缩略图ID" align="center" prop="thumbnailFile" >
         <template slot-scope="scope">
@@ -191,6 +192,10 @@
               :value="parseInt(dict.value)"
             ></el-option>
           </el-select>
+        </el-form-item>
+
+        <el-form-item label="摘要" prop="summary">
+          <el-input v-model="form.summary" placeholder="请输入摘要" />
         </el-form-item>
 
         <el-form-item label="排序" prop="sort">
