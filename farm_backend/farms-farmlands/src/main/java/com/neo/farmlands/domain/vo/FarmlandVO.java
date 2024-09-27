@@ -27,7 +27,7 @@ public class FarmlandVO extends BaseEntity
     private String id;
 
     /** farmland_id */
-    @Excel(name = "farmland_id")
+    @ApiModelProperty(value = "farmland_id")
     private String farmlandId;
 
     @ApiModelProperty("农田名称")
@@ -35,27 +35,27 @@ public class FarmlandVO extends BaseEntity
 
 
     /** 面积单位;平方米 */
-    @Excel(name = "面积单位;平方米")
+    @ApiModelProperty(value = "面积单位;平方米")
     private String area;
 
     /** 维度 */
-    @Excel(name = "维度")
+    @ApiModelProperty(value = "维度")
     private String lat;
 
     /** 经度 */
-    @Excel(name = "经度")
+    @ApiModelProperty(value = "经度")
     private String lon;
 
     /** 位置 */
-    @Excel(name = "位置")
+    @ApiModelProperty(value = "位置")
     private String location;
 
     /** 农田状态;0.未上架；1，待租赁，2，已租赁 */
-    @Excel(name = "农田状态;0.未上架；1，待租赁，2，已租赁")
+    @ApiModelProperty(value = "农田状态;0.未上架；1，待租赁，2，已租赁")
     private String status;
 
     /** 租赁价格;单位：元/天 */
-    @Excel(name = "租赁价格;单位：元/天")
+    @ApiModelProperty(value = "租赁价格;单位：元/天")
     private BigDecimal leasePrice;
 
     /** 摘要 */
@@ -63,14 +63,15 @@ public class FarmlandVO extends BaseEntity
     private String summary;
 
     /** 描述 */
-    @Excel(name = "描述")
+    @ApiModelProperty("描述")
     private String description;
 
     /** 联系电话 */
+    @ApiModelProperty(value = "联系电话")
     private String contactPhone;
 
     /** 附件ID集合;逗号分割 */
-    @Excel(name = "附件ID集合;逗号分割")
+    @ApiModelProperty(value = "附件ID集合;逗号分割")
     private String fileIds;
 
 
@@ -91,11 +92,11 @@ public class FarmlandVO extends BaseEntity
     private List<SeedVO> seedVOS;
 
     /** 创建人姓名 */
-    @Excel(name = "创建人姓名")
+    @ApiModelProperty(value = "创建人姓名")
     private String createByName;
 
     /** 是否删除 */
-    @Excel(name = "是否删除")
+    @ApiModelProperty(value = "是否删除")
     private String isDeleted;
 
 }
