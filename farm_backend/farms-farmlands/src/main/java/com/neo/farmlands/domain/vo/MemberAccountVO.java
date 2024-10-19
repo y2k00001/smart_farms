@@ -2,6 +2,7 @@ package com.neo.farmlands.domain.vo;
 
 
 import com.neo.common.annotation.Excel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,9 +18,11 @@ public class MemberAccountVO  {
     private Long memberId;
    /** 积分余额 */
     @Excel(name = "积分余额")
+    @ApiModelProperty(value = "积分余额")
     private BigDecimal integralBalance;
    /** 历史总共积分 */
     @Excel(name = "历史总共积分")
+    @ApiModelProperty(value = "历史总共积分")
     private BigDecimal totalIntegralBalance;
    /** 修改时间 */
     private LocalDateTime updateTime;
